@@ -1,0 +1,15 @@
+<div class="exd">
+  <h1>{{ expense.name }}</h1>
+  <label>Add Expense</label>-
+  <form [formGroup]="expenseFormGroup">
+    <input type="number" required formControlName="expense" />
+    <input
+      type="date"
+      required
+      formControlName="date"
+      [(ngModel)]="defaultDate"
+    />
+  </form>
+  <button (click)="addData()">Add</button>
+  
+</div>

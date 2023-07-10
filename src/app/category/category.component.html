@@ -1,0 +1,39 @@
+<div class="categories">
+  <div class="cdiv1">
+    <h1>EC Points</h1>
+    <ol *ngFor="let cg of categories">
+      <li>{{ cg.name }}</li>
+    </ol>
+  </div>
+  <div class="cdiv2">
+    <div class="addex1">
+      <h1>Add Expence</h1>
+      <br />
+      <label>select a category</label><br>
+      <select (change)="onSelected($event)" [value]="selection">
+        <option value="" ></option>
+        <option *ngFor="let cg of categories" [value]="cg.id">
+          {{ cg.name }}
+        </option></select
+      ><br />
+      <label>Add Income</label>-
+  <form [formGroup]="incomeFormGroup">
+    <input type="number" required formControlName="amount" />
+    <input
+      type="date"
+      required
+      formControlName="date"
+      [(ngModel)]="defaultDate"
+    />
+  </form>
+  <button (click)="addExpense()">Add</button>
+    </div>
+    <div class="addex2">
+      <h1>Add categories</h1>
+      <form><input [formControl]="catVal" /></form>
+
+      <button (click)="addCategory()">Add</button>
+    </div>
+  </div>
+  <div class="cdiv3"><h1>General Assets</h1></div>
+</div>

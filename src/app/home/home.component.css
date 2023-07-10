@@ -1,0 +1,151 @@
+.home {
+  width: 100%;
+  height: 560px;
+  background-color: rgb(8, 12, 45);
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 235px 235px;
+}
+.grid1 {
+}
+.grid2 {
+  background-color: rgb(64, 8, 41);
+}
+.grid3 {
+  padding-left: 30px;
+}
+.div3 {
+  border: 1px solid rgb(132, 123, 123);
+  height: 230px;
+  width: 95%;
+  border-radius: 10px;
+  padding: 10px;
+}
+.grid4 {
+}
+footer {
+  width: 100%;
+  height: 40px;
+  background-color: rgb(44, 4, 33);
+  overflow: hidden;
+  padding-top: 10px;
+  border-top: 1px solid rgb(149, 140, 122);
+  border-bottom: 5px solid rgb(149, 140, 122);
+}
+.insite {
+  position: relative;
+  width: fit-content;
+  animation-name: move;
+  animation-duration: 10s;
+  position: relative;
+  animation: move 40s ease-out infinite;
+}
+@keyframes move {
+  0% {
+    left: -660px;
+  }
+  100% {
+    left: 1280px;
+  }
+}
+.monthName {
+  font-size: 30px;
+  position: relative;
+  left: 70px;
+}
+.year {
+  font-size: 30px;
+  position: relative;
+  left: 90px;
+}
+.item {
+  position: relative;
+  left: 40px;
+  top: 10px;
+}
+.itemx {
+  position: relative;
+  left: 60px;
+  top: 10px;
+}
+.total {
+  position: relative;
+  left: 260px;
+  top: 120px;
+}
+.total {
+  position: relative;
+  left: 260px;
+  top: 120px;
+}
+.totalx {
+  position: relative;
+  left: 290px;
+  top: 120px;
+}
+.income {
+  position: relative;
+  left: 165px;
+  top: 140px;
+}
+.incomeAmount {
+  position: relative;
+  left: 185px;
+  top: 140px;
+}
+.Balence {
+  position: relative;
+  left: 50px;
+  top: 160px;
+}
+.BalenceAmount {
+  position: relative;
+  left: 70px;
+  top: 160px;
+}
+.gtotal {
+  position: relative;
+  left: 20px;
+}
+.gtotalx {
+  position: relative;
+  left: 30px;
+  color: rgb(255, 255, 255);
+
+}
+.gincome {
+  position: relative;
+  left: 50px;
+}
+.gincomeAmount {
+  position: relative;
+  left: 60px;
+  color: rgb(255, 255, 255);
+
+}
+.totletDiv{
+  position: relative;
+  top: -180px;
+  left: 130px;
+}
+.exDiv{
+  width: 200px;
+  height: 160px;
+  overflow: scroll;
+  border: 1px solid rgb(110, 101, 101);
+  border-radius: 5px;
+}
+.exDiv::-webkit-scrollbar{
+  display: none;
+}
+.gBalence {
+  position: relative;
+  left: 80px;
+}
+.gBalenceAmount {
+  position: relative;
+  left: 90px;
+  color: rgb(255, 255, 255);
+}

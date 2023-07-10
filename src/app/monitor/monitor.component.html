@@ -1,0 +1,45 @@
+<section class="sec2">
+  <label>Yearly report</label><br>
+  <select (change)="onSelected($event)">
+    <option></option>
+    <option [value]="2021">2021</option>
+    <option [value]="2022">2022</option>
+    <option [value]="2023">2023</option>
+  </select>
+  <button>Save</button><br /><br /><br /><br />
+  <label>Monthly report</label><br />
+  <label>select month</label><br />
+  <select (change)="selectedMonth($event)">
+    <option *ngFor="let month of monthsList" [value]="month.name">
+      {{ month.name }}
+    </option></select
+  ><br />
+  <label>Select year</label><br />
+  <select (change)="onSelected($event)">
+    <option></option>
+    <option [value]="2021">2021</option>
+    <option [value]="2022">2022</option>
+    <option [value]="2023">2023</option></select
+  ><button (click)="getExpense(); getIncomes() ;passId()">Save</button>
+</section>
+<section class="sec3"><div class="data">  <h1>{{selection}}</h1>
+<h1>{{monthSelected}}</h1>
+<div class="div3">
+ <div class="exDiv">
+    <div *ngFor="let fn of finalExpenseJulay">
+      <span class="item">{{ fn.name }}.......</span>
+      <span class="itemx">{{ fn.expense }}</span>
+    </div>
+  </div>
+  <div class="totletDiv">
+    <span class="total">Total........</span>
+    <span class="totalx">₹{{ totalExpJulay }}</span>
+    <span class="income">Income-----</span>
+    <span class="incomeAmount">₹{{ totalIncomeJulay }}</span>
+    <span class="Balence">Balence-----</span>
+    <span class="BalenceAmount">₹{{ balenceJulay }}</span>
+  </div> 
+</div>
+
+
+

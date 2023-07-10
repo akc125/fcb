@@ -1,0 +1,28 @@
+.categories {
+    width: 100%;
+    height: 560px;
+    background-color: rgb(8, 12, 45);
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: 450px 450px 450px;
+  }
+  .cdiv1 {
+    padding-top: 30px;
+    text-align: center;
+  }
+  .cdiv2 {
+    text-align: center;
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto auto;
+  }
+  .addex1{
+  }
+  .addex2{
+  }
+  .cdiv3 {
+    text-align: center;
+    padding-top: 10px;
+  }
+  
+  

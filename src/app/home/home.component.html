@@ -1,0 +1,37 @@
+<div class="home">
+  <div class="grid-container">
+    <div class="grid1"></div>
+    <div class="grid2"></div>
+    <div class="grid3">
+      <div class="div3">
+        <span class="monthName">{{month}}</span>
+        <span class="year">{{year}}</span><br />
+        <div class="exDiv">
+          <div *ngFor="let fn of finalExpense">
+            <span class="item">{{ fn.name }}.......</span>
+            <span class="itemx">{{ fn.expense }}</span>
+          </div>
+        </div>
+        <div class="totletDiv">
+          <span class="total">Total........</span>
+          <span class="totalx">₹{{ expensTotel }}</span>
+          <span class="income">Income-----</span>
+          <span class="incomeAmount">₹{{ incomeTotel }}</span>
+          <span class="Balence">Balence-----</span>
+          <span class="BalenceAmount">₹{{ balense }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="grid4"></div>
+  </div>
+  <footer>
+    <div class="insite">
+      <span class="gtotal">Grand Total........</span>
+      <span class="gtotalx">₹200</span>
+      <span class="gincome">Grand Income-----</span>
+      <span class="gincomeAmount">₹2000</span>
+      <span class="gBalence">Grand Balence-----</span>
+      <span class="gBalenceAmount">₹1800</span>
+    </div>
+  </footer>
+</div>

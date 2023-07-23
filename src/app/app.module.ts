@@ -10,6 +10,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { CategoryComponent } from './category/category.component'; 
 import { ReactiveFormsModule } from '@angular/forms';
 import { ExpenseComponent } from './expense/expense.component';
+import { ExpenseDetailsComponent } from './expense-details/expense-details.component';
+import { LineGraphComponent } from './line-graph/line-graph.component';
+import { NgChartsModule } from 'ng2-charts';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +23,10 @@ import { ExpenseComponent } from './expense/expense.component';
     HomeComponent,
     CategoryComponent,
     ExpenseComponent,
+    ExpenseDetailsComponent,
+    LineGraphComponent,
+    LoginComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
@@ -25,6 +34,7 @@ import { ExpenseComponent } from './expense/expense.component';
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
+    NgChartsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

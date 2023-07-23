@@ -1,39 +1,55 @@
 <div class="categories">
-  <div class="cdiv1">
-    <h1>EC Points</h1>
-    <ol *ngFor="let cg of categories">
-      <li>{{ cg.name }}</li>
-    </ol>
-  </div>
-  <div class="cdiv2">
-    <div class="addex1">
-      <h1>Add Expence</h1>
-      <br />
-      <label>select a category</label><br>
-      <select (change)="onSelected($event)" [value]="selection">
-        <option value="" ></option>
-        <option *ngFor="let cg of categories" [value]="cg.id">
-          {{ cg.name }}
-        </option></select
-      ><br />
-      <label>Add Income</label>-
-  <form [formGroup]="incomeFormGroup">
-    <input type="number" required formControlName="amount" />
-    <input
-      type="date"
-      required
-      formControlName="date"
-      [(ngModel)]="defaultDate"
+  <div class="categoriesAdd">
+    <img
+      class="catImg"
+      src="https://st2.depositphotos.com/1000423/7931/i/950/depositphotos_79316698-stock-photo-business-background.jpg"
     />
-  </form>
-  <button (click)="addExpense()">Add</button>
-    </div>
-    <div class="addex2">
-      <h1>Add categories</h1>
-      <form><input [formControl]="catVal" /></form>
+    <h1 class="add">Add categories</h1>
+    <form>
+      <input placeholder="Enter" class="addInput" [formControl]="catVal" />
+    </form>
 
-      <button (click)="addCategory()">Add</button>
+    <button class="addBtn" (click)="addCategory()">Add</button>
+    <div class="addCat">
+      <div
+        [ngStyle]="{ backgroundColor: getRandomColor() }"
+        class="food"
+        *ngFor="let cg of categories"
+        (click)="onSelected(cg.id)"
+      >
+        <p>{{ cg.name }}</p>
+      </div>
     </div>
   </div>
-  <div class="cdiv3"><h1>General Assets</h1></div>
+  <section class="incomeSection">
+    <img
+      class="losang"
+      src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YnVzaW5lc3MlMjBiYWNrZ3JvdW5kfGVufDB8fDB8fHww&w=1000&q=80"
+    />
+    <h1 class="incomeText">Add Income</h1>
+    <form [formGroup]="incomeFormGroup">
+      <input class="incomeInput1" type="number" required formControlName="amount" placeholder="Income"/>
+      <input class="incomeInput2"
+        type="date"
+        required
+        formControlName="date"
+        [(ngModel)]="defaultDate"
+      />
+    </form>
+    <button class="inButton" (click)="addIncome()">Add</button>
+  </section>
+  <main class="incomeDetails">
+<table >
+  <tr >
+    <th>No</th>
+    <th>Amount</th>
+    <th>Date</th>
+  </tr><tr *ngFor="let inc of incomes" >
+    <td>{{inc.id}}</td>
+    <td>{{inc.amount}}</td>
+    <td>{{inc.day}}</td>
+  </tr>
+</table>
+  </main>
 </div>
+ 

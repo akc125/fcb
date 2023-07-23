@@ -14,11 +14,12 @@ export class CategoryComponent {
     amount: new FormControl(),
     date: new FormControl(),
   });
-  defaultDate:any;
+  defaultDate: any;
   ngOnInit(): void {
     this.getCategory();
     const currentDate = new Date();
     this.defaultDate = currentDate.toISOString().substring(0, 10);
+    this.getIncomes();
   }
   constructor(
     private categoriesServies: CategoriesService,
@@ -27,31 +28,50 @@ export class CategoryComponent {
   data: any = {};
   categories: any = [];
   addCategory() {
-    this.categoriesServies
-      .addCategoris(this.catVal.value)
-      .subscribe((data: any) => {
-        this.getCategory();
-        this.catVal.setValue('');
-      });
-  }
-  getCategory() {
-    this.categoriesServies.getCategories().subscribe((data: any) => {
-      this.categories = data;
-      console.log(data);
-    });
-  }
-  selection:any;
-  onSelected(event: any) {
-    this. selection = event.target.value;
-
-    if (this.selection) {
-      this.router.navigate([`categories/${this.selection}`]);
+    if (this.catVal.value) {
+      this.categoriesServies
+        .addCategoris(this.catVal.value)
+        .subscribe((data: any) => {
+          this.getCategory();
+          this.catVal.setValue('');
+        });
     }
   }
-  addExpense() {
-    const formData=this.incomeFormGroup.value
+  getCategory() {
+    const id = localStorage.getItem('userId');
+    this.categoriesServies.getCategories().subscribe((data: any) => {
+      this.categories = data.filter((f: any) => {
+        return f.userId == id;
+      });
+    });
+  }
+  selection: any;
+  onSelected(id: any) {
+    this.router.navigate([`categories/${id}`]);
+  }
+  addIncome() {
+    const formData = this.incomeFormGroup.value;
     this.categoriesServies.addIncomes(formData).subscribe((data) => {
-      this.incomeFormGroup.setValue({amount:'',date:this.defaultDate})
+      this.incomeFormGroup.setValue({ amount: '', date: this.defaultDate });
+      this.getIncomes();
+    });
+  }
+  getRandomColor(): string {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      const randomIndex = Math.floor(Math.random() * letters.length);
+      color += letters.charAt(randomIndex);
+    }
+    return color;
+  }
+  incomes: any = ([] = []);
+  getIncomes() {
+    const id = localStorage.getItem('userId');
+    this.categoriesServies.getIncomes().subscribe((data: any) => {
+      this.incomes = data.filter((f: any) => {
+        return f.userId == id;
+      });
     });
   }
 }

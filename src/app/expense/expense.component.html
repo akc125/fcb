@@ -1,15 +1,49 @@
-<div class="exd">
-  <h1>{{ expense.name }}</h1>
-  <label>Add Expense</label>-
-  <form [formGroup]="expenseFormGroup">
-    <input type="number" required formControlName="expense" />
-    <input
-      type="date"
-      required
-      formControlName="date"
-      [(ngModel)]="defaultDate"
-    />
-  </form>
-  <button (click)="addData()">Add</button>
-  
-</div>
+<div>
+  <div class="exd">
+    <div class="hd">
+      <div class="hd1">
+        <h1 style="font-size: 60px" class="fd">{{ expense.name }}</h1>
+      </div>
+      <div class="hd2">
+        <form [formGroup]="expenseFormGroup">
+          <label class="ex">Expense</label>
+          <input
+            class="np"
+            type="number"
+            required
+            formControlName="expense"
+            placeholder="Expense"
+          />
+          <label class="dt">Date</label>
+          <input
+            class="np2"
+            type="date"
+            required
+            formControlName="date"
+            [(ngModel)]="defaultDate"
+          />
+        </form>
+        <button class="bte" (click)="addData()">Add</button>
+      </div>
+    </div>
+    <section class="sc">
+      <table>
+        <tr>
+          <th>SI</th>
+          <th>Date</th>
+          <th>Expense</th>
+        </tr>
+        <tr *ngFor="let fin of expenses">
+          <td (click)="navigateToDetailsPage(fin.id)">{{ fin.id }}</td>
+          <td (click)="navigateToDetailsPage(fin.id)">{{ fin.day }}</td>
+          <td (click)="navigateToDetailsPage(fin.id)">{{ fin.expense }}</td>
+        </tr>
+        <tr>
+          <td colspan="2" style="font-weight: 800;">Totel</td>
+
+          <td style="font-weight: 800;">{{ expenseTotel }}</td>
+        </tr>
+      </table>
+    </section>
+  </div>
+ </div>

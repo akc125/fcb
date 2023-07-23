@@ -1,7 +1,6 @@
 import { CategoriesService } from 'src/services/categories.service';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
@@ -12,13 +11,15 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class ExpenseComponent {
   constructor(
     private route: ActivatedRoute,
-    private categoriesServices: CategoriesService
+    private categoriesServices: CategoriesService,
+    private router: Router
   ) {}
   defaultDate: any;
   ngOnInit(): void {
     this.getCategory();
     const currentDate = new Date();
     this.defaultDate = currentDate.toISOString().substring(0, 10);
+    this.getExpenses();
   }
   expense: any;
   exName: any = '';
@@ -48,7 +49,23 @@ export class ExpenseComponent {
       name: this.expense.name,
     };
     console.log('valll', formData);
-    this.categoriesServices.addExpense(formData).subscribe((data: any) => {});
+    this.categoriesServices.addExpense(formData).subscribe((data: any) => {
+      this.getExpenses()
+    });
   }
-  
+  expenses: any = [];
+  expenseTotel: number = 0;
+  getExpenses() {
+    const id=localStorage.getItem("userId")
+    this.categoriesServices.getExpensList().subscribe((data) => {
+      this.expenses = data;
+      this.expenses = this.expenses.filter((f: any) => f.catId == this.id && f.userId==id);
+      for (const exp of this.expenses) {
+        this.expenseTotel += exp.expense;
+      }
+    });
+  }
+  navigateToDetailsPage(id:any) {
+    this.router.navigate([`categories/:id/expenseDetails/${id}`]);
+  }
 }

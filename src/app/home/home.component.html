@@ -1,37 +1,65 @@
 <div class="home">
+  <img
+    class="nyImage"
+    src="https://www.grayline.com/wp-content/uploads/2023/02/Brooklyn-Bridge-New-York-United-States.jpg"
+  />
+  <h1 class="report">Fcb Reports</h1>
+  <div class="insite">
+    <span class="gtotal">Grand Total</span>
+    <span class="gtotalx">₹{{ allExpenseTotel }}</span>
+    <span class="gincome">Grand Income</span>
+    <span class="gincomeAmount">₹{{ allIncomeTotel }}</span>
+    <span class="gBalence">Grand Balence</span>
+    <span class="gBalenceAmount">₹{{ allBalence }}</span>
+  </div>
   <div class="grid-container">
     <div class="grid1"></div>
-    <div class="grid2"></div>
+    <div class="grid2">
+      <h1 style="font-size: 30px">FCB Controll</h1>
+      <p
+        class="qt"
+        style="font-size: 25px; margin-top: 30px; margin-bottom: 30px"
+      >
+        “Don’t sit down and wait for the opportunities to come. Get up and make
+        them.” Madam C.J. Walker, first female self-made millionaire
+      </p>
+      <i style="color: black; font-size: 23px; margin-top: 90px"
+        >A survey by the National Federation of Independent Business found that
+        85% of small business owners who set goals felt that they achieved them,
+        while only 25% of those who didn’t set goals felt they succeeded (NFIB,
+        2017).</i
+      >
+    </div>
     <div class="grid3">
       <div class="div3">
-        <span class="monthName">{{month}}</span>
-        <span class="year">{{year}}</span><br />
+        <span class="monthName">{{ month }}</span>
+        <span class="year">{{ year }}</span
+        ><br />
         <div class="exDiv">
           <div *ngFor="let fn of finalExpense">
-            <span class="item">{{ fn.name }}.......</span>
-            <span class="itemx">{{ fn.expense }}</span>
+            <div class="item">
+              <span>{{ fn.name }}</span>
+              <span>₹{{ fn.expense }}</span>
+            </div>
           </div>
         </div>
         <div class="totletDiv">
-          <span class="total">Total........</span>
-          <span class="totalx">₹{{ expensTotel }}</span>
-          <span class="income">Income-----</span>
-          <span class="incomeAmount">₹{{ incomeTotel }}</span>
-          <span class="Balence">Balence-----</span>
-          <span class="BalenceAmount">₹{{ balense }}</span>
+          <div class="total">
+            <h1>Total Expense</h1>
+            <h1>₹{{ expensTotel }}</h1>
+          </div>
+          <div class="income">
+            <h1>Income</h1>
+            <h1>₹{{ incomeTotel }}</h1>
+          </div>
+          <div class="Balence">
+            <h1>Balence</h1>
+            <h1>₹{{ balense }}</h1>
+          </div>
         </div>
       </div>
     </div>
     <div class="grid4"></div>
   </div>
-  <footer>
-    <div class="insite">
-      <span class="gtotal">Grand Total........</span>
-      <span class="gtotalx">₹200</span>
-      <span class="gincome">Grand Income-----</span>
-      <span class="gincomeAmount">₹2000</span>
-      <span class="gBalence">Grand Balence-----</span>
-      <span class="gBalenceAmount">₹1800</span>
-    </div>
-  </footer>
+  <footer></footer>
 </div>

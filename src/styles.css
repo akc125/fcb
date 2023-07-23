@@ -4,6 +4,18 @@
         margin: 0;
         padding: 0;
     }
-    ::-webkit-scrollbar{
-        display: none;
-    }
+    /* Adjusting the scrollbar width */
+::-webkit-scrollbar {
+    width: 4px; /* You can adjust this value to your desired width */
+  }
+  
+  /* Changing the scrollbar track color (the area behind the thumb) */
+  ::-webkit-scrollbar-track {
+    background-color: #ad1212; /* Change this color to your desired color */
+  }
+  
+  /* Changing the scrollbar thumb color (the draggable handle) */
+  ::-webkit-scrollbar-thumb {
+    background-color: #cdc1c1; /* Change this color to your desired color */
+  }
+  

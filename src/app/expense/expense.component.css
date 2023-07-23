@@ -1,6 +1,113 @@
-.exd{
-    width: 100%;
-    height: 560px;
-    background-color: rgb(8, 12, 45);
-    text-align: center;
+.exd {
+  width: 100%;
+  height: 560px;
+  background-color: rgb(255, 255, 255);
+  text-align: center;
+}
+.hd {
+  width: 100%;
+  height: 120px;
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  margin-top: 30px;
+  box-shadow: 2px 2px 5px black;
+}
+.fd {
+  box-shadow: 2px 2px 5px rgb(46, 44, 44);
+  padding: 2px;
+}
+.np {
+  width: 250px;
+  height: 35px;
+  border: none;
+  outline: none;
+  box-shadow: 2px 2px 5px rgb(0, 0, 0);
+  border: 2px solid white;
+  position: relative;
+  top: 40px;
+  left: -120px;
+}
+.bte {
+  width: 150px;
+  height: 75px;
+  border: none;
+  outline: none;
+  box-shadow: 2px 2px 5px rgb(0, 0, 0);
+  border: 2px solid white;
+  position: relative;
+  top: -15px;
+  left: 340px;
+  color: white;
+  background-color: brown;
+  border: none;
+  outline: none;
+}
+.hd1 {
+  width: 30%;
+  height: 100%;
+
+  padding-top: 24px;
+  background: linear-gradient(rgb(0, 0, 0), rgba(115, 114, 105, 0.4)),
+    url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7c2AOfec8eFksHykl0ESXmpmmsS1cobgnd2heO8n707Eq88HzD-OR7-YUaxixETYP9AI&usqp=CAU");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  object-fit: cover;
+}
+.hd2 {
+  width: 70%;
+  height: 100%;
+  color: black;
+  background-color: rgb(153, 157, 157);
+  box-shadow: 2px 2px 5px black inset;
+}
+.ex {
+  position: relative;
+  font-size: 18px;
+  top: 40px;
+  left: -130px;
+}
+.dt {
+  position: relative;
+  font-size: 18px;
+  top: 40px;
+  left: -95px;
+}
+.np2 {
+  width: 250px;
+  height: 35px;
+  border: none;
+  outline: none;
+  box-shadow: 2px 2px 5px rgb(0, 0, 0);
+  border: 2px solid white;
+  position: relative;
+  top: 40px;
+  left: -80px;
+}
+section table {
+  color: black;
+  width: 90%;
+}
+section table th {
+
+
+  height: 50px;
+
+  box-shadow: 2px 2px 5px black;
+  color: rgb(0, 0, 0);
+  
+}
+.sc {
+  padding-left: 150px;
+  padding-top: 10px;
+  background-color: rgb(240, 239, 237);
+  min-height: 400px;
+  padding-bottom: 50px;
+  max-height: fit-content;
+}
+section table td {
+  color: black;
+  box-shadow: 2px 2px 5px black;
+  height: 50px;
+  background-color: white;
 }

@@ -1,0 +1,14 @@
+.rg {
+  width: 100%;
+  height: 660px;
+  background-color: rgb(13, 0, 135);
+  padding-top: 10px;
+  position: absolute;
+  top: -100px;
+  z-index: 12000;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  object-fit: cover;
+  padding-top: 200px;
+}

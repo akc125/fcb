@@ -1,11 +1,13 @@
 <section>
-<header class="header">
-  <h1 class="fcb">FCB</h1>
-  <div class="nav" style="display: flex">
-    <span class="hm" routerLink="home">Home</span>
-    <span class="ct" routerLink="categories">EC</span>
-    <span class="mn" routerLink="monitor">Monitor</span>
-  </div>
-</header>
-<div class="main"><router-outlet></router-outlet></div>
+  <header class="header">
+    <h1 class="fcb">FCB</h1>
+    <div class="nav" style="display: flex">
+      <span class="hm" routerLink="home">Home</span>
+      <span class="ct" routerLink="categories">EC</span>
+      <span class="mn" routerLink="monitor">Monitor</span>
+      <span class="mn" routerLink="monitor" (click)="logout()">Logout</span>
+    </div>
+    <button class="rpButton" routerLink="monitor">See Yearly Reports</button>
+  </header>
+  <div class="main"><router-outlet></router-outlet></div>
 </section>

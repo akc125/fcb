@@ -1,45 +1,98 @@
-<section class="sec2">
-  <label>Yearly report</label><br>
-  <select (change)="onSelected($event)">
-    <option></option>
-    <option [value]="2021">2021</option>
-    <option [value]="2022">2022</option>
-    <option [value]="2023">2023</option>
-  </select>
-  <button>Save</button><br /><br /><br /><br />
-  <label>Monthly report</label><br />
-  <label>select month</label><br />
-  <select (change)="selectedMonth($event)">
-    <option *ngFor="let month of monthsList" [value]="month.name">
-      {{ month.name }}
-    </option></select
-  ><br />
-  <label>Select year</label><br />
-  <select (change)="onSelected($event)">
-    <option></option>
-    <option [value]="2021">2021</option>
-    <option [value]="2022">2022</option>
-    <option [value]="2023">2023</option></select
-  ><button (click)="getExpense(); getIncomes() ;passId()">Save</button>
-</section>
-<section class="sec3"><div class="data">  <h1>{{selection}}</h1>
-<h1>{{monthSelected}}</h1>
-<div class="div3">
- <div class="exDiv">
-    <div *ngFor="let fn of finalExpenseJulay">
-      <span class="item">{{ fn.name }}.......</span>
-      <span class="itemx">{{ fn.expense }}</span>
+<section class="monitor">
+  <div class="selection">
+    <label style="font-size: 15px"
+      >If you want Monthly report select month</label
+    ><br />
+    <select (change)="selectedMonth($event)" class="sl">
+      <option *ngFor="let month of monthsList" [value]="month.name">
+        {{ month.name }}
+      </option>
+    </select>
+    <label class="mg">If you want Yearly report select month Select year</label
+    ><br />
+    <select (change)="onSelected($event)" class="sl2">
+      <option></option>
+      <option [value]="2020">2020</option>
+      <option [value]="2021">2021</option>
+      <option [value]="2022">2022</option>
+      <option [value]="2023">2023</option></select
+    ><button class="yrButton" (click)="getExpense(); getIncomes(); passId()">
+      Save
+    </button>
+    <div *ngIf="balenceJulay" class="report">
+      <div class="vDiv vDiv1">
+        <p class="mn">Monthly</p>
+        <p class="rp">FCB REPORT</p>
+        <span class="jn">{{ monthSelected }}</span
+        ><span class="yr">{{ selection }}</span>
+      </div>
+      <div class="vDiv vDiv2">
+        <table>
+          <tr>
+            <th>SI</th>
+            <th>Category</th>
+            <th>Expense</th>
+            <th>Income</th>
+            <th>Balance</th>
+          </tr>
+          <tr *ngFor="let fn of finalExpenseJulay">
+            <td>{{ fn.id }}</td>
+            <td>{{ fn.name }}</td>
+            <td>{{ fn.expense }}</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td colspan="2" style="font-weight: 800">Totel</td>
+            <td style="font-weight: 800">₹{{ totalExpJulay }}</td>
+            <td style="font-weight: 800">₹{{ totalIncomeJulay }}</td>
+            <td style="font-weight: 800">₹{{ balenceJulay }}</td>
+          </tr>
+        </table>
+      </div>
+      <div class="vDiv vDiv3">
+        <p class="dg">Director general fcb</p>
+      </div>
     </div>
   </div>
-  <div class="totletDiv">
-    <span class="total">Total........</span>
-    <span class="totalx">₹{{ totalExpJulay }}</span>
-    <span class="income">Income-----</span>
-    <span class="incomeAmount">₹{{ totalIncomeJulay }}</span>
-    <span class="Balence">Balence-----</span>
-    <span class="BalenceAmount">₹{{ balenceJulay }}</span>
-  </div> 
-</div>
 
-
-
+  <!-- year -->
+  <main
+    *ngIf="yearlyBalence"
+    [ngStyle]="{ top: !balenceJulay ? '220px' : '1000px' }"
+    class="yrSec"
+  >
+    <div class="vDiv vDiv1">
+      <p class="mn">Yearly</p>
+      <p class="rp">FCB REPORT</p>
+      <span class="jn"> Year</span><span class="yr">{{ selection }}</span>
+    </div>
+    <div class="vDiv vDiv2">
+      <table>
+        <tr>
+          <th>SI</th>
+          <th>Category</th>
+          <th>Expense</th>
+          <th>Income</th>
+          <th>Balance</th>
+        </tr>
+        <tr *ngFor="let fn of yearlyExpenseFinal">
+          <td>{{ fn.id }}</td>
+          <td>{{ fn.name }}</td>
+          <td>{{ fn.expense }}</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td style="font-weight: 800" colspan="2">Totel</td>
+          <td style="font-weight: 800">₹{{ yearlyExpenseTotel }}</td>
+          <td style="font-weight: 800">₹{{ yearlyIncomeTotel }}</td>
+          <td style="font-weight: 800">₹{{ yearlyBalence }}</td>
+        </tr>
+      </table>
+    </div>
+    <div class="vDiv vDiv3">
+      <p class="dg">Director general fcb</p>
+    </div>
+  </main>
+</section>

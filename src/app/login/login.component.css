@@ -1,0 +1,38 @@
+.lg {
+  width: 100%;
+  height: 660px;
+  background-color: rgb(255, 255, 255);
+  position: absolute;
+  top: -100px;
+  z-index: 12000;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  object-fit: cover;
+  color: black;
+  background-image: url("https://wallpaperaccess.com/full/1137385.jpg");
+}
+.fc {
+  font-size: 184px;
+  color: white;
+  position: relative;
+  top: 280px;
+  box-shadow: 5px 5px 28px black;
+  margin-left: 190px;
+}
+
+.login-form {
+  max-width: 300px;
+}
+
+.login-form-margin {
+  margin-bottom: 16px;
+}
+
+.login-form-forgot {
+  float: right;
+}
+
+.login-form-button {
+  width: 100%;
+}

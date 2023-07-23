@@ -1,0 +1,15 @@
+<div class="dt">
+  <div class="d1">
+    <p style="font-size: 70px;" class="add">Add Description</p>
+    <textarea class="tx" [formControl]="desc"></textarea><br />
+    <button class="addbt" (click)="addData()">Add</button>
+  </div>
+  <div class="d2" ><div *ngFor="let desc of descriptions" class="dc">
+
+    <p>{{ desc.day }}</p>
+    <h3>{{ desc.des }}</h3>
+  </div>  </div>
+
+
+  
+</div>

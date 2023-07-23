@@ -1,7 +1,7 @@
-.rg {
+.lg {
   width: 100%;
   height: 660px;
-  background-color: rgb(13, 0, 135);
+  background-color: rgb(199, 185, 185);
   padding-top: 10px;
   position: absolute;
   top: -100px;
@@ -11,4 +11,46 @@
   background-size: cover;
   object-fit: cover;
   padding-top: 200px;
+  color: black;
+}
+.lg input{
+  width: 250px;
+  height: 30px;
+}
+.lg input:nth-child(2){
+  width: 250px;
+  height: 30px;
+  position: relative;
+  left: 800px;
+  top: 100px;
+}
+.ps{
+  width: 250px;
+  height: 30px;
+  position: relative;
+  left: 490px;
+  top: 160px;
+}
+.lg button{
+  width: 250px;
+  height: 30px;
+  position: relative;
+  left: 872px;
+  top: 190px;
+  background-color: rgb(114, 19, 76);
+  color: aliceblue;
+}
+.lg label:nth-child(1){
+
+  position: relative;
+  left: 790px;
+  top: 100px;
+  color: rgb(0, 0, 0);
+}
+.sd{
+
+  position: relative;
+  left: 470px;
+  top: 160px;
+  color: rgb(0, 0, 0);
 }

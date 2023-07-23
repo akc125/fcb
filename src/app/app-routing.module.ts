@@ -8,6 +8,7 @@ import { ExpenseComponent } from './expense/expense.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { authGuard } from './auth.guard';
+import { AboutComponent } from './about/about.component';
 
 
 const routes: Routes = [
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'about', component: AboutComponent,canActivate:[authGuard] },
   {
     path: 'categories',
     component: CategoryComponent, canActivate:[authGuard]

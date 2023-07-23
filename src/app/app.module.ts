@@ -15,6 +15,7 @@ import { LineGraphComponent } from './line-graph/line-graph.component';
 import { NgChartsModule } from 'ng2-charts';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { RegisterComponent } from './register/register.component';
     LineGraphComponent,
     LoginComponent,
     RegisterComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,

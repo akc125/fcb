@@ -34,4 +34,7 @@ export class LoginComponent {
       }
     );
   }
+  registerNavigate(){
+    this.router.navigate(['register'])
+  }
 }

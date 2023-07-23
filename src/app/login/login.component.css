@@ -20,19 +20,52 @@
   box-shadow: 5px 5px 28px black;
   margin-left: 190px;
 }
-
-.login-form {
-  max-width: 300px;
+.lg input{
+  width: 250px;
+  height: 30px;
 }
-
-.login-form-margin {
-  margin-bottom: 16px;
+.lg input:nth-child(2){
+  width: 250px;
+  height: 30px;
+  position: relative;
+  left: 800px;
+  top: 100px;
 }
-
-.login-form-forgot {
-  float: right;
+.ps{
+  width: 250px;
+  height: 30px;
+  position: relative;
+  left: 490px;
+  top: 160px;
 }
+.lg button{
+  width: 250px;
+  height: 30px;
+  position: relative;
+  left: 872px;
+  top: 180px;
+  background-color: rgb(37, 154, 217);
+  color: aliceblue;
+}
+.lg label:nth-child(1){
 
-.login-form-button {
-  width: 100%;
+  position: relative;
+  left: 790px;
+  top: 100px;
+  color: aliceblue;
+}
+.sd{
+
+  position: relative;
+  left: 470px;
+  top: 160px;
+  color: aliceblue;
+}
+.rg{
+  position: relative;
+  left: 874px;
+  top: 190px;
+  background-color: rgb(2, 217, 255);
+color: rgb(255, 255, 255);
+width: fit-content;
 }

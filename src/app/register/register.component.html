@@ -1,9 +1,11 @@
-<div class="rg">
+<div class="lg">
 <form [formGroup]="registerFormGroupe">
-    <input formControlName="name">
-    <input formControlName="password">
+    <label>User Name</label>
+    <input placeholder="User Name" formControlName="name">
+    <label class="sd">Password</label>
+    <input class="ps" placeholder="Password"  formControlName="password">
 </form>
-<button (click)="register()">Register</button>
+<button (click)="register()" >Register</button>
 
 
 </div>

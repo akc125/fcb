@@ -44,8 +44,8 @@
     <th>No</th>
     <th>Amount</th>
     <th>Date</th>
-  </tr><tr *ngFor="let inc of incomes" >
-    <td>{{inc.id}}</td>
+  </tr><tr *ngFor="let inc of incomes;let i=index" >
+    <td>{{i+1}}</td>
     <td>{{inc.amount}}</td>
     <td>{{ inc.day | date: 'dd/ MM/ yyyy' }}</td>
   </tr>

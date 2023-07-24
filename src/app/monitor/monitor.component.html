@@ -35,8 +35,8 @@
             <th>Income</th>
             <th>Balance</th>
           </tr>
-          <tr *ngFor="let fn of finalExpenseJulay">
-            <td>{{ fn.id }}</td>
+          <tr *ngFor="let fn of finalExpenseJulay;let i=index">
+            <td>{{ i+1}}</td>
             <td>{{ fn.name }}</td>
             <td>{{ fn.expense }}</td>
             <td></td>
@@ -76,8 +76,8 @@
           <th>Income</th>
           <th>Balance</th>
         </tr>
-        <tr *ngFor="let fn of yearlyExpenseFinal">
-          <td>{{ fn.id }}</td>
+        <tr *ngFor="let fn of yearlyExpenseFinal;let i=index">
+          <td>{{ i+1}}</td>
           <td>{{ fn.name }}</td>
           <td>{{ fn.expense }}</td>
           <td></td>

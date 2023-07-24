@@ -33,17 +33,17 @@
           <th>Date</th>
           <th>Expense</th>
         </tr>
-        <tr *ngFor="let fin of expenses">
-          <td (click)="navigateToDetailsPage(fin.id)">{{ fin.id }}</td>
+        <tr *ngFor="let fin of expenses; let i = index">
+          <td (click)="navigateToDetailsPage(fin.id)">{{ i + 1 }}</td>
           <td (click)="navigateToDetailsPage(fin.id)">{{ fin.day }}</td>
           <td (click)="navigateToDetailsPage(fin.id)">{{ fin.expense }}</td>
         </tr>
         <tr>
-          <td colspan="2" style="font-weight: 800;">Totel</td>
+          <td colspan="2" style="font-weight: 800">Totel</td>
 
-          <td style="font-weight: 800;">{{ expenseTotel }}</td>
+          <td style="font-weight: 800">{{ expenseTotel }}</td>
         </tr>
       </table>
     </section>
   </div>
- </div>
+</div>

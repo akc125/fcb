@@ -16,8 +16,8 @@
         class="food"
         *ngFor="let cg of categories"
         (click)="onSelected(cg.id)"
-      >
-        <p>{{ cg.name }}</p>
+      ><div class="nmDiv">      <p>{{ cg.name }}</p></div>
+  
       </div>
     </div>
   </div>
@@ -47,7 +47,7 @@
   </tr><tr *ngFor="let inc of incomes" >
     <td>{{inc.id}}</td>
     <td>{{inc.amount}}</td>
-    <td>{{inc.day}}</td>
+    <td>{{ inc.day | date: 'dd/ MM/ yyyy' }}</td>
   </tr>
 </table>
   </main>

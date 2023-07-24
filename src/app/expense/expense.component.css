@@ -53,6 +53,10 @@
   background-repeat: no-repeat;
   background-size: cover;
   object-fit: cover;
+  overflow: scroll;
+}
+.hd1::-webkit-scrollbar{
+  display: none;
 }
 .hd2 {
   width: 70%;

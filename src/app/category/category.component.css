@@ -39,13 +39,21 @@
   height: 120px;
   margin: 10px;
   color: black;
-  text-align: center;
-  padding-top: 40px;
+  /* padding-top: 40px; */
   border: 9px solid white;
   box-shadow: 15px 15px 18px black;
   color: aliceblue;
   font-size: 20px;
+  display: flex;
   border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  word-break: break-all;
+  padding: 10px;
+}
+.nmDiv{
+  width: fit-content;
+  height: fit-content;
 }
 .incomeSection {
   width: 100%;

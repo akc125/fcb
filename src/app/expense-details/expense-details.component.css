@@ -62,7 +62,7 @@
   border: 1px solid rgb(142, 138, 138);
   margin: 5px;
   border-radius: 5px;
-  background-image: url("https://www.shutterstock.com/image-vector/subjective-spiral-notbook-clipart-vector-600w-2265518665.jpg");
+  background-image: url("https://img.freepik.com/premium-psd/geometric-paper-craft-design-background_53876-150999.jpg");
   word-break: break-all;
   background-position: center;
   background-repeat: no-repeat;
@@ -71,4 +71,18 @@
   background-size: cover;
   padding: 20px;
   box-shadow: 5px 5px 8px black;
+}
+.day{
+  color: rgb(86, 18, 72);
+  margin: 5px;
+  font-size: 18px;
+  box-shadow: 2px 2px 5px black;
+  width: fit-content;
+margin-left: 80px;
+}
+.description{
+box-shadow: 2px 2px 5px black;
+background-color: rgb(171, 165, 165,0.3);
+padding: 10px;
+font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }

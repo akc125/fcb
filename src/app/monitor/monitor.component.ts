@@ -114,10 +114,10 @@ export class MonitorComponent {
       this.yearlyExpenseFinal = this.yearlyExpenseFinal.sort(
         (a: any, b: any) => b.expense - a.expense
       );
-      for (const val of this.yearlyExpense) {
+      for (const val of this.yearlyExpenseFinal) {
         this.yearlyExpenseTotel += val.expense;
       }
-      console.log('july', this.expenses);
+      console.log('july', this.yearlyExpenseFinal);
       this.totalExpJulay = 0;
       this.totalIncomeJulay = 0;
       this.finalExpenseJulay.sort((a: any, b: any) => b.expense - a.expense);

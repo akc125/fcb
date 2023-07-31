@@ -118,13 +118,22 @@ footer {
   top: 120px;
   justify-content: space-evenly;
   font-size: 18px;
-  padding-top: 60px;
+  padding-top: 40px;
   border-radius: 50%;
   top: -50px;
   box-shadow: 5px 5px 8px rgb(95, 89, 89);
   z-index: 1200;
   border: 15px solid white;
   animation: expand 1.5s;
+}
+.firstHalf {
+  background-color: rgba(174, 233, 235, 0.7);
+}
+.secondTern {
+  background-color: rgb(226, 186, 144, 0.7);
+}
+.warningTern {
+  background-color: rgba(255, 113, 115, 0.7);
 }
 @keyframes expand {
   0% {
@@ -160,17 +169,17 @@ footer {
 .income:hover {
   transform: scale(1.2);
   transition: 0.5s;
-  background-color: rgb(154, 165, 139,0.8);
+  background-color: rgb(154, 165, 139, 0.8);
 }
 .Balence:hover {
   transform: scale(1.2);
   transition: 0.5s;
-  background-color: rgb(158, 157, 171,0.8);
+  background-color: rgb(158, 157, 171, 0.8);
 }
 .total:hover {
   transform: scale(1.2);
   transition: 0.8s;
-  background-color: rgb(160, 177, 176,0.8);
+  background-color: rgb(160, 177, 176, 0.8);
 }
 
 .Balence {
@@ -227,7 +236,7 @@ footer {
   text-align: center;
   color: white;
   box-shadow: 2px 2px 5px black;
-  background-image: url('https://imageio.forbes.com/specials-images/imageserve/633a774a842d06ecd68286ff/The-5-Biggest-Business-Trends-For-2023/960x0.jpg?height=430&width=711&fit=bounds');
+  background-image: url("https://imageio.forbes.com/specials-images/imageserve/633a774a842d06ecd68286ff/The-5-Biggest-Business-Trends-For-2023/960x0.jpg?height=430&width=711&fit=bounds");
 }
 .exDiv {
   position: relative;

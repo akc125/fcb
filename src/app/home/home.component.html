@@ -40,11 +40,62 @@
             <div class="item">
               <span>{{ fn.name }}</span>
               <span>₹{{ fn.expense }}</span>
+              <span
+                *ngIf="
+                  calculatePercentage(fn.expense) >=
+                  calculatePercentagewithIncome(fn.expense)
+                "
+                [ngStyle]="{
+                  color:
+                    calculatePercentage(fn.expense) > 90 ||
+                    calculatePercentagewithIncome(fn.expense) > 90
+                      ? 'red'
+                      : ('black' && calculatePercentage(fn.expense) > 75) ||
+                        calculatePercentagewithIncome(fn.expense) > 75
+                      ? 'orange'
+                      : ('black' && calculatePercentage(fn.expense) > 50) ||
+                        calculatePercentagewithIncome(fn.expense) > 50
+                      ? 'green'
+                      : 'black'
+                }"
+                >{{ calculatePercentage(fn.expense) }}%
+               </span
+              >
+              <span
+                *ngIf="
+                  calculatePercentagewithIncome(fn.expense) >
+                  calculatePercentage(fn.expense)
+                "
+                [ngStyle]="{
+                  color:
+                    calculatePercentage(fn.expense) > 90 ||
+                    calculatePercentagewithIncome(fn.expense) > 90
+                      ? 'red'
+                      : ('black' && calculatePercentage(fn.expense) > 75) ||
+                        calculatePercentagewithIncome(fn.expense) > 75
+                      ? 'orange'
+                      : ('black' && calculatePercentage(fn.expense) > 50) ||
+                        calculatePercentagewithIncome(fn.expense) > 50
+                      ? 'green'
+                      : 'black'
+                }"
+                >{{ calculatePercentagewithIncome(fn.expense) }}%*</span
+              >
             </div>
           </div>
         </div>
         <div class="totletDiv">
-          <div class="total">
+          <div
+            [ngClass]="{
+              'firstHalf':
+                expensTotel > (50 * incomeTotel) / 100,
+                'secondTern':  expensTotel > (75 * incomeTotel) / 100,
+                'warningTern':  expensTotel > (90 * incomeTotel) / 100,
+                 
+            }"
+            class="total"
+          >
+            <p style="font-size: 20px">{{ average }}%</p>
             <h1>Total Expense</h1>
             <h1>₹{{ expensTotel }}</h1>
           </div>

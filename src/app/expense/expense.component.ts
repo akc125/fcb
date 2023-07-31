@@ -21,6 +21,9 @@ export class ExpenseComponent {
     this.defaultDate = currentDate.toISOString().substring(0, 10);
     this.getExpenses();
   }
+  firstDate: any;
+  lastDate: any;
+  filter: boolean = false;
   expense: any;
   exName: any = '';
   id: any = this.route.snapshot.paramMap.get('id');
@@ -29,6 +32,10 @@ export class ExpenseComponent {
     name: new FormControl(),
     date: new FormControl(),
     catId: new FormControl(this.id),
+  });
+  dateFilterGroup = new FormGroup({
+    lastDate: new FormControl(),
+    firstDate: new FormControl(),
   });
   categories: any = [];
   async getCategory() {
@@ -50,22 +57,54 @@ export class ExpenseComponent {
     };
     console.log('valll', formData);
     this.categoriesServices.addExpense(formData).subscribe((data: any) => {
-      this.getExpenses()
+      this.getExpenses();
     });
   }
   expenses: any = [];
   expenseTotel: number = 0;
-  getExpenses() {
-    const id=localStorage.getItem("userId")
+  filteredData: any[] = [];
+  mapedData: any[] = [];
+  filteredTotal: number = 0;
+  async getExpenses() {
+    const id = localStorage.getItem('userId');
     this.categoriesServices.getExpensList().subscribe((data) => {
       this.expenses = data;
-      this.expenses = this.expenses.filter((f: any) => f.catId == this.id && f.userId==id);
+      this.expenses = this.expenses.filter(
+        (f: any) => f.catId == this.id && f.userId == id
+      );
       for (const exp of this.expenses) {
         this.expenseTotel += exp.expense;
       }
+      this.getMapping();
     });
   }
-  navigateToDetailsPage(id:any) {
+
+  getFiltered() {
+    const lastDate = this.dateFilterGroup.get('lastDate')?.value;
+    const firstDate = this.dateFilterGroup.get('firstDate')?.value;
+    this.filteredData = this.expenses.filter(
+      (f: any) => f.day > lastDate && f.day < firstDate
+    );
+    this.filter = true;
+  }
+  changValue() {
+    this.filter = false;
+  }
+  getMapping() {
+    let total = 0;
+    for (let num of this.mapedData) {
+      total += num.expense;
+      this.filteredTotal = total;
+    }
+    if (this.filter == true) {
+      this.mapedData = this.filteredData;
+    } else {
+      this.mapedData = this.expenses;
+    }
+    console.log('mapedData', this.mapedData, total);
+  }
+
+  navigateToDetailsPage(id: any) {
     this.router.navigate([`categories/:id/expenseDetails/${id}`]);
   }
 }

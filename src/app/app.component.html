@@ -6,7 +6,9 @@
       <span class="ct" routerLink="categories">Categories</span>
       <span class="mn" routerLink="monitor">Monitor</span>
       <span class="mn" routerLink="about">About</span>
-      <span class="mn" routerLink="monitor" (click)="logout()">Logout</span>
+      <span class="mn" routerLink="monitor" (click)="logout()" style="color: brown;">Logout</span>
+      <span class="mn mn2" routerLink="monitor" >{{month}}</span>
+      <span style="background-color: rgb(158, 154, 154);color: white;" class="mn mn2" routerLink="monitor" >{{date}}</span>
     </div>
     <button class="rpButton" routerLink="monitor">See Yearly Reports</button>
   </header>

@@ -27,21 +27,48 @@
       </div>
     </div>
     <section class="sc">
+      <section class="filterSection">
+        <form [formGroup]="dateFilterGroup">
+          <label>From</label>
+          <input type="date" class="np3" formControlName="lastDate" />
+          <label>To</label>
+          <input type="date" class="np3" formControlName="firstDate" />
+        </form>
+        <button class="np4" (click)="getFiltered(); getMapping()">
+          Apply Filter
+        </button>
+        <button class="np4 np41" (click)="changValue(); getMapping()">
+          Cancel
+        </button>
+      </section>
       <table>
         <tr>
           <th>SI</th>
           <th>Date</th>
           <th>Expense</th>
         </tr>
-        <tr *ngFor="let fin of expenses; let i = index">
+        <tr *ngFor="let fin of mapedData; let i = index">
           <td (click)="navigateToDetailsPage(fin.id)">{{ i + 1 }}</td>
           <td (click)="navigateToDetailsPage(fin.id)">{{ fin.day }}</td>
-          <td (click)="navigateToDetailsPage(fin.id)">{{ fin.expense }}</td>
+          <td (click)="navigateToDetailsPage(fin.id)">₹{{ fin.expense }}</td>
         </tr>
         <tr>
-          <td colspan="2" style="font-weight: 800">Totel</td>
+          <td
+            colspan="2"
+            style="font-weight: 800; background-color: rgb(186, 177, 177)"
+          >
+            Totel
+          </td>
 
-          <td style="font-weight: 800">{{ expenseTotel }}</td>
+          <td
+            style="
+              font-weight: 800;
+              background-color: rgb(186, 177, 177);
+              color: rgb(199, 54, 54);
+            "
+          >
+            ₹{{ !filter ? expenseTotel : filteredTotal }}
+          </td>
         </tr>
       </table>
     </section>

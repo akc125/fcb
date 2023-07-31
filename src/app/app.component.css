@@ -4,9 +4,9 @@
   height: 1560px;
   color: aliceblue;
   box-shadow: 2px 2px 6px rgb(0, 0, 0);
-padding-top: 70px;
+  padding-top: 70px;
 }
-.rpButton{
+.rpButton {
   width: 100px;
   height: 30px;
   position: absolute;
@@ -18,8 +18,8 @@ padding-top: 70px;
   border-radius: 5px;
   font-size: 10px;
 }
-section::-webkit-scrollbar{
-    display: none;
+section::-webkit-scrollbar {
+  display: none;
 }
 .header {
   width: 100%;
@@ -32,33 +32,46 @@ section::-webkit-scrollbar{
   z-index: 11100;
 }
 .fcb {
-  font-size: 34px;
+  font-size: 54px;
   font-weight: 900;
   font-family: serif;
-  color: rgb(191, 15, 15);
-
+  color: rgb(125, 22, 22);
+  margin-top: -5px;
+  position: relative;
+  left: 90px;
 }
-.hm:active{
-color: rgb(211, 224, 224);
+.hm:active {
+  color: rgb(211, 224, 224);
 }
-.ct:active{
-color: rgb(211, 224, 224);
+.ct:active {
+  color: rgb(211, 224, 224);
 }
-.mn:active{
-color: rgb(211, 224, 224);
+.mn:active {
+  color: rgb(211, 224, 224);
 }
 .nav {
   position: relative;
-  width: 400px;
+  width: 700px;
   color: rgb(0, 0, 0);
   height: 40px;
   font-weight: 500;
   text-align: center;
   padding-top: 10px;
-  top: -30px;
+  top: -50px;
   background-color: rgb(255, 255, 255);
   font-size: 18px;
-  left: 200px;
+  left: 240px;
   display: flex;
   justify-content: space-evenly;
+}
+.mn2 {
+  position: relative;
+  left: 160px;
+  font-size: 35px;
+  top: -30px;
+  color: brown;
+  box-shadow: 2px 2px 5px black;
+  padding: 15px;
+  height: fit-content;
+  width: fit-content;
 }

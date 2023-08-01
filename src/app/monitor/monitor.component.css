@@ -1,7 +1,8 @@
 .monitor {
   width: 100%;
-  min-height: 1760px;
+  min-height: 3260px;
   max-height: fit-content;
+  display: block;
   color: black;
   background-color: rgb(241, 230, 230);
 }
@@ -69,6 +70,7 @@
   left: 130px;
   background-color: white;
 }
+
 
 .vDiv {
   padding-left: 25px;

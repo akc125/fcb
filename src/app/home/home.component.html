@@ -59,8 +59,7 @@
                       : 'black'
                 }"
                 >{{ calculatePercentage(fn.expense) }}%
-               </span
-              >
+              </span>
               <span
                 *ngIf="
                   calculatePercentagewithIncome(fn.expense) >
@@ -88,14 +87,16 @@
           <div
             [ngClass]="{
               'firstHalf':
-                expensTotel > (50 * incomeTotel) / 100,
-                'secondTern':  expensTotel > (75 * incomeTotel) / 100,
-                'warningTern':  expensTotel > (90 * incomeTotel) / 100,
+                expensTotel > (50 * incomeTotel) / 100&&incomeTotel,
+                'secondTern':  expensTotel > (75 * incomeTotel) / 100&&incomeTotel,
+                'warningTern':  expensTotel > (90 * incomeTotel) / 100&&incomeTotel,
                  
             }"
             class="total"
           >
-            <p style="font-size: 20px">{{ average }}%</p>
+            <p *ngIf="incomeTotel > 0" style="font-size: 20px">
+              {{ average }}%
+            </p>
             <h1>Total Expense</h1>
             <h1>₹{{ expensTotel }}</h1>
           </div>

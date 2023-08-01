@@ -1,12 +1,12 @@
-import { CategoriesService } from 'src/services/categories.service';
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormControl, FormGroup } from '@angular/forms';
+import { CategoriesService } from "src/services/categories.service";
+import { Component } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { FormControl, FormGroup } from "@angular/forms";
 
 @Component({
-  selector: 'app-expense',
-  templateUrl: './expense.component.html',
-  styleUrls: ['./expense.component.css'],
+  selector: "app-expense",
+  templateUrl: "./expense.component.html",
+  styleUrls: ["./expense.component.css"],
 })
 export class ExpenseComponent {
   constructor(
@@ -19,14 +19,16 @@ export class ExpenseComponent {
     this.getCategory();
     const currentDate = new Date();
     this.defaultDate = currentDate.toISOString().substring(0, 10);
+    this.defualtMonth = currentDate.toISOString().substring(5, 7);
     this.getExpenses();
   }
   firstDate: any;
   lastDate: any;
   filter: boolean = false;
   expense: any;
-  exName: any = '';
-  id: any = this.route.snapshot.paramMap.get('id');
+  exName: any = "";
+  defualtMonth: any ;
+  id: any = this.route.snapshot.paramMap.get("id");
   expenseFormGroup = new FormGroup({
     expense: new FormControl(this.exName),
     name: new FormControl(),
@@ -55,7 +57,7 @@ export class ExpenseComponent {
       ...this.expenseFormGroup.value,
       name: this.expense.name,
     };
-    console.log('valll', formData);
+    console.log("valll", formData);
     this.categoriesServices.addExpense(formData).subscribe((data: any) => {
       this.getExpenses();
     });
@@ -66,11 +68,14 @@ export class ExpenseComponent {
   mapedData: any[] = [];
   filteredTotal: number = 0;
   async getExpenses() {
-    const id = localStorage.getItem('userId');
+    const id = localStorage.getItem("userId");
     this.categoriesServices.getExpensList().subscribe((data) => {
       this.expenses = data;
       this.expenses = this.expenses.filter(
-        (f: any) => f.catId == this.id && f.userId == id
+        (f: any) =>
+          f.catId == this.id &&
+          f.userId == id &&
+          f.day.substring(5, 7) === this.defualtMonth
       );
       for (const exp of this.expenses) {
         this.expenseTotel += exp.expense;
@@ -80,8 +85,8 @@ export class ExpenseComponent {
   }
 
   getFiltered() {
-    const lastDate = this.dateFilterGroup.get('lastDate')?.value;
-    const firstDate = this.dateFilterGroup.get('firstDate')?.value;
+    const lastDate = this.dateFilterGroup.get("lastDate")?.value;
+    const firstDate = this.dateFilterGroup.get("firstDate")?.value;
     this.filteredData = this.expenses.filter(
       (f: any) => f.day > lastDate && f.day < firstDate
     );
@@ -101,7 +106,7 @@ export class ExpenseComponent {
     } else {
       this.mapedData = this.expenses;
     }
-    console.log('mapedData', this.mapedData, total);
+    console.log("mapedData", this.expenses);
   }
 
   navigateToDetailsPage(id: any) {

@@ -1,10 +1,10 @@
-import { CategoriesService } from 'src/services/categories.service';
-import { Component } from '@angular/core';
+import { CategoriesService } from "src/services/categories.service";
+import { Component } from "@angular/core";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+  selector: "app-home",
+  templateUrl: "./home.component.html",
+  styleUrls: ["./home.component.css"],
 })
 export class HomeComponent {
   defaultDate: any;
@@ -14,12 +14,12 @@ export class HomeComponent {
     this.getExpenses();
     this.getIncome();
     const currentDate = new Date();
-    this.month = currentDate.toLocaleString('en-US', { month: 'long' });
+    this.month = currentDate.toLocaleString("en-US", { month: "long" });
     this.year = currentDate.getFullYear();
     this.defaultDate = currentDate.toISOString().substring(5, 7);
   }
   constructor(private categoriesService: CategoriesService) {}
-  userId = localStorage.getItem('userId');
+  userId = localStorage.getItem("userId");
   finalExpense: any = [];
   expense: any = [];
   thisMonthExpense: any = [];
@@ -30,7 +30,7 @@ export class HomeComponent {
   balense: number = 0;
   average: number = 0;
   getExpenses() {
-    const id = localStorage.getItem('userId');
+    const id = localStorage.getItem("userId");
     this.categoriesService.getExpensList().subscribe((data) => {
       this.expense = JSON.parse(JSON.stringify(data)).filter((f: any) => {
         return f.userId == id;
@@ -51,7 +51,7 @@ export class HomeComponent {
         Number(f.day.substring(5, 7)) == Number(this.defaultDate) &&
         f.day.substring(0, 4) == this.year
     );
-  
+
     for (const exp of this.thisMonthExpense) {
       const existing = this.finalExpense.find((f: any) => f.name === exp.name);
       if (existing) {
@@ -81,7 +81,7 @@ export class HomeComponent {
     }
   }
   getIncome() {
-    const id = localStorage.getItem('userId');
+    const id = localStorage.getItem("userId");
     this.categoriesService.getIncomes().subscribe((data: any) => {
       this.income = data.filter((f: any) => f.userId == id);
       const incomCopy = [...this.income];
@@ -102,10 +102,14 @@ export class HomeComponent {
       this.average = Math.round((this.expensTotel * 100) / this.incomeTotel);
     });
   }
-  calculatePercentage(expense:number){
-    return Math.round(expense*100/this.expensTotel)
+  calculatePercentage(expense: number) {
+    return Math.round((expense * 100) / this.expensTotel);
   }
-  calculatePercentagewithIncome(expense:number){
-    return Math.round(expense*100/this.incomeTotel)
+  calculatePercentagewithIncome(expense: number) {
+    if (this.incomeTotel > 0) {
+      return Math.round((expense * 100) / this.incomeTotel);
+    }else{
+      return 0
+    }
   }
 }

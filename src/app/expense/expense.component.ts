@@ -27,7 +27,7 @@ export class ExpenseComponent {
   filter: boolean = false;
   expense: any;
   exName: any = "";
-  defualtMonth: any ;
+  defualtMonth: any;
   id: any = this.route.snapshot.paramMap.get("id");
   expenseFormGroup = new FormGroup({
     expense: new FormControl(this.exName),
@@ -63,6 +63,8 @@ export class ExpenseComponent {
     });
   }
   expenses: any = [];
+  compleateExpense: any = [];
+  compleateCategoryExpense: any = [];
   expenseTotel: number = 0;
   filteredData: any[] = [];
   mapedData: any[] = [];
@@ -71,6 +73,7 @@ export class ExpenseComponent {
     const id = localStorage.getItem("userId");
     this.categoriesServices.getExpensList().subscribe((data) => {
       this.expenses = data;
+      this.compleateExpense = data;
       this.expenses = this.expenses.filter(
         (f: any) =>
           f.catId == this.id &&
@@ -85,9 +88,19 @@ export class ExpenseComponent {
   }
 
   getFiltered() {
+    const id = localStorage.getItem("userId");
+    this.compleateCategoryExpense = this.compleateExpense.filter(
+      (f: any) => f.catId == this.id && f.userId == id
+    );
+    setTimeout(() => {
+      for (const exp of this.compleateCategoryExpense) {
+        this.filteredTotal += exp.expense;
+      } 
+    }, 100);
+   
     const lastDate = this.dateFilterGroup.get("lastDate")?.value;
     const firstDate = this.dateFilterGroup.get("firstDate")?.value;
-    this.filteredData = this.expenses.filter(
+    this.filteredData = this.compleateCategoryExpense.filter(
       (f: any) => f.day > lastDate && f.day < firstDate
     );
     this.filter = true;
@@ -106,7 +119,7 @@ export class ExpenseComponent {
     } else {
       this.mapedData = this.expenses;
     }
-    console.log("mapedData", this.expenses);
+    console.log("mapedData", this.compleateCategoryExpense);
   }
 
   navigateToDetailsPage(id: any) {

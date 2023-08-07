@@ -1,5 +1,7 @@
 import { CategoriesService } from 'src/services/categories.service';
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-monitor',
@@ -7,9 +9,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./monitor.component.css'],
 })
 export class MonitorComponent {
+  @ViewChild('invoice') invoiceElement!: ElementRef;
   defualtDate: any;
   currentYear: any;
   ngOnInit(): void {
+    
     const currentDate = new Date();
     this.currentYear = currentDate.getFullYear();
     this.defualtDate = currentDate.toISOString().substring(5, 7);
@@ -161,6 +165,18 @@ export class MonitorComponent {
         this.yearlyExpenseTotel,
         this.yearlyBalence
       );
+    });
+  }
+
+  public generatePDF(): void {
+    html2canvas(this.invoiceElement.nativeElement, { scale: 1.5 }).then((canvas) => {
+      const imageGeneratedFromTemplate = canvas.toDataURL('image/png');
+      const fileWidth = 200;
+      const generatedImageHeight = (canvas.height * fileWidth) / canvas.width;
+      let PDF = new jsPDF('p', 'mm', 'a4',);
+      PDF.addImage(imageGeneratedFromTemplate, 'PNG', 5, 5, fileWidth, generatedImageHeight,);
+      PDF.html(this.invoiceElement.nativeElement.innerHTML)
+      PDF.save(`FCB REPORT ${this.monthSelected} ${this.selection}`);
     });
   }
 }

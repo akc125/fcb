@@ -10,16 +10,32 @@
     </select>
     <label class="mg">If you want Yearly report select month Select year</label
     ><br />
-    <select (change)="onSelected($event)" class="sl2">
+    <select (change)="onSelected($event)"  class="sl2">
       <option></option>
+      <option [value]="2015">2015</option>
+      <option [value]="2016">2016</option>
+      <option [value]="2017">2017</option>
+      <option [value]="2018">2018</option>
+      <option [value]="2019">2019</option>
       <option [value]="2020">2020</option>
       <option [value]="2021">2021</option>
       <option [value]="2022">2022</option>
-      <option [value]="2023">2023</option></select
+      <option [value]="2023">2023</option>
+      <option [value]="2024">2024</option>
+      <option [value]="2025">2025</option>
+      <option [value]="2026">2026</option>
+      <option [value]="2027">2027</option>
+      <option [value]="2028">2028</option>
+      <option [value]="2029">2029</option>
+      <option [value]="2030">2030</option>
+      <option [value]="2031">2031</option>
+      
+      </select
     ><button class="yrButton" (click)="getExpense(); getIncomes(); passId()">
       Save
     </button>
-    <div *ngIf="balenceJulay" class="report">
+    <button class="printButton" (click)="generatePDF()">Print</button>
+    <div *ngIf="balenceJulay" class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 report" id="invoice" #invoice>
       <div class="vDiv vDiv1">
         <p class="mn">Monthly</p>
         <p class="rp">FCB REPORT</p>
@@ -62,7 +78,7 @@
     [ngStyle]="{ top: !balenceJulay ? '220px' : '1700px' }"
     class="yrSec"
   >
-    <div class="vDiv vDiv1">
+    <div  class=" vDiv vDiv1" #invoice>
       <p class="mn">Yearly</p>
       <p class="rp">FCB REPORT</p>
       <span class="jn"> Year</span><span class="yr">{{ selection }}</span>

@@ -1,27 +1,27 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class CategoriesService {
-  userId = localStorage.getItem('userId');
+  userId = localStorage.getItem("userId");
   constructor(private http: HttpClient) {}
-  endpoint = 'http://localhost:5000/categories';
+  endpoint = "http://localhost:5000/categories";
   getCategories() {
     return this.http.get(this.endpoint, {});
   }
   addCategoris(data: any) {
-    const id=localStorage.getItem('userId');
-    console.log("addct",this.userId,data)
+    const id = localStorage.getItem("userId");
+    console.log("addct", this.userId, data);
     return this.http.post(this.endpoint, {
       name: data,
       userId: id,
     });
   }
   addExpense(data: any) {
-    const id=localStorage.getItem('userId');
-    return this.http.post('http://localhost:5000/expense', {
+    const id = localStorage.getItem("userId");
+    return this.http.post("http://localhost:5000/expense", {
       name: data.name,
       expense: data.expense,
       catId: data.catId,
@@ -30,26 +30,26 @@ export class CategoriesService {
     });
   }
   getExpensList() {
-    return this.http.get('http://localhost:5000/expenses', {});
+    return this.http.get("http://localhost:5000/expenses", {});
   }
   addIncomes(data: any) {
-    const id=localStorage.getItem('userId');
-    return this.http.post('http://localhost:5000/incomes', {
+    const id = localStorage.getItem("userId");
+    return this.http.post("http://localhost:5000/incomes", {
       amount: data.amount,
       day: data.date,
       userId: id,
     });
   }
   getIncomes() {
-    return this.http.get('http://localhost:5000/incomes', {});
+    return this.http.get("http://localhost:5000/incomes", {});
   }
 
   getDescription() {
-    return this.http.get('http://localhost:5000/descriptions', {});
+    return this.http.get("http://localhost:5000/descriptions", {});
   }
   postDesciption(data: any) {
-    const id=localStorage.getItem('userId');
-    return this.http.post('http://localhost:5000/descriptions', {
+    const id = localStorage.getItem("userId");
+    return this.http.post("http://localhost:5000/descriptions", {
       desc: data.desc,
       date: data.date,
       descId: data.descId,
@@ -57,15 +57,26 @@ export class CategoriesService {
     });
   }
   getLogin(data: any) {
-    return this.http.post('http://localhost:5000/login', {
+    return this.http.post("http://localhost:5000/login", {
       name: data.name,
       password: data.password,
     });
   }
   registerUser(data: any) {
-    return this.http.post('http://localhost:5000/register', {
+    return this.http.post("http://localhost:5000/register", {
       name: data.name,
       password: data.password,
     });
+  }
+  postForLineGraph(data: any) {
+    const id = localStorage.getItem("userId");
+    return this.http.post("http://localhost:5000/lineGraph", {
+      amount: data.amount,
+      userId: id,
+      day:data.day
+    });
+  }
+  getFromLineGraph(){
+    return this.http.get("http://localhost:5000/lineGraph", {});
   }
 }

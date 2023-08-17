@@ -1,19 +1,18 @@
-import { CategoriesService } from 'src/services/categories.service';
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+import { CategoriesService } from "src/services/categories.service";
+import { Component, ElementRef, ViewChild } from "@angular/core";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 @Component({
-  selector: 'app-monitor',
-  templateUrl: './monitor.component.html',
-  styleUrls: ['./monitor.component.css'],
+  selector: "app-monitor",
+  templateUrl: "./monitor.component.html",
+  styleUrls: ["./monitor.component.css"],
 })
 export class MonitorComponent {
-  @ViewChild('invoice') invoiceElement!: ElementRef;
+  @ViewChild("invoice") invoiceElement!: ElementRef;
   defualtDate: any;
   currentYear: any;
   ngOnInit(): void {
-    
     const currentDate = new Date();
     this.currentYear = currentDate.getFullYear();
     this.defualtDate = currentDate.toISOString().substring(5, 7);
@@ -41,18 +40,18 @@ export class MonitorComponent {
   yearlyBalence: number = 0;
 
   monthsList = [
-    { id: '01', name: 'January' },
-    { id: '02', name: 'February' },
-    { id: '03', name: 'March' },
-    { id: '04', name: 'April' },
-    { id: '05', name: 'May' },
-    { id: '06', name: 'June' },
-    { id: '07', name: 'July' },
-    { id: '08', name: 'August' },
-    { id: '09', name: 'September' },
-    { id: '10', name: 'October' },
-    { id: '11', name: 'November' },
-    { id: '12', name: 'December' },
+    { id: "01", name: "January" },
+    { id: "02", name: "February" },
+    { id: "03", name: "March" },
+    { id: "04", name: "April" },
+    { id: "05", name: "May" },
+    { id: "06", name: "June" },
+    { id: "07", name: "July" },
+    { id: "08", name: "August" },
+    { id: "09", name: "September" },
+    { id: "10", name: "October" },
+    { id: "11", name: "November" },
+    { id: "12", name: "December" },
   ];
 
   monthSelected: any;
@@ -65,15 +64,15 @@ export class MonitorComponent {
     this.monthId = selected?.id;
     this.getExpense();
   }
-  selectedYear: any = '';
-  idOfMonth: any = '';
+  selectedYear: any = "";
+  idOfMonth: any = "";
   passId() {
     this.selectedYear = this.selection;
     this.idOfMonth = this.monthId;
   }
-  userId = localStorage.getItem('userId');
+  userId = localStorage.getItem("userId");
   getExpense() {
-    const id=localStorage.getItem('userId');
+    const id = localStorage.getItem("userId");
     this.categoriesService.getExpensList().subscribe((data: any) => {
       const expensesCopy = [...this.expenses];
       this.expenses = data.filter((f: any) => f.userId == id);
@@ -121,7 +120,7 @@ export class MonitorComponent {
       for (const val of this.yearlyExpenseFinal) {
         this.yearlyExpenseTotel += val.expense;
       }
-      console.log('july', this.yearlyExpenseFinal);
+      console.log("july", this.yearlyExpenseFinal);
       this.totalExpJulay = 0;
       this.totalIncomeJulay = 0;
       this.finalExpenseJulay.sort((a: any, b: any) => b.expense - a.expense);
@@ -129,14 +128,17 @@ export class MonitorComponent {
         this.totalExpJulay += val.expense;
       }
     });
+    setTimeout(() => {
+      this.getExpensePercentage();
+    }, 1000);
   }
 
   getIncomes() {
-    const id=localStorage.getItem('userId');
-    this.categoriesService.getIncomes().subscribe((data:any) => {
-      this.incomes = data.filter((f:any)=>{
-        return f.userId==id
-      })
+    const id = localStorage.getItem("userId");
+    this.categoriesService.getIncomes().subscribe((data: any) => {
+      this.incomes = data.filter((f: any) => {
+        return f.userId == id;
+      });
       const monthIncomeCopy = [...this.incomes];
       this.incomesJulay = monthIncomeCopy.filter(
         (data: any) =>
@@ -160,23 +162,71 @@ export class MonitorComponent {
       this.balenceJulay = this.totalIncomeJulay - this.totalExpJulay;
       this.yearlyBalence = this.yearlyIncomeTotel - this.yearlyExpenseTotel;
       console.log(
-        'incom',this.incomes,
+        "incom",
+        this.incomes,
         this.yearlyIncomeTotel,
         this.yearlyExpenseTotel,
         this.yearlyBalence
       );
     });
   }
+  chartOptions: any;
+  chartOption: any;
+  getExpensePercentage() {
+    for (let exp of this.finalExpenseJulay) {
+      exp.y = (exp.expense * 100) / this.totalExpJulay;
+    }
+    this.chartOptions = {
+      animationEnabled: true,
+      data: [
+        {
+          type: "pie",
+          startAngle: 45,
+          indexLabel: "{name}: {y}",
+          indexLabelPlacement: "inside",
+          yValueFormatString: "#,###.##'%'",
+          dataPoints: this.finalExpenseJulay
+        },
+      ],
+    };
+   this. chartOption = {
+      title: {
+        text: "Total Impressions by Platforms"
+      },
+      animationEnabled: true,
+      axisY: {
+        includeZero: true,
+        suffix: "%"
+      },
+      data: [{
+        type: "bar",
+        indexLabel: "{name}: {y}",
+        yValueFormatString: "#,###.##'%'",
+        dataPoints: this.finalExpenseJulay
+      }]
+    }
+  }
 
   public generatePDF(): void {
-    html2canvas(this.invoiceElement.nativeElement, { scale: 1.5 }).then((canvas) => {
-      const imageGeneratedFromTemplate = canvas.toDataURL('image/png');
-      const fileWidth = 200;
-      const generatedImageHeight = (canvas.height * fileWidth) / canvas.width;
-      let PDF = new jsPDF('p', 'mm', 'a4',);
-      PDF.addImage(imageGeneratedFromTemplate, 'PNG', 5, 5, fileWidth, generatedImageHeight,);
-      PDF.html(this.invoiceElement.nativeElement.innerHTML)
-      PDF.save(`FCB REPORT ${this.monthSelected} ${this.selection}`);
-    });
+    html2canvas(this.invoiceElement.nativeElement, { scale: 1.5 }).then(
+      (canvas) => {
+        const imageGeneratedFromTemplate = canvas.toDataURL("image/png");
+        const fileWidth = 200;
+        const generatedImageHeight = (canvas.height * fileWidth) / canvas.width;
+        let PDF = new jsPDF("p", "mm", "a4");
+        PDF.addImage(
+          imageGeneratedFromTemplate,
+          "PNG",
+          5,
+          5,
+          fileWidth,
+          generatedImageHeight
+        );
+        PDF.html(this.invoiceElement.nativeElement.innerHTML);
+        PDF.save(`FCB REPORT ${this.monthSelected} ${this.selection}`);
+      }
+    );
   }
+
+ 
 }

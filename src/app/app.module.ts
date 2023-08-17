@@ -16,6 +16,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AboutComponent } from './about/about.component';
+import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,8 @@ import { AboutComponent } from './about/about.component';
     HttpClientModule,
     ReactiveFormsModule,
     NgChartsModule,
+    CanvasJSAngularChartsModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]

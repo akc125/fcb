@@ -18,6 +18,7 @@
     "@angular/platform-browser": "^16.1.0",
     "@angular/platform-browser-dynamic": "^16.1.0",
     "@angular/router": "^16.1.0",
+    "@canvasjs/angular-charts": "^1.0.3",
     "chart.js": "^4.3.0",
     "jspdf": "^2.5.1",
     "ng2-charts": "^4.1.1",

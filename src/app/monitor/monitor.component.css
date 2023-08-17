@@ -63,6 +63,11 @@
   margin-top: -19px;
   left: 500px;
 }
+.pe{
+  position: relative;
+left:550px;
+  width: 250px;
+}
 .sl2 {
   width: 350px;
   height: 40px;
@@ -110,7 +115,7 @@ th {
 }
 .rp {
   font-size: 50px;
-  font-weight: 400;
+  font-weight: 800;
   position: relative;
   top: 70px;
   left: -30px;
@@ -118,19 +123,21 @@ th {
 .mn {
   position: relative;
   top: 80px;
-  left: 320px;
+  left: 310px;
   font-size: 15px;
 }
 .jn {
-  top: 90px;
-  left: 358px;
+  top: 80px;
+  left: 388px;
   font-size: 24px;
+  font-weight: 600;
   position: relative;
 }
 .yr {
   position: relative;
-  top: 90px;
-  left: 400px;
+  top: 80px;
+  left: 430px;
+  font-weight: 600;
   font-size: 24px;
 }
 .dg {

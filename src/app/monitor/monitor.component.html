@@ -10,7 +10,7 @@
     </select>
     <label class="mg">If you want Yearly report select month Select year</label
     ><br />
-    <select (change)="onSelected($event)"  class="sl2">
+    <select (change)="onSelected($event)" class="sl2">
       <option></option>
       <option [value]="2015">2015</option>
       <option [value]="2016">2016</option>
@@ -28,14 +28,17 @@
       <option [value]="2028">2028</option>
       <option [value]="2029">2029</option>
       <option [value]="2030">2030</option>
-      <option [value]="2031">2031</option>
-      
-      </select
+      <option [value]="2031">2031</option></select
     ><button class="yrButton" (click)="getExpense(); getIncomes(); passId()">
       Save
     </button>
     <button class="printButton" (click)="generatePDF()">Print</button>
-    <div *ngIf="balenceJulay" class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 report" id="invoice" #invoice>
+    <div
+      *ngIf="balenceJulay"
+      class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 report"
+      id="invoice"
+      #invoice
+    >
       <div class="vDiv vDiv1">
         <p class="mn">Monthly</p>
         <p class="rp">FCB REPORT</p>
@@ -51,8 +54,8 @@
             <th>Income</th>
             <th>Balance</th>
           </tr>
-          <tr *ngFor="let fn of finalExpenseJulay;let i=index">
-            <td>{{ i+1}}</td>
+          <tr *ngFor="let fn of finalExpenseJulay; let i = index">
+            <td>{{ i + 1 }}</td>
             <td>{{ fn.name }}</td>
             <td>{{ fn.expense }}</td>
             <td></td>
@@ -68,6 +71,19 @@
       </div>
       <div class="vDiv vDiv3">
         <p class="dg">Director general fcb</p>
+
+        <div style="float: left">
+          <canvasjs-chart
+            [options]="chartOption"
+            [styles]="{ width: '40%', height: '350px' }"
+          ></canvasjs-chart>
+        </div>
+        <div class="pe" style="float: left">
+          <canvasjs-chart
+            [options]="chartOptions"
+            [styles]="{ width: '100%', height: '350px' }"
+          ></canvasjs-chart>
+        </div>
       </div>
     </div>
   </div>
@@ -75,10 +91,10 @@
   <!-- year -->
   <main
     *ngIf="yearlyBalence"
-    [ngStyle]="{ top: !balenceJulay ? '220px' : '1700px' }"
+    [ngStyle]="{ top: !balenceJulay ? '220px' : '2300px' }"
     class="yrSec"
   >
-    <div  class=" vDiv vDiv1" #invoice>
+    <div class="vDiv vDiv1" #invoice>
       <p class="mn">Yearly</p>
       <p class="rp">FCB REPORT</p>
       <span class="jn"> Year</span><span class="yr">{{ selection }}</span>
@@ -92,8 +108,8 @@
           <th>Income</th>
           <th>Balance</th>
         </tr>
-        <tr *ngFor="let fn of yearlyExpenseFinal;let i=index">
-          <td>{{ i+1}}</td>
+        <tr *ngFor="let fn of yearlyExpenseFinal; let i = index">
+          <td>{{ i + 1 }}</td>
           <td>{{ fn.name }}</td>
           <td>{{ fn.expense }}</td>
           <td></td>

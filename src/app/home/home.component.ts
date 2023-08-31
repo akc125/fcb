@@ -13,6 +13,7 @@ export class HomeComponent {
   year: any;
   day: any;
   ngOnInit(): void {
+    // this.change()
     this.getTrackedExpenses();
     this.getExpenses();
     this.getIncome();
@@ -37,8 +38,8 @@ export class HomeComponent {
   average: number = 0;
   initializeChart() {
     // Create the chart and pass chartOptions
-    this.chart = new CanvasJS.Chart("chartContainer", this.chartOptions);
-    this.chart.render(); // Render the chart
+    // this.chart = new CanvasJS.Chart("chartContainer", this.chartOptions);
+    // this.chart.render(); // Render the chart
   }
   getExpenses() {
     const id = localStorage.getItem("userId");
@@ -52,7 +53,7 @@ export class HomeComponent {
   }
   allExpense: any = [];
   allIncome: any = [];
-  allExpenseTotel: number = 100;
+  allExpenseTotel: number = 0;
   allIncomeTotel: number = 0;
   allBalence: number = 0;
   trackedExpenses: any = [];
@@ -65,13 +66,28 @@ export class HomeComponent {
     });
   }
 
-  convertDateFormat(dateStr: any) {
-    const inputDate = new Date(dateStr);
-    const day = inputDate.getUTCDate();
-    const month = inputDate.getUTCMonth() + 1;
-    const year = inputDate.getUTCFullYear();
-
-    return `${year}, ${month}, ${day}`;
+  
+convertDateFormat(dateStr: any) {
+    const date = new Date(dateStr);
+  
+    const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  
+    const dayOfWeek = weekdays[date.getDay()];
+    const month = months[date.getMonth()];
+    const day = date.getDate();
+    const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+  
+    // Get the time zone offset in hours and minutes
+    const timeZoneOffset = date.getTimezoneOffset();
+    const timeZoneOffsetHours = Math.floor(Math.abs(timeZoneOffset) / 60).toString().padStart(2, '0');
+    const timeZoneOffsetMinutes = (Math.abs(timeZoneOffset) % 60).toString().padStart(2, '0');
+    const timeZoneSign = timeZoneOffset >= 0 ? '-' : '+';
+  
+    return `${dayOfWeek} ${month} ${day} ${year} ${hours}:${minutes}:${seconds} GMT${timeZoneSign}${timeZoneOffsetHours}${timeZoneOffsetMinutes}`;
   }
   calculateExpense() {
     const MonthExpenseCopy = JSON.parse(JSON.stringify(this.expense));
@@ -114,7 +130,7 @@ export class HomeComponent {
       value.y = value.amount;
     }
     for (const value of this.trackedExpenses) {
-      this.newTrckedArray.push({ x: new Date(value.day), y: value.amount });
+      this.newTrckedArray.push({ x: value.day, y: value.amount });
     }
 
     // Update dataPoints arrays
@@ -136,16 +152,18 @@ export class HomeComponent {
     console.log(
       "this.trackedExpenses",
 
-      this.newTrckedArray
+
+      this.trackedExpenses,"this.NewtrackedExpenses",this.newTrckedArray
     );
+    // this.render()
   }
 
   tackExpenseTotel(data: any) {
-    console.log(data);
-    this.categoriesService.postForLineGraph(data).subscribe((data) => {
-      alert("added successfully");
-      // this.charting()
-    });
+    // console.log(data);
+    // this.categoriesService.postForLineGraph(data).subscribe((data) => {
+    //   alert("added successfully");
+    //   // this.charting()
+    // });
   }
 
   getIncome() {
@@ -180,54 +198,90 @@ export class HomeComponent {
       return 0;
     }
   }
-
   mydata = [
-    { x: new Date(2023, 7, 14), y: 4632 },
-    { x: new Date(2023, 7, 15), y: 4632 },
-    { x: new Date(2023, 7, 16), y: 4632 },
-    { x: new Date(2023, 7, 17), y: 4632 },
-    { x: new Date(2023, 7, 18), y: 4632 },
+    { x: "2023-08-13T15:53:47.018Z", y: 4632 },
+    { x: "2023-08-14T15:53:47.018Z", y: 4732 },
+    { x: "2023-08-15T15:53:47.018Z", y: 5632 },
+    { x: "2023-08-13T15:53:47.018Z", y: 6632 },
+    { x: "2023-08-13T15:53:47.018Z", y: 7632 },
   ];
-
+  
   chart: any;
-  chartOptions = {
-    theme: "light2",
-    animationEnabled: true,
-    zoomEnabled: true,
-    title: {
-      text: "Market Capitalization of ACME Corp",
-    },
-    axisY: {
-      labelFormatter: (e: any) => {
-        return e.value.toFixed(0);
-      },
-    },
-    data: [
-      {
-        type: "line",
-        name: "Series 1",
-        xValueFormatString: "ddd MMM DD YYYY", // Match the format of your date strings
-        yValueFormatString: "#,###.##",
-        dataPoints: this.newTrckedArray,
-      },
-      {
-        type: "line",
-        name: "Series 2",
-        xValueFormatString: "DD",
-        lineColor: "red",
-        yValueFormatString: "#,###.##",
-        dataPoints:this.newTrckedArray
-        // dataPoints: [
-        //   { x: new Date(2023, 7, 13), y: 500 },
-        //   { x: new Date(2023, 7, 14), y: 1500 },
-        //   { x: new Date(2023, 7, 15), y: 2800 },
-        //   { x: new Date(2023, 7, 16), y: 420 },
-        //   { x: new Date(2023, 7, 17), y: 600 },
-        //   { x: new Date(2023, 7, 18), y: 1100 },
-        //   { x: new Date(2023, 7, 19), y: 2300 },
-        //   { x: new Date(2023, 7, 20), y: 6400 },
-        // ]
-      },
-    ],
-  };
+  chartOptions: any;
+  
+  change() {
+    const sd = new Date(2023, 7, 14);
+    console.log("sddddddddddddddd", sd);
+  }
+  
+  // render() {
+   
+  //     this.chartOptions = {
+  //       animationEnabled: true,
+  //       theme: "light2",
+  //       title: {
+  //         text: "Monthly Expenses"
+  //       },
+  //       axisX: {
+  //         valueFormatString: "DD MMM",
+  //         intervalType: "day",
+  //         interval: 1
+  //       },
+  //       axisY: {
+  //         title: "Expense (INR)"
+  //       },
+  //       toolTip: {
+  //         shared: true
+  //       },
+  //       legend: {
+  //         cursor: "pointer",
+  //         itemclick: (e: any) => {
+  //           if (typeof e.dataSeries.visible === "undefined" || e.dataSeries.visible) {
+  //             e.dataSeries.visible = false;
+  //           } else {
+  //             e.dataSeries.visible = true;
+  //           }
+  //           e.chart.render();
+  //         }
+  //       },
+  //       data: [
+  //         {
+  //           type: "line",
+  //           name: "Expenses",
+  //           showInLegend: true,
+  //           yValueFormatString: "₹#,###",
+  //           dataPoints: this.trackedExpenses.map((expense: any) => ({
+  //             x: new Date(expense.day),
+  //             y: expense.amount
+  //           }))
+  //         }
+  //       ]
+  //     };
+  //   }
+    
+  
+  
+		// {
+		// 	type: "line",
+		// 	name: "Maximum",
+		// 	showInLegend: true,
+		// 	yValueFormatString: "#,###°F",
+		// 	dataPoints: [
+		// 		{ x: new Date(2021, 0, 1), y: 40 },
+		// 		{ x: new Date(2021, 1, 1), y: 42 },
+		// 		{ x: new Date(2021, 2, 1), y: 50 },
+		// 		{ x: new Date(2021, 3, 1), y: 62 },
+		// 		{ x: new Date(2021, 4, 1), y: 72 },
+		// 		{ x: new Date(2021, 5, 1), y: 80 },
+		// 		{ x: new Date(2021, 6, 1), y: 85 },
+		// 		{ x: new Date(2021, 7, 1), y: 84 },
+		// 		{ x: new Date(2021, 8, 1), y: 76 },
+		// 		{ x: new Date(2021, 9, 1), y: 64 },
+		// 		{ x: new Date(2021, 10, 1), y: 54 },
+		// 		{ x: new Date(2021, 11, 1), y: 44 }
+		// 	]
+		// }
+  
+    
+ 
 }

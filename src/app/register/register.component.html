@@ -1,11 +1,13 @@
 <div class="lg">
-<form [formGroup]="registerFormGroupe">
+  <form
+    [formGroup]="registerFormGroupe"
+  >
     <label>User Name</label>
-    <input placeholder="User Name" formControlName="name">
+    <input placeholder="User Name" formControlName="name" />
     <label class="sd">Password</label>
-    <input class="ps" placeholder="Password"  formControlName="password">
-</form>
-<button (click)="register()" >Register</button>
-
-
+    <input class="ps" placeholder="Password" formControlName="password"  />
+    <label class="sds">Profile Image</label>
+    <input class="vc" type="file"  (change)="selectImage($event)"/>
+    <button type="submit" (click)="upload()">Register</button>
+  </form>
 </div>

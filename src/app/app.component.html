@@ -6,11 +6,32 @@
       <span class="ct" routerLink="categories">Categories</span>
       <span class="mn" routerLink="monitor">Monitor</span>
       <span class="mn" routerLink="about">About</span>
-      <span class="mn" routerLink="monitor" (click)="logout()" style="color: brown;">Logout</span>
-      <span class="mn mn2" routerLink="monitor" >{{month}}</span>
-      <span style="background-color: rgb(158, 154, 154);color: white;" class="mn mn2" routerLink="monitor" >{{date}}</span>
+      <span
+        class="mn"
+        routerLink="monitor"
+        (click)="logout()"
+        style="color: brown"
+        >Logout</span
+      >
+      <span class="mn mn2" routerLink="monitor">{{ month }}</span>
+      <span
+        style="background-color: rgb(158, 154, 154); color: white"
+        class="mn mn2"
+        routerLink="monitor"
+        >{{ date }}</span
+      >
     </div>
     <button class="rpButton" routerLink="monitor">See Yearly Reports</button>
+    <div class="dvi" (click)="openProfile()" *ngFor="let d of users">
+      <img class="myImage" src="{{ d.imageUrl }}" />
+      <p class="myName">{{ d.name }}</p>
+    </div>
   </header>
+  <div class="profile" *ngIf="profileOpen">
+    <img class="myImage2" *ngFor="let d of users" src="{{ d.imageUrl }}" />
+    <p *ngFor="let d of users">{{ d.name }}</p>
+    <input class="mi" type="file" (change)="onselect($event)">
+    <button class="mb" (click)="upload()">Update</button>
+  </div>
   <div class="main"><router-outlet></router-outlet></div>
 </section>

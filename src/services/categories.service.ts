@@ -56,27 +56,40 @@ export class CategoriesService {
       userId: id,
     });
   }
+  getUsers() {
+    return this.http.get("http://localhost:5000/users", {});
+  }
   getLogin(data: any) {
     return this.http.post("http://localhost:5000/login", {
       name: data.name,
       password: data.password,
     });
   }
-  registerUser(data: any) {
-    return this.http.post("http://localhost:5000/register", {
-      name: data.name,
-      password: data.password,
+
+  uploadfile(formData: FormData) {
+    formData.forEach((value, key) => {
+      console.log(key, value);
     });
+    console.log("form", formData);
+    return this.http.post("http://localhost:5000/images", formData);
+  }
+
+  editUploadedFile(formData: FormData) {
+    formData.forEach((value, key) => {
+      console.log(key, value);
+    });
+    console.log("form", formData);
+    return this.http.put("http://localhost:5000/images", formData);
   }
   postForLineGraph(data: any) {
     const id = localStorage.getItem("userId");
     return this.http.post("http://localhost:5000/lineGraph", {
       amount: data.amount,
       userId: id,
-      day:data.day
+      day: data.day,
     });
   }
-  getFromLineGraph(){
+  getFromLineGraph() {
     return this.http.get("http://localhost:5000/lineGraph", {});
   }
 }

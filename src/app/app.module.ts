@@ -18,6 +18,7 @@ import { RegisterComponent } from './register/register.component';
 import { AboutComponent } from './about/about.component';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 
+  
 @NgModule({
   declarations: [
     AppComponent,

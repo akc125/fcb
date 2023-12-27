@@ -34,6 +34,7 @@ export class ExpenseComponent {
     name: new FormControl(),
     date: new FormControl(),
     catId: new FormControl(this.id),
+    times:new FormControl(new Date())
   });
   dateFilterGroup = new FormGroup({
     lastDate: new FormControl(),
@@ -57,7 +58,6 @@ export class ExpenseComponent {
       ...this.expenseFormGroup.value,
       name: this.expense.name,
     };
-    console.log("valll", formData);
     this.categoriesServices.addExpense(formData).subscribe((data: any) => {
       this.getExpenses();
     });
@@ -119,7 +119,7 @@ export class ExpenseComponent {
     } else {
       this.mapedData = this.expenses;
     }
-    console.log("mapedData", this.compleateCategoryExpense);
+    this.mapedData.reverse()
   }
 
   navigateToDetailsPage(id: any) {

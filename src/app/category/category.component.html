@@ -1,5 +1,6 @@
 <div class="categories">
   <div class="categoriesAdd">
+   
     <img
       class="catImg"
       src="https://st2.depositphotos.com/1000423/7931/i/950/depositphotos_79316698-stock-photo-business-background.jpg"
@@ -16,8 +17,10 @@
         class="food"
         *ngFor="let cg of categories"
         (click)="onSelected(cg.id)"
-      ><div class="nmDiv">      <p>{{ cg.name }}</p></div>
-  
+      >
+        <div class="nmDiv">
+          <p>{{ cg.name }}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -28,8 +31,15 @@
     />
     <h1 class="incomeText">Add Income</h1>
     <form [formGroup]="incomeFormGroup">
-      <input class="incomeInput1" type="number" required formControlName="amount" placeholder="Income"/>
-      <input class="incomeInput2"
+      <input
+        class="incomeInput1"
+        type="number"
+        required
+        formControlName="amount"
+        placeholder="Income"
+      />
+      <input
+        class="incomeInput2"
         type="date"
         required
         formControlName="date"
@@ -39,17 +49,17 @@
     <button class="inButton" (click)="addIncome()">Add</button>
   </section>
   <main class="incomeDetails">
-<table >
-  <tr >
-    <th>No</th>
-    <th>Amount</th>
-    <th>Date</th>
-  </tr><tr *ngFor="let inc of incomes;let i=index" >
-    <td>{{i+1}}</td>
-    <td>{{inc.amount}}</td>
-    <td>{{ inc.day | date: 'dd/ MM/ yyyy' }}</td>
-  </tr>
-</table>
+    <table>
+      <tr>
+        <th>No</th>
+        <th>Amount</th>
+        <th>Date</th>
+      </tr>
+      <tr *ngFor="let inc of incomes; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ inc.amount }}</td>
+        <td>{{ inc.day | date : "dd/ MM/ yyyy" }}</td>
+      </tr>
+    </table>
   </main>
 </div>
- 

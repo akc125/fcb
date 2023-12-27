@@ -40,30 +40,113 @@ section::-webkit-scrollbar {
   position: relative;
   left: 90px;
 }
+.hm{
+  border-top: 1px solid rgb(101, 24, 24);
+  border-right: 1px solid rgb(111, 27, 27);
+  border-left: 1px solid rgb(108, 25, 25);
+  height: 20px;
+  background-color: white;
+  border-radius: 2px;
+  /* box-shadow: 2px 2px 5px black; */
+
+}
+.ct{
+  border-top: 1px solid rgb(101, 24, 24);
+  border-right: 1px solid rgb(111, 27, 27);
+  border-left: 1px solid rgb(108, 25, 25);
+  height: 20px;
+  background-color: white;
+  border-radius: 2px;
+  color: rgb(176, 23, 102);
+}
+.mn{
+  border-top: 1px solid rgb(101, 24, 24);
+  border-right: 1px solid rgb(111, 27, 27);
+  border-left: 1px solid rgb(108, 25, 25);
+  height: 20px;
+  background-color: white;
+  border-radius: 2px;
+  color: rgb(176, 23, 102);
+  /* box-shadow: 2px 2px 5px black; */
+}
+.mns{
+  border-top: 1px solid rgb(101, 24, 24);
+  border-right: 1px solid rgb(111, 27, 27);
+  border-left: 1px solid rgb(108, 25, 25);
+  height: 20px;
+  background-color: white;
+  color: rgb(176, 23, 102);
+  border-radius: 2px;
+  /* box-shadow: 2px 2px 5px black; */
+}
+.mnss{
+  border-top: 1px solid rgb(101, 24, 24);
+  border-right: 1px solid rgb(111, 27, 27);
+  border-left: 1px solid rgb(108, 25, 25);
+  height: 20px;
+  background-color: white;
+  border-radius: 2px;
+  color: rgb(176, 23, 102);
+  /* box-shadow: 2px 2px 5px black; */
+}
+.iuh{
+  border-top: 1px solid rgb(101, 24, 24);
+  border-right: 1px solid rgb(111, 27, 27);
+  border-left: 1px solid rgb(108, 25, 25);
+  color: rgb(176, 23, 102);
+  height: 20px;
+  background-color: white;
+  border-radius: 2px;
+  /* box-shadow: 2px 2px 5px black; */
+}
+.iuhs{
+  border-top: 1px solid rgb(101, 24, 24);
+  border-right: 1px solid rgb(111, 27, 27);
+  border-left: 1px solid rgb(108, 25, 25);
+  color: rgb(176, 23, 102);
+  height: 20px;
+  background-color: white;
+  border-radius: 2px;
+  /* box-shadow: 2px 2px 5px black; */
+}
+.iuhss{
+  border-top: 1px solid rgb(101, 24, 24);
+  border-right: 1px solid rgb(111, 27, 27);
+  border-left: 1px solid rgb(108, 25, 25);
+  color: rgb(176, 23, 102);
+  height: 20px;
+  background-color: white;
+  border-radius: 2px;
+  /* box-shadow: 2px 2px 5px black; */
+}
+
 .hm:active {
-  color: rgb(211, 224, 224);
+  color: rgb(106, 112, 112);
 }
 .ct:active {
-  color: rgb(211, 224, 224);
+  color: rgb(84, 88, 88);
 }
 .mn:active {
-  color: rgb(211, 224, 224);
+  color: rgb(113, 120, 120);
 }
 .nav {
   position: relative;
-  width: 700px;
+  width: 720px;
   color: rgb(0, 0, 0);
-  height: 40px;
+  height: 30px;
   font-weight: 500;
   text-align: center;
   padding-top: 10px;
   top: -50px;
   background-color: rgb(255, 255, 255);
   font-size: 18px;
-  left: 240px;
+  left: 220px;
   display: flex;
   justify-content: space-evenly;
+  font-size: 14px;
+border-bottom: 1px solid black;
 }
+
 .mn2 {
   position: relative;
   left: 70px;
@@ -75,7 +158,7 @@ section::-webkit-scrollbar {
   height: fit-content;
   width: fit-content;
 }
-.dvi{
+.dvi {
   border-radius: 50%;
   position: relative;
   height: 45px;
@@ -85,59 +168,133 @@ section::-webkit-scrollbar {
   padding: 5px;
   box-shadow: 2px 2px 5px rgb(223, 219, 219);
 }
-.myImage{
+.myImage {
   position: relative;
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
 }
-.myName{
+.myName {
   position: relative;
   font-size: 13px;
   left: 10px;
 }
-.profile{
-  width: 350px;
-  height: 280px;
-  background-color: rgb(254, 254, 254);
+.profilePop {
+  width: 100%;
+  height: 100%;
+  background-color: rgb(27, 27, 28, 0.4);
   position: absolute;
   z-index: 1000000;
-  top: 58px;
-  left: 69%;
   box-shadow: 3px 3px 10px rgb(0, 0, 0);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.myImage2{
-width: 150px;
-height: 150px;
-position: relative;
+.profile {
+  width: 550px;
+  height: 280px;
+  background-color: rgb(243, 243, 251);
+  position: absolute;
+  z-index: 1000000;
+  box-shadow: 3px 3px 10px rgb(0, 0, 0);
+  border-radius: 10px;
+  color: rgb(0, 0, 0);
+}
+.myImage2 {
+  width: 150px;
+  height: 150px;
+  position: relative;
 
-left: 110px;
-top: 20px;
-border: 10px solid rgb(255, 255, 255);
-object-fit: cover;
-box-shadow: 2px 2px 5px rgb(149, 146, 146);
+  left: 110px;
+  top: 20px;
+  border: 10px solid rgb(255, 255, 255);
+  object-fit: cover;
+  box-shadow: 2px 2px 5px rgb(149, 146, 146);
 }
-.profile p{
+.profile p {
   position: relative;
   left: 120px;
   top: 20px;
   font-size: 30px;
-
 }
-.mi{
+.mi {
   position: relative;
   top: 20px;
   left: 50px;
   background-color: rgb(246, 239, 239);
+  object-fit: cover;
 }
-.mb{
+.mb {
   position: relative;
   left: 100px;
-  top: 30px;
+  top: 20px;
   width: 150px;
   height: 30px;
   background-color: rgb(35, 79, 102);
   border: none;
   color: aliceblue;
+}
+.xe {
+  position: relative;
+  top: 10px;
+  color: rgb(16, 16, 16);
+  left: 200px;
+}
+.ic {
+  position: absolute;
+  top: 20px;
+  left: 1040px;
+  /* color: red; */
+}
+.ntf {
+  position: absolute;
+  top: 13px;
+  left: 1054px;
+  color: rgb(255, 255, 255);
+  font-size: 15px;
+  background-color: rgb(255, 81, 0);
+  border-radius: 50%;
+  padding-left: 5px;
+  padding-right: 5px;
+  box-shadow: 2px 2px 5px rgb(134, 131, 131);
+}
+.ntl {
+  position: absolute;
+  width: 400px;
+  min-height: 50px;
+  max-height: 460px;
+  padding: 20px;
+  border-radius: 10px;
+  top: 42px;
+  left: 672px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 2px 2px 5px rgb(116, 114, 114);
+  overflow: scroll;
+  padding-bottom: 20px;
+}
+.pfimg{
+  width: 70px;
+  height: 70px;
+  top: -1px;
+  left: 25px;
+}
+.ntl::-webkit-scrollbar {
+  display: none;
+}
+.toggleButton {
+  color: rgb(185, 19, 19);
+}
+.nn2 {
+  color: rgb(248, 0, 112);
+}
+.ntt td {
+  width: 100px;
+  height: 30px;
+  background-color: antiquewhite;
+  text-align: center;
+}
+.ntt{
+  margin-left: 30px;
 }

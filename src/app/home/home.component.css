@@ -126,6 +126,27 @@ footer {
   border: 15px solid white;
   animation: expand 1.5s;
 }
+.hr{
+  color: black;
+  font-size: 22px;
+  margin-bottom: 5px;
+}
+.ig{
+  width: 900px;
+  height: 100px;
+  display: flex;
+  margin-top: -15px;
+  justify-content: space-evenly;
+  margin-bottom: 8px;
+  color: black;
+}
+.scv{
+  width: 250px;
+  height: 100px;
+  background-color: rgb(187, 187, 200);
+  padding: 10px;
+}
+
 .firstHalf {
   background-color: rgba(174, 233, 235, 0.7);
 }

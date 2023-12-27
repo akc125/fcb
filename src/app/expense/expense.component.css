@@ -61,9 +61,10 @@
 .filterSection{
   width: 1014px;
   height: 70px;
-  border: 2px solid rgb(0, 0, 0);
   display: flex;
   justify-content: space-evenly;
+  background-color: rgb(243, 237, 228);
+ box-shadow: 2px 2px 5px black;
 }
 .filterSection label{
   color: black;
@@ -84,6 +85,8 @@
   top: 40px;
   left: -130px;
 }
+
+
 .dt {
   position: relative;
   font-size: 18px;
@@ -152,7 +155,7 @@ section table th {
 .sc {
   padding-left: 150px;
   padding-top: 10px;
-  background-color: rgb(215, 211, 201);
+background-color: rgb(41, 86, 101);
   min-height: 400px;
   padding-bottom: 50px;
   max-height: fit-content;
@@ -161,5 +164,11 @@ section table td {
   color: black;
   box-shadow: 2px 2px 5px black;
   height: 50px;
-  background-color: white;
+
+}
+section table tr:nth-child(odd) {
+  background-color: rgb(236, 236, 233);
+}
+section table tr:nth-child(even) {
+  background-color: rgb(182, 182, 182);
 }

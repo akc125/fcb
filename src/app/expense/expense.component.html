@@ -41,7 +41,7 @@
           Cancel
         </button>
       </section>
-      <table>
+      <table class="atb">
         <tr>
           <th>SI</th>
           <th>Date</th>
@@ -49,7 +49,7 @@
         </tr>
         <tr *ngFor="let fin of mapedData; let i = index">
           <td (click)="navigateToDetailsPage(fin.id)">{{ i + 1 }}</td>
-          <td (click)="navigateToDetailsPage(fin.id)">{{ fin.day }}</td>
+          <td (click)="navigateToDetailsPage(fin.id)">{{ fin.day|date :'dd-MM-yyyy' }}</td>
           <td (click)="navigateToDetailsPage(fin.id)">₹{{ fin.expense }}</td>
         </tr>
         <tr>

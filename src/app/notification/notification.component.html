@@ -1,0 +1,165 @@
+<section class="secw">
+  <header class="hds">
+    <h1 class="hdn">Notified categories</h1>
+  </header>
+  <header class="chd">
+    <h1 class="ctgss">Categories</h1>
+    <button class="adcb" (click)="openPopup()">Add Category</button>
+  </header>
+  <section class="catg" style="overflow: scroll; display: inline-flex">
+    <div class="ntb" *ngIf="!open">
+      <div class="cntrdv">
+        <mat-icon class="ic" (click)="closePopup()">highlight_off</mat-icon>
+        <div class="slctdimg" *ngIf="file">
+          <img class="oil" [src]="file ? file : ''" alt="image" />
+        </div>
+        <h1>Add Category</h1>
+        <form [formGroup]="categoryForm">
+          <input formControlName="name" placeholder="Name" /><br />
+          <input
+            formControlName="type"
+            style="
+              width: 50px;
+              height: 16px;
+              margin: 5px;
+              border: 2px solid rgb(72, 16, 65);
+              left: -54px;
+            "
+            type="radio"
+            name="type"
+            value="expensiveType"
+            class="nr"
+          /><label>Expensive</label><br />
+          <input
+            formControlName="type"
+            style="
+              width: 50px;
+              height: 16px;
+              margin: 5px;
+              border: 2px solid rgb(72, 16, 65);
+            "
+            type="radio"
+            name="type"
+            value="actionType"
+            class="nr"
+          /><label>Action only</label><br />
+          <br />
+          <input
+            formControlName="type"
+            style="
+              width: 50px;
+              height: 16px;
+              margin: 0px;
+              border: 2px solid rgb(72, 16, 65);
+              position: relative;
+              left: -63px;
+              top: -10px;
+            "
+            type="radio"
+            name="type"
+            value="regularType"
+            class="nr"
+          /><label style=" position: relative;
+          left: -62px;
+          top: -12px;">Regular</label><br />
+          <input
+            formControlName="duration"
+            placeholder="How many Days Duration"
+          /><br />
+          <input
+            style="position: relative; top: 10px; margin-bottom: 5px"
+            type="file"
+            (change)="handleFile($event)"
+            placeholder="How many Days Duration"
+          /><br />
+        </form>
+        <button (click)="addCategory()">submit</button>
+      </div>
+    </div>
+    <div
+      class="ctgry"
+      *ngFor="let ct of NotificationCategory"
+      (click)="navigateToAddPage(ct.id)"
+    >
+      <img class="imgt" src="{{ ct.image }}" />
+      <p class="nm">{{ ct.name }}</p>
+    </div>
+  </section>
+  <div class="notify">
+    <header class="lsthdr">
+      <h1 class="lsthd">Actions</h1>
+    </header>
+    <div class="acv">
+      <p>Items</p>
+      <p>Done</p>
+      <p>Existing Time</p>
+      <p>Warning</p>
+    </div>
+    <section class="sec3" *ngFor="let ctg of newActions">
+      <div class="insdctgry">
+        <img class="img2" src="{{ ctg.image }}" />
+        <h1 class="nm2">{{ ctg.name }}</h1>
+        <p class="rchgamnt" *ngIf="ctg.expense !== 'null'">{{ ctg.expense }}</p>
+        <p
+          class="rchgamnt"
+          *ngIf="ctg.expense == 'null'"
+          style="color: rgb(52, 52, 119)"
+        >
+          Action
+        </p>
+        <p class="dts">{{ ctg.day | date : "dd-MM-yy" }}</p>
+      </div>
+      <main class="dntm">
+        <h1 *ngIf="ctg.timeDefference > 1">
+          {{ ctg.timeDefference }} days ago
+        </h1>
+        <h1 *ngIf="ctg.timeDefference == 1">
+          {{ ctg.timeDefference }} day ago
+        </h1>
+        <h1 *ngIf="ctg.timeDefference == 0">Today</h1>
+      </main>
+
+      <main class="dntm2">
+        <h1 *ngIf="ctg.existingTime == 0">last day</h1>
+        <h1 *ngIf="ctg.existingTime < 0" style="color: red">{{ctg.existingTime }}  gone</h1>
+        <h1 *ngIf="ctg.existingTime > 1">{{ ctg.existingTime }} days</h1>
+        <h1 *ngIf="ctg.existingTime == 1">{{ ctg.existingTime }} day</h1>
+        <p style="font-size: 16px" *ngIf="ctg.existingTime >= 0">
+          next date {{ ctg.nextDate }}
+        </p>
+        <p style="font-size: 16px" *ngIf="ctg.existingTime < 0">
+          last date was {{ ctg.nextDate }}
+        </p>
+      </main>
+
+      <main class="dntm3">
+        <mat-icon
+          class="alrt"
+          [ngClass]="ctg.timeDefference >= ctg.redLine ? 'alrt' : 'alrt2'"
+          *ngIf="ctg.timeDefference >= ctg.orengeLine"
+          >report_problem</mat-icon
+        >
+        <h1
+          *ngIf="ctg.timeDefference >= ctg.orengeLine && ctg.existingTime >= 0"
+          class="wng"
+          [ngClass]="ctg.timeDefference >= ctg.redLine ? 'wng' : 'wng2'"
+        >
+          Your duration period is expiring
+        </h1>
+        <h1
+          *ngIf="ctg.existingTime < 0"
+          class="wng"
+          [ngClass]="ctg.timeDefference >= ctg.redLine ? 'wng' : 'wng2'"
+        >
+          Your duration period is expired
+        </h1>
+        <i
+          style="color: green; font-size: 25px; margin-left: 35px"
+          *ngIf="ctg.timeDefference < ctg.orengeLine"
+        >
+          no any warning for you
+        </i>
+      </main>
+    </section>
+  </div>
+</section>

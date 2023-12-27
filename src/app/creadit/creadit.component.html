@@ -1,0 +1,318 @@
+<section class="sec">
+  <header class="hd">
+    <h1 class="db">CREDIT</h1>
+    <button class="adb" (click)="openForm()">+Add</button>
+    <button class="adb3" (click)="openDeactiveFile()">Deactive</button>
+  </header>
+  <div class="dal" *ngIf="openRecord">
+    <button class="adb2" (click)="closeDeactiveFile()">close</button>
+    <h1 style="font-size: 50px; position: relative; top: 10px; left: 150px">
+      DEACTIVATED CREDITS
+    </h1>
+    <div
+      class="cn2"
+      style="color: white"
+      *ngFor="let val of credits"
+      [ngClass]="{ hdr: val.active !== 'true' }"
+    >
+      <div>
+        <div class="imgd2">
+          <img *ngIf="val.imageUrl" class="im" src="{{ val.imageUrl }}" />
+        </div>
+        <table style="width: 400px">
+          <tr>
+            <td>Name :</td>
+            <td style="font-size: 28px">{{ val.name }}</td>
+          </tr>
+          <tr>
+            <td>Amount :</td>
+            <td>₹{{ val.amount }}</td>
+          </tr>
+          <tr>
+            <td>Date :</td>
+            <td>{{ val.day | date : "dd/MM/yyyy" }}</td>
+          </tr>
+          <tr>
+            <td>Duration :</td>
+            <td>{{ val.duration }}</td>
+          </tr>
+          <tr>
+            <td>Status :</td>
+            <td *ngIf="val.existing! >= 1" class="st">
+              {{ val.status }}
+            </td>
+            <td *ngIf="val.existing <= 0" class="st">
+              The Amount has paid<br />
+              on
+              {{ val.finishedDate.day | date : "dd-MM-yyyy" }}
+            </td>
+          </tr>
+          <tr>
+            <td>Contact :</td>
+            <td>{{ val.contact }}</td>
+          </tr>
+          <tr>
+            <td>Address :</td>
+            <td>{{ val.address }}</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <p
+          style="color: brown; font-size: 18px; margin: 10px; margin-left: -1px"
+        >
+          Transactions
+        </p>
+        <table class="ib" style="width: 650px">
+          <tr>
+            <th>SI</th>
+            <th>Returned Amount</th>
+            <th>Date</th>
+          </tr>
+          <tr *ngFor="let v of val.transaction">
+            <td>{{ v.index + 1 }}</td>
+            <td>₹{{ v.amount }}</td>
+            <td>{{ v.day | date : "dd-MM-yyyy" }}</td>
+          </tr>
+          <tr>
+            <td>Total</td>
+            <td>₹{{ val.total }}</td>
+            <td></td>
+          </tr>
+          <tr *ngIf="val.existing < 0">
+            <td>Over paid amount</td>
+            <td>₹{{ val.overPaid }}</td>
+          </tr>
+          <tr *ngIf="val.existing >= 0">
+            <td>Existing</td>
+            <td>₹{{ val.existing }}</td>
+          </tr>
+          <tr>
+            <td>Current Income</td>
+            <td>₹{{ val.currentIncome }}</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Income + Credit</td>
+            <td>₹{{ val.income }}</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Expense</td>
+            <td>₹{{ val.expense }}</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Current Balance</td>
+            <td>₹{{ val.crrentBalance }}</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Balance with credit</td>
+            <td>₹{{ val.balance }}</td>
+            <td></td>
+          </tr>
+        </table>
+        <button
+          class="da"
+          style="background-color: rgb(9, 121, 76)"
+          (click)="activeFile(val.id)"
+        >
+          Active
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="fm" *ngIf="open">
+    <div class="r">
+      <button class="cls" (click)="closeForm()">close</button>
+      <form [formGroup]="creditForm">
+        <div class="imgc">
+          <img *ngIf="file" class="im" [src]="file ? file : ''" />
+        </div>
+        <input type="file" id="df" (change)="onSelect($event)" /><br />
+        <label>Name</label><input class="fmu" formControlName="name" /><br />
+        <label>Amount</label><input class="fmu" formControlName="amount" />
+      </form>
+    </div>
+    <form [formGroup]="creditForm">
+      <div class="r" style="padding-top: 200px">
+        <label>Date</label
+        ><input type="date" class="fmu" formControlName="date" /><br />
+        <label>Duration</label
+        ><input class="fmu" formControlName="duration" /><br />
+        <label>Status</label><input class="fmu" formControlName="status" />
+      </div>
+    </form>
+    <form [formGroup]="creditForm">
+      <div class="r" style="padding-top: 200px">
+        <label>Contact</label
+        ><input class="fmu" formControlName="contact" /><br />
+        <label>Address</label
+        ><input class="fmu" formControlName="address" /><br />
+
+        <button id="apply" (click)="saveCredit()" (click)="closeForm()">
+          Apply
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="in">
+    <div
+      class="cn"
+      *ngFor="let val of credits"
+      [ngClass]="{ hdr: val.active == 'true' }"
+    >
+      <div class="imgd">
+        <img *ngIf="val.imageUrl" class="im" src="{{ val.imageUrl }}" />
+      </div>
+      <table>
+        <tr>
+          <td>Name :</td>
+          <td style="font-size: 28px">{{ val.name }}</td>
+        </tr>
+        <tr>
+          <td>Amount :</td>
+          <td>₹{{ val.amount }}</td>
+        </tr>
+        <tr>
+          <td>Date :</td>
+          <td>{{ val.day }}</td>
+        </tr>
+        <tr>
+          <td>Duration :</td>
+          <td>{{ val.duration }}</td>
+        </tr>
+        <tr>
+          <td>Status :</td>
+          <td class="st">
+            {{ val.status }}
+          </td>
+        </tr>
+        <tr>
+          <td>Contact :</td>
+          <td>{{ val.contact }}</td>
+        </tr>
+        <tr>
+          <td>Address :</td>
+          <td>{{ val.address }}</td>
+        </tr>
+      </table>
+      <p style="color: brown; font-size: 18px; margin: 10px; margin-left: -1px">
+        Transactions
+      </p>
+      <mat-icon class="ic" (click)="openTransactionForm(val.id)"
+        >create</mat-icon
+      >
+      <div class="tns" *ngIf="transactionPopup && formId == val.id">
+        <h1>Add Transaction</h1>
+        <mat-icon class="icn" (click)="closeTransactionForm()"
+          >remove_red_eye</mat-icon
+        >
+        <form [formGroup]="trnsactionForm">
+          <label>Returned Amount</label><input formControlName="amount" /><br />
+          <label>Date</label
+          ><input type="date" formControlName="date" value="" /><br />
+          <button
+            (click)="addTransaction(val.id)"
+            (click)="closeTransactionForm()"
+          >
+            Add
+          </button>
+        </form>
+      </div>
+      <table class="trtb">
+        <tr>
+          <th>SI</th>
+          <th>Returned Amount</th>
+          <th>Date</th>
+        </tr>
+        <tr *ngFor="let v of val.transaction">
+          <td>{{ v.index + 1 }}</td>
+          <td>₹{{ v.amount }}</td>
+          <td>{{ val.day | date : "dd-MM-yyyy" }}</td>
+        </tr>
+        <tr>
+          <td>Total</td>
+          <td>₹{{ val.total }}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Existing</td>
+          <td>₹{{ val.existing }}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Current Income</td>
+          <td>₹{{ val.currentIncome }}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Income + Credit</td>
+          <td>{{ val.income }}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Expense</td>
+          <td>₹{{ val.expense }}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Current Balance</td>
+          <td>₹{{ val.crrentBalance }}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Balance with credit</td>
+          <td>₹{{ val.balance }}</td>
+          <td></td>
+        </tr>
+      </table>
+      <button class="da" (click)="deActiveFile(val.id)">Deactive</button>
+    </div>
+  </div>
+  <footer class="ft">
+    <div class="hdc">
+      <h1>TOTAL {{ personsTogiveMony }} PERSONS TO GIVE MONY</h1>
+    </div>
+    <div class="bn">
+      <div class="lst">
+        <div>
+          <div
+            class="clnt"
+            *ngFor="let val of credits"
+            [ngStyle]="{ display: val.active == 'true' ? 'none' : 'flex' }"
+          >
+            <img alt="image" src="{{ val.imageUrl }}" />
+            <p>{{ val.name }}</p>
+            <p>{{ val.amount }}</p>
+          </div>
+        </div>
+        <div>
+          <span>Total</span>
+          <span>{{ totalCredit }}</span
+          ><br />
+          <span>Returend</span>
+          <span>{{ retunedTotal }}</span
+          ><br />
+          <span>Existing</span>
+          <span>{{ totalExsisting }}</span>
+        </div>
+      </div>
+      <div class="lst2">
+        <span>Current Income</span>
+        <span>{{ currentIncome }}</span
+        ><br />
+        <span>Income + Credit</span>
+        <span>{{ incomeWithCredit }}</span
+        ><br />
+        <span>Expense</span>
+        <span>{{ expense }}</span
+        ><br />
+        <span>Balance</span>
+        <span>{{ balance }}</span>
+      </div>
+    </div>
+  </footer>
+</section>

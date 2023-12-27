@@ -10,10 +10,12 @@
   width: 100%;
   height: 120px;
   background-color: rgb(197, 188, 188);
-  padding: 20px;
+  padding: 0px;
   padding-top: 20px;
   border-bottom: 5px solid rgb(138, 15, 15);
   box-shadow: 5px 5px 8px rgb(150, 143, 143);
+  background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-8nUEe9kXynec7livCogu2C4KUX6xGeRXnQ&usqp=CAU');
+
 }
 .sl {
   width: 350px;
@@ -25,6 +27,8 @@
   margin-top: 10px;
   padding: 5px;
   border-radius: 5px;
+  position: relative;
+  left: 50px;
 }
 .yrButton {
   width: 150px;
@@ -63,10 +67,11 @@
   margin-top: -19px;
   left: 500px;
 }
-.pe{
+.pe {
   position: relative;
-left:550px;
-  width: 250px;
+  left: 600px;
+  width: 500px;
+  top: 50px;
 }
 .sl2 {
   width: 350px;
@@ -82,16 +87,14 @@ left:550px;
   border-radius: 5px;
 }
 .report {
-  width: 80%;
-  min-height: 600px;
+  width: 100%;
+  min-height: 1700px;
   max-height: fit-content;
-  box-shadow: 5px 5px 8px rgb(86, 81, 81);
-  position: absolute;
-  top: 220px;
-  left: 130px;
+  /* box-shadow: 5px 5px 8px rgb(86, 81, 81); */
+  position: relative;
   background-color: white;
+  margin-bottom:50px ;
 }
-
 
 .vDiv {
   padding-left: 25px;
@@ -160,12 +163,22 @@ th {
 /* year */
 
 .yrSec {
-  width: 80%;
-  min-height: 600px;
+  width: 100%;
+  min-height: 800px;
   max-height: fit-content;
-  box-shadow: 5px 5px 8px rgb(86, 81, 81);
-  position: absolute;
-  top: 220px;
-  left: 130px;
+  position: relative;
   background-color: white;
+}
+.pe2 {
+  position: relative;
+  left: 50px;
+  width: 550px;
+}
+.gt{
+  width: 100%;
+  min-height: 1500px;
+  height: fit-content;
+  position: relative;
+  top: 40px;
+  display: block;
 }

@@ -1,37 +1,137 @@
 <section>
   <header class="header">
-    <h1 class="fcb">FCB</h1>
+    <img
+      routerLink="home"
+      class="pfimg"
+      style="position: absolute"
+      src="https://img.freepik.com/free-vector/colorful-letter-gradient-logo-design_474888-2309.jpg"
+    />
+    <h1 class="fcb" routerLink="home">FCB</h1>
     <div class="nav" style="display: flex">
-      <span class="hm" routerLink="home">Home</span>
-      <span class="ct" routerLink="categories">Categories</span>
-      <span class="mn" routerLink="monitor">Monitor</span>
-      <span class="mn" routerLink="about">About</span>
       <span
-        class="mn"
+        [ngClass]="selcetion == 'home' ? 'hm' : 'hm2'"
+        routerLink="home"
+        (click)="select('home')"
+        >Home</span
+      >
+      <span
+        [ngClass]="selcetion == 'categories' ? 'ct' : 'ct2'"
+        routerLink="categories"
+        (click)="select('categories')"
+        >Categories</span
+      >
+      <span
+        [ngClass]="selcetion == 'monitor' ? 'mn' : 'mn22'"
         routerLink="monitor"
+        (click)="select('monitor')"
+        >Monitor</span
+      >
+      <span
+        [ngClass]="selcetion == 'about' ? 'mns' : 'mns2'"
+        routerLink="about"
+        (click)="select('about')"
+        >About</span
+      >
+      <span
+        [ngClass]="selcetion == 'notification' ? 'mnss' : 'mnss2'"
+        routerLink="notification"
+        (click)="select('notification')"
+        >Notification</span
+      >
+      <span
+        [ngClass]="selcetion == 'creadit' ? 'iuh' : 'iuh2'"
+        routerLink="creadit"
+        (click)="select('creadit')"
+        >Creadit</span
+      >
+      <span
+        [ngClass]="selcetion == 'debit' ? 'iuhs' : 'iuhs2'"
+        routerLink="debit"
+        (click)="select('debit')"
+        >Debit</span
+      >
+      <span
+        [ngClass]="selcetion == 'commission' ? 'iuhss' : 'iuhss2'"
+        routerLink="commission"
+        (click)="select('commission')"
+        >commission</span
+      >
+      <span
+        class="mna"
+        routerLink="monitor"
+        (click)="select('monitor')"
         (click)="logout()"
         style="color: brown"
         >Logout</span
       >
       <span class="mn mn2" routerLink="monitor">{{ month }}</span>
       <span
-        style="background-color: rgb(158, 154, 154); color: white"
+        style="background-color: rgb(158, 154, 154)"
         class="mn mn2"
         routerLink="monitor"
         >{{ date }}</span
       >
     </div>
+    <mat-icon
+      #toggleButton
+      class="ic toggleButton"
+      matBadge="15"
+      matBadgeColor="warn"
+      (click)="showNotification()"
+      >announcement</mat-icon
+    >
+    <div class="ntl menu" *ngIf="showNotifications" #menu>
+      <table *ngFor="let vl of expense" class="ntt">
+        <tr>
+          <label
+            *ngIf="vl.position == 'new'"
+            style="
+              background-color: rgb(107, 255, 32);
+              border-radius: 50%;
+              color: white;
+              width: 30px;
+              font-size: 10px;
+              padding: 5px;
+              margin-left: -35px;
+            "
+          >
+            New
+          </label>
+          <td>{{ vl.name }}</td>
+          <td>₹{{ vl.expense }}</td>
+          <td>{{ vl.day | date : "dd-MM-yyyy" }}</td>
+        </tr>
+      </table>
+    </div>
+    <p class="ntf" *ngIf="lastExpenses.length > 0 && !showNotifications">
+      {{ lastExpenses.length }}
+    </p>
     <button class="rpButton" routerLink="monitor">See Yearly Reports</button>
     <div class="dvi" (click)="openProfile()" *ngFor="let d of users">
       <img class="myImage" src="{{ d.imageUrl }}" />
       <p class="myName">{{ d.name }}</p>
     </div>
   </header>
-  <div class="profile" *ngIf="profileOpen">
-    <img class="myImage2" *ngFor="let d of users" src="{{ d.imageUrl }}" />
-    <p *ngFor="let d of users">{{ d.name }}</p>
-    <input class="mi" type="file" (change)="onselect($event)">
-    <button class="mb" (click)="upload()">Update</button>
-  </div>
+  <section class="profilePop" *ngIf="profileOpen">
+    <div class="profile">
+      <img class="myImage2" *ngFor="let d of users" src="{{ d.imageUrl }}" />
+      <p *ngFor="let d of users">{{ d.name }}</p>
+      <input class="mi" type="file" (change)="onselect($event)" />
+      <button class="mb" (click)="upload()">Update</button>
+      <p
+        class="xe"
+        style="
+          position: relative;
+          left: 500px;
+          top: -210px;
+          font-size: 16px;
+          cursor: pointer;
+        "
+        (click)="openProfile()"
+      >
+        close
+      </p>
+    </div>
+  </section>
   <div class="main"><router-outlet></router-outlet></div>
 </section>

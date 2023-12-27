@@ -1,0 +1,251 @@
+.fl{
+    width: 100vw;
+    height: 700px;
+}
+.hd{
+    width: 100vw;
+    height: 70px;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    justify-content: space-evenly;
+    padding-top: 18px;
+    color: rgb(0, 0, 0);
+}
+.hd h1{
+    font-size: 30px;
+}
+.hd p{
+    font-size: 20px;
+}
+.da{
+    width: 99%;
+    min-height: 100vh;
+    height:fit-content;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: 135px;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    justify-content: space-evenly;
+    border: 5px solid black;
+    border-radius: 20px;
+    margin: 5px;
+    margin-right: 30px;
+}
+.fm{
+    width: 300px;
+    height: 140px;
+    background-color: rgb(255, 255, 255);
+   position: relative;
+   top: -138px;
+   left: 100px;
+   padding: 10px;
+   border-radius: 10px;
+   box-shadow: 2px 2px 5px black;
+   color: black;
+   margin-bottom: -280px;
+   border: 5px solid rgb(50, 10, 42);
+}
+.rtnicn{
+    position: absolute;
+    left: 260px;
+    font-size: 14px;
+}
+.mi{
+    position: relative;
+    left: 80px;
+    top: -132px;
+    font-size: 15px;
+}
+.fm button{
+    background-color: rgb(50, 16, 36);
+    color: white;
+}
+.fm input{
+    width: 200px;
+    margin: 5px;
+}
+main{
+    width: 98%;
+    height: fit-content;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    justify-content: space-evenly;
+    border-radius: 20px;
+    border: 5px solid rgb(72, 24, 48);
+    margin-left: 10px;
+}
+.crd2{
+    width: 550px;
+    height: 300px;
+    background-color: rgb(39, 11, 33);
+    border-radius: 20px;
+    box-shadow: 2px 2px 5px black;
+    text-align: center;
+    padding-top: 10px;
+    overflow: scroll;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+.crd{
+    width: 550px;
+    height: 300px;
+    background-color: rgb(24, 24, 51);
+    border-radius: 20px;
+    box-shadow: 2px 2px 5px black;
+    text-align: center;
+    padding-top: 10px;
+    overflow: scroll;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+.crd button{
+    position: relative;
+    top: 80px;
+}
+.im{
+    position: relative;
+    width: 120px;
+    height: 120px;
+    background-color: rgb(0, 0, 0);
+    left: 400px;
+    border: 8px solid black;
+    box-shadow: 2px 2px 5px black;
+}
+.im img{
+    width: 100%;
+    height: 100%;
+}
+.crd::-webkit-scrollbar{
+    display: none;
+}
+.crd2::-webkit-scrollbar{
+    display: none;
+}
+.crd span{
+    margin: 30px;
+}
+.crd table{
+    width: 300px;
+    margin-left: 50px;
+    margin-top: -140px;
+}
+.crd2 table{
+    width: 300px;
+    margin-left: 90px;
+    margin-top: -120px;
+}
+.crd table th ,td{
+    height: 20px;
+background-color: black;
+}
+.crd button{
+    width: 140px;
+    height: 20px;
+    margin: 5px;
+    border-radius: 5px;
+    border: none;
+    margin-top: 10px;
+    background-color: rgb(8, 91, 103);
+    color: white;
+    border: 1px solid white;
+    position: static;
+}
+.act{
+    background-color: rgb(255, 255, 255);
+    height: 56px;
+    width: 300px;
+    padding: 10px;
+    border-top: 5px solid rgb(72, 24, 48);
+    border-left: 5px solid rgb(72, 24, 48);
+    border-right: 5px solid rgb(72, 24, 48);
+    border-radius: 10px 10px 0px 0px;
+
+}
+.dact{
+    background-color: rgb(255, 255, 255);
+    height: 56px;
+    width: 300px;
+    padding: 10px;
+    border-top: 5px solid rgb(72, 24, 48);
+    border-left: 5px solid rgb(72, 24, 48);
+    border-right: 5px solid rgb(72, 24, 48);
+    border-radius: 10px 10px 0px 0px;
+    z-index: 10;
+}
+.act2{
+    background-color: rgb(255, 255, 255);
+    height: 54px;
+    width: 300px;
+    padding: 10px;
+}
+.dact2{
+    background-color: rgb(255, 255, 255);
+    height: 52px;
+    width: 300px;
+    padding: 10px;
+}
+.amt{
+    width: 300px;
+    height: 70px;
+    background-color: azure;
+    padding: 15px;
+    border-radius: 20px;
+    border: 2px solid black;
+box-shadow: 2px 2px 5px black;
+}
+.mForm{
+    width: 800px;
+    height: 300px;
+    background-color: rgb(49, 16, 44);
+    position: absolute;
+    top: 165px;
+    left: 230px;
+    z-index: 100;
+padding: 10px;
+padding-left: 100px;
+border: 5px solid rgb(255, 255, 255);
+border-radius: 5px;
+}
+.clic{
+    position: absolute;
+    left: 750px;
+    font-size: 18px;
+}
+.mForm input :nth-child(2){
+    position: relative;
+    left: 140px;
+}
+.mForm button{
+    width: 150px;
+    height: 30px;
+    border: 1px solid rgb(255, 255, 255);
+    background-color: rgb(56, 17, 42);
+    color: white;
+}
+.mForm input{
+    width: 250px;
+    height: 30px;
+    margin: 5px;
+}
+.crd2 button{
+    width: 140px;
+    height: 20px;
+    margin: 5px;
+    border-radius: 5px;
+    border: none;
+    margin-top: 10px;
+    position: relative;
+    top: 80px;
+    background-color: rgb(76, 10, 10);
+    color: white;
+    border: 1px solid white;
+}
+.sdf{
+    position: relative;
+    top: -312px;
+    background-color: aquamarine;
+}

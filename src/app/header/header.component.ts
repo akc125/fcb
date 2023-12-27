@@ -3,11 +3,11 @@ import { Router } from "@angular/router";
 import { Component, Renderer2, ElementRef, ViewChild } from "@angular/core";
 
 @Component({
-  selector: "app-root",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.css"],
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css']
 })
-export class AppComponent {
+export class HeaderComponent {
   ngOnInit(): void {
     this.getTimes();
     this.getExpenses();
@@ -23,12 +23,6 @@ export class AppComponent {
       });
     }
   }
-  int = setInterval(() => {
-    this.getTimes();
-    this.getExpenses();
-    this.getUsers();
-    console.log("setint");
-  }, 1000);
   @ViewChild("toggleButton") toggleButton!: ElementRef;
   @ViewChild("menu") menu!: ElementRef;
 
@@ -137,21 +131,16 @@ export class AppComponent {
     if (this.userId !== null) {
       formData.append("id", this.userId);
       this.categoriesService.editUploadedFile(formData).subscribe(
-        (res) => {
+        (res:any) => {
           console.log("response", res);
           this.getUsers();
         },
-        (err) => {
+        (err:any) => {
           console.log("error", err);
         }
       );
     } else {
       console.log("User ID is null");
     }
-  }
-
-  selcetion: any;
-  select(value: any) {
-    this.selcetion = value;
   }
 }

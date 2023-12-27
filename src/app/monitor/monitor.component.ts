@@ -16,6 +16,7 @@ export class MonitorComponent {
     const currentDate = new Date();
     this.currentYear = currentDate.getFullYear();
     this.defualtDate = currentDate.toISOString().substring(5, 7);
+
   }
   constructor(private categoriesService: CategoriesService) {}
   selection: any;
@@ -30,7 +31,7 @@ export class MonitorComponent {
   totalIncomeJulay: number = 0;
   finalExpenseJulay: any = [];
   totalExpJulay: number = 0;
-  balenceJulay: number = 0;
+  balenceJulay: number = 10;
 
   yearlyExpense: any = [];
   yearlyExpenseFinal: any = [];
@@ -64,11 +65,12 @@ export class MonitorComponent {
     this.monthId = selected?.id;
     this.getExpense();
   }
-  selectedYear: any = "";
-  idOfMonth: any = "";
+  selectedYear: any = 2023;
+  idOfMonth: any = '09';
   passId() {
     this.selectedYear = this.selection;
     this.idOfMonth = this.monthId;
+    console.log(' this.selectedYear', this.selectedYear,this.idOfMonth,this.finalExpenseJulay)
   }
   userId = localStorage.getItem("userId");
   getExpense() {
@@ -172,6 +174,8 @@ export class MonitorComponent {
   }
   chartOptions: any;
   chartOption: any;
+  chartOptions2: any;
+  chartOption2: any;
   getExpensePercentage() {
     for (let exp of this.finalExpenseJulay) {
       exp.y = (exp.expense * 100) / this.totalExpJulay;
@@ -203,6 +207,39 @@ export class MonitorComponent {
         indexLabel: "{name}: {y}",
         yValueFormatString: "#,###.##'%'",
         dataPoints: this.finalExpenseJulay
+      }]
+    }
+// for year
+    for (let exp of this.yearlyExpenseFinal) {
+      exp.y = (exp.expense * 100) / this.yearlyExpenseTotel;
+    }
+    this.chartOptions2 = {
+      animationEnabled: true,
+      data: [
+        {
+          type: "pie",
+          startAngle: 45,
+          indexLabel: "{name}: {y}",
+          indexLabelPlacement: "inside",
+          yValueFormatString: "#,###.##'%'",
+          dataPoints: this.yearlyExpenseFinal
+        },
+      ],
+    };
+   this. chartOption2 = {
+      title: {
+        text: "Total Impressions by Platforms"
+      },
+      animationEnabled: true,
+      axisY: {
+        includeZero: true,
+        suffix: "%"
+      },
+      data: [{
+        type: "bar",
+        indexLabel: "{name}: {y}",
+        yValueFormatString: "#,###.##'%'",
+        dataPoints: this.yearlyExpenseFinal
       }]
     }
   }

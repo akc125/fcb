@@ -1,0 +1,66 @@
+<section class="cnt">
+  <div class="fm" *ngIf="status">
+    <p class="clsb" (click)="close()">Close</p>
+    <form (submit)="addCommissions()" [formGroup]="commissionGroup">
+      <input placeholder="Name" formControlName="name" /><br />
+      <input placeholder="Description" formControlName="description" /><br />
+      <input type="file" (change)="handleFile($event)" /><br />
+      <input placeholder="Date" formControlName="date" type="date" /><br />
+      <input placeholder="Amount" formControlName="amount" /><br />
+      <input placeholder="Guarantee" formControlName="guarantee" /><br />
+      <button class="adb">Add+</button>>
+    </form>
+  </div>
+  <main class="lst1">
+    <h1 class="hd">Your <span class="spn">Properties </span> Commission</h1>
+    <div class="expl">
+      <p>
+        You can add your properties here and it is value and guarantee period
+        too, you can find commissioned date and guarantee up to date you can add
+        images to identify things well,there are fecilities to decommission your
+        properties if you want it may help you manage things well ,also you can
+        add already commissioned properties using old date selection
+      </p>
+      ><br />
+      <button (click)="open()">Add+</button>
+    </div>
+  </main>
+  <main class="lst2">
+    <div
+      (click)="goToDetails(data.id)"
+      *ngFor="let data of commission; let i = index"
+      [ngClass]="data.guarantee == 'null' ? 'as' : 'crd'"
+    >
+      <div [ngClass]="data.guarantee == 'null' ? 'd11' : 'd1'">
+        <img src="{{ data.image }}" />
+      </div>
+      <div [ngClass]="data.guarantee == 'null' ? 'd22' : 'd2'">
+        <h1>{{ data.name }}</h1>
+        <br />
+        <p>Rs.{{ data.amount }}</p>
+        <p *ngIf="data.age.months == 0 && data.age.days == 1">
+          Age: {{ data.age.days }} day
+        </p>
+        <p *ngIf="data.age.months == 0 && data.age.days > 1">
+          Age: {{ data.age.days }} days
+        </p>
+        <p *ngIf="data.age.years == 0 && data.age.months > 0">
+          Age: {{ data.age.months }} months {{ data.age.days }} days
+        </p>
+        <p *ngIf="data.age.years > 0">
+          Age: {{ data.age.years }} years {{ data.age.months }} months
+          {{ data.age.days }} days
+        </p>
+        <div
+          style="position: relative; left: 30px; top: -20px"
+          *ngIf="data.guarantee !== 'null'"
+        >
+          <canvasjs-chart
+            [options]="chartOptions[i]"
+            [styles]="{ width: '80%', height: '170px' }"
+          ></canvasjs-chart>
+        </div>
+      </div>
+    </div>
+  </main>
+</section>

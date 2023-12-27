@@ -28,13 +28,14 @@ export class HomeComponent {
   constructor(private categoriesService: CategoriesService) {}
   userId = localStorage.getItem("userId");
   finalExpense: any = [];
+  lstThreeOfFiinalExpense: any = [];
   expense: any = [];
   thisMonthExpense: any = [];
   thisMonthIncome: any = [];
-  expensTotel: number = 0;
+  expensTotel: any = 0;
   income: any = [];
-  incomeTotel: number = 0;
-  balense: number = 0;
+  incomeTotel: any = 0;
+  balense: any = 0;
   average: number = 0;
   initializeChart() {
     // Create the chart and pass chartOptions
@@ -53,8 +54,8 @@ export class HomeComponent {
   }
   allExpense: any = [];
   allIncome: any = [];
-  allExpenseTotel: number = 0;
-  allIncomeTotel: number = 0;
+  allExpenseTotel: any = 0;
+  allIncomeTotel: any = 0;
   allBalence: number = 0;
   trackedExpenses: any = [];
   newTrckedArray: any[] = [];
@@ -66,27 +67,43 @@ export class HomeComponent {
     });
   }
 
-  
-convertDateFormat(dateStr: any) {
+  convertDateFormat(dateStr: any) {
     const date = new Date(dateStr);
-  
-    const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  
+
+    const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+
     const dayOfWeek = weekdays[date.getDay()];
     const month = months[date.getMonth()];
     const day = date.getDate();
     const year = date.getFullYear();
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-    const seconds = date.getSeconds().toString().padStart(2, '0');
-  
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const seconds = date.getSeconds().toString().padStart(2, "0");
+
     // Get the time zone offset in hours and minutes
     const timeZoneOffset = date.getTimezoneOffset();
-    const timeZoneOffsetHours = Math.floor(Math.abs(timeZoneOffset) / 60).toString().padStart(2, '0');
-    const timeZoneOffsetMinutes = (Math.abs(timeZoneOffset) % 60).toString().padStart(2, '0');
-    const timeZoneSign = timeZoneOffset >= 0 ? '-' : '+';
-  
+    const timeZoneOffsetHours = Math.floor(Math.abs(timeZoneOffset) / 60)
+      .toString()
+      .padStart(2, "0");
+    const timeZoneOffsetMinutes = (Math.abs(timeZoneOffset) % 60)
+      .toString()
+      .padStart(2, "0");
+    const timeZoneSign = timeZoneOffset >= 0 ? "-" : "+";
+
     return `${dayOfWeek} ${month} ${day} ${year} ${hours}:${minutes}:${seconds} GMT${timeZoneSign}${timeZoneOffsetHours}${timeZoneOffsetMinutes}`;
   }
   calculateExpense() {
@@ -107,11 +124,12 @@ convertDateFormat(dateStr: any) {
       this.finalExpense = this.finalExpense.sort(
         (a: any, b: any) => b.expense - a.expense
       );
+      this.lstThreeOfFiinalExpense = this.expense.slice(-3).reverse();
     }
     for (const exp of this.finalExpense) {
       this.expensTotel += exp.expense;
     }
-
+    localStorage.setItem('expense',this.expensTotel)
     // all expense
     const ExpenseCopy = JSON.parse(JSON.stringify(this.expense));
     for (const val of ExpenseCopy) {
@@ -152,8 +170,9 @@ convertDateFormat(dateStr: any) {
     console.log(
       "this.trackedExpenses",
 
-
-      this.trackedExpenses,"this.NewtrackedExpenses",this.newTrckedArray
+      this.trackedExpenses,
+      "this.NewtrackedExpenses",
+      this.newTrckedArray
     );
     // this.render()
   }
@@ -176,7 +195,7 @@ convertDateFormat(dateStr: any) {
       );
       for (const inc of this.thisMonthIncome) {
         this.incomeTotel += inc.amount;
-      }
+      }     localStorage.setItem('income',this.incomeTotel)
       this.balense = this.incomeTotel - this.expensTotel;
       // all income
       for (const val of this.income) {
@@ -186,6 +205,8 @@ convertDateFormat(dateStr: any) {
       this.allBalence = this.allIncomeTotel - this.allExpenseTotel;
 
       this.average = Math.round((this.expensTotel * 100) / this.incomeTotel);
+ 
+ 
     });
   }
   calculatePercentage(expense: number) {
@@ -205,17 +226,16 @@ convertDateFormat(dateStr: any) {
     { x: "2023-08-13T15:53:47.018Z", y: 6632 },
     { x: "2023-08-13T15:53:47.018Z", y: 7632 },
   ];
-  
+
   chart: any;
   chartOptions: any;
-  
+
   change() {
     const sd = new Date(2023, 7, 14);
-    console.log("sddddddddddddddd", sd);
   }
-  
+
   // render() {
-   
+
   //     this.chartOptions = {
   //       animationEnabled: true,
   //       theme: "light2",
@@ -258,30 +278,25 @@ convertDateFormat(dateStr: any) {
   //       ]
   //     };
   //   }
-    
-  
-  
-		// {
-		// 	type: "line",
-		// 	name: "Maximum",
-		// 	showInLegend: true,
-		// 	yValueFormatString: "#,###°F",
-		// 	dataPoints: [
-		// 		{ x: new Date(2021, 0, 1), y: 40 },
-		// 		{ x: new Date(2021, 1, 1), y: 42 },
-		// 		{ x: new Date(2021, 2, 1), y: 50 },
-		// 		{ x: new Date(2021, 3, 1), y: 62 },
-		// 		{ x: new Date(2021, 4, 1), y: 72 },
-		// 		{ x: new Date(2021, 5, 1), y: 80 },
-		// 		{ x: new Date(2021, 6, 1), y: 85 },
-		// 		{ x: new Date(2021, 7, 1), y: 84 },
-		// 		{ x: new Date(2021, 8, 1), y: 76 },
-		// 		{ x: new Date(2021, 9, 1), y: 64 },
-		// 		{ x: new Date(2021, 10, 1), y: 54 },
-		// 		{ x: new Date(2021, 11, 1), y: 44 }
-		// 	]
-		// }
-  
-    
- 
+
+  // {
+  // 	type: "line",
+  // 	name: "Maximum",
+  // 	showInLegend: true,
+  // 	yValueFormatString: "#,###°F",
+  // 	dataPoints: [
+  // 		{ x: new Date(2021, 0, 1), y: 40 },
+  // 		{ x: new Date(2021, 1, 1), y: 42 },
+  // 		{ x: new Date(2021, 2, 1), y: 50 },
+  // 		{ x: new Date(2021, 3, 1), y: 62 },
+  // 		{ x: new Date(2021, 4, 1), y: 72 },
+  // 		{ x: new Date(2021, 5, 1), y: 80 },
+  // 		{ x: new Date(2021, 6, 1), y: 85 },
+  // 		{ x: new Date(2021, 7, 1), y: 84 },
+  // 		{ x: new Date(2021, 8, 1), y: 76 },
+  // 		{ x: new Date(2021, 9, 1), y: 64 },
+  // 		{ x: new Date(2021, 10, 1), y: 54 },
+  // 		{ x: new Date(2021, 11, 1), y: 44 }
+  // 	]
+  // }
 }

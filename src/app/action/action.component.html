@@ -1,0 +1,83 @@
+<div class="ac" *ngFor="let dt of data">
+  <mat-icon class="RPLY" (click)="return()">replay</mat-icon>
+  <div class="ndiv">
+    <img class="im" src="{{ dt.image }}" />
+    <h1 class="hdi" style="font-weight: 800; font-size: 60px">{{ dt.name }}</h1>
+  </div>
+  <h1>Add Data</h1>
+  <form [formGroup]="actionsDataForm">
+    <label *ngIf="dt.type == 'actionType'">Action</label>
+    <input
+      *ngIf="dt.type == 'actionType'"
+      type="checkbox"
+      formControlName="action"
+    /><br />
+    <label *ngIf="dt.type == 'expensiveType'">Expense</label>
+    <input *ngIf="dt.type == 'expensiveType'" formControlName="expense" /><br />
+    <label>Date</label>
+    <input
+      [(ngModel)]="defaultDate"
+      type="date"
+      style="position: relative; left: 10px"
+      formControlName="day"
+    /><br />
+    <label>Description</label>
+    <input
+      type="text"
+      style="position: relative; left: -13px"
+      formControlName="description"
+    /><br />
+  </form>
+  <button class="addbt" (click)="addActions()">Add</button>
+  <mat-icon class="m1" (click)="deleteCategory()" matTooltip="Delete"
+    >delete_outline</mat-icon
+  >
+  <mat-icon class="m2" (click)="openPopup()" matTooltip="Edit">create</mat-icon>
+  <p class="toolTipText">Edit</p>
+  <div class="updateForm" *ngIf="!open">
+    <h1 style="font-size: 27px; text-align: center; z-index: 10">
+      Update Category
+    </h1>
+    <mat-icon
+      style="position: relative; top: -60px; left: 15px; z-index: 10"
+      (click)="closePopup()"
+      >highlight_off</mat-icon
+    >
+    <img alt="image" class="imn" [src]="file" *ngIf="file" />
+    <form
+      onsubmit="updateCategory()"
+      [formGroup]="categoryUpdateForm"
+      *ngFor="let dt of data"
+    >
+      <label>Name</label>
+      <input formControlName="name" /><br />
+      <label>Duration</label>
+      <input formControlName="duration" /><br />
+      <label>Image</label>
+      <input (change)="handleFile($event)" type="file" /><br />
+      <label>Type</label>
+      <input formControlName="type" /><br />
+      <button (click)="updateCategory()" class="sbt">Update</button>
+    </form>
+  </div>
+  <div class="dt">
+    <table class="dtt">
+      <tr>
+        <th>Name</th>
+        <th>Expense</th>
+        <th>Action</th>
+        <th>Date</th>
+        <th>Duration</th>
+        <th>Description</th>
+      </tr>
+      <tr *ngFor="let val of actions">
+        <td>{{ val.name }}</td>
+        <td>{{ val.expense }}</td>
+        <td>{{ val.action }}</td>
+        <td>{{ val.day | date : "dd-MM-yyyy" }}</td>
+        <td>{{ val.duration }}</td>
+        <td>{{ val.description }}</td>
+      </tr>
+    </table>
+  </div>
+</div>

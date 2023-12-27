@@ -1,0 +1,70 @@
+<header class="header">
+    <h1 class="fcb">FCB</h1>
+    <div class="nav" style="display: flex">
+      <span class="hm" routerLink="home">Home</span>
+      <span class="ct" routerLink="categories">Categories</span>
+      <span class="mn" routerLink="monitor">Monitor</span>
+      <span class="mn" routerLink="about">About</span>
+      <span
+        class="mn"
+        routerLink="monitor"
+        (click)="logout()"
+        style="color: brown"
+        >Logout</span
+      >
+      <span class="mn mn2" routerLink="monitor">{{ month }}</span>
+      <span
+        style="background-color: rgb(158, 154, 154); color: white"
+        class="mn mn2"
+        routerLink="monitor"
+        >{{ date }}</span
+      >
+    </div>
+    <mat-icon
+      #toggleButton
+      class="ic toggleButton"
+      matBadge="15"
+      matBadgeColor="warn"
+      (click)="showNotification()"
+      >announcement</mat-icon
+    >
+    <div class="ntl menu" *ngIf="showNotifications" #menu>
+      <div
+        style="display: flex; margin-left: 30px"
+        *ngIf="lastExpenses.length == 0"
+      >
+        <h1 class="nn2">No New Updates!</h1>
+        <mat-icon class="nn2">favorite</mat-icon>
+      </div>
+
+      <table *ngFor="let vl of expense" class="ntt">
+        <tr>
+          <label
+            *ngIf="vl.position == 'new'"
+            style="
+              background-color: rgb(107, 255, 32);
+              border-radius: 50%;
+              color: white;
+              width: 30px;
+              font-size: 10px;
+              padding: 5px;
+              margin-left: -35px;
+            "
+          >
+            New
+          </label>
+          <td>{{ vl.name }}</td>
+          <td>₹{{ vl.expense }}</td>
+          <td>{{ vl.day | date : "dd-MM-yyyy" }}</td>
+        </tr>
+      </table>
+    </div>
+    <p class="ntf" *ngIf="lastExpenses.length > 0 && !showNotifications">
+      {{ lastExpenses.length }}
+    </p>
+    <button class="rpButton" routerLink="monitor">See Yearly Reports</button>
+    <div class="dvi" (click)="openProfile()" *ngFor="let d of users">
+      <img class="myImage" src="{{ d.imageUrl }}" />
+      <p class="myName">{{ d.name }}</p>
+    </div>
+  </header>

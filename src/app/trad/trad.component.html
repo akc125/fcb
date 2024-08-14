@@ -1,0 +1,65 @@
+<section>
+  <main class="a1">
+    <h1>Happy <span style="color: rgb(117, 16, 16)">T</span>rad</h1>
+  </main>
+  <main class="a2">
+    <div
+      class="succ"
+      [ngClass]="
+        successTotal.length > failsTotal.length
+          ? 'succ'
+          : 'succ2' && successTotal.length == failsTotal.length
+          ? 'succ3'
+          : 'succ2'
+      "
+    >
+      <h3>Success</h3>
+      <h6>S:{{ successTotal.length }}</h6>
+      <h6>f:{{ failsTotal.length }}</h6>
+    </div>
+    <canvasjs-chart
+      [options]="chartOptions"
+      [styles]="{ width: '200px', height: '200px' }"
+    ></canvasjs-chart>
+    <div class="ern">
+      <div class="bl1">
+        <span>Total trad :</span>
+        <span>{{successTotal.length+failsTotal.length}}</span><br />
+        <span>Success :</span>
+        <span>{{successTotal.length}}</span><br />
+        <span>Fail :</span>
+        <span>{{failsTotal.length}}</span><br />
+        <span>Earnings :</span>
+        <span>{{earnings}}$</span><br />
+        <span>Profit :</span>
+        <span>{{earnings-loos}}$</span><br />
+        <span>Loose :</span>
+        <span>{{loos}}$</span>
+      </div>
+      <div class="bl2">
+        <p>${{earnings-loos}}</p>
+        <p>rs {{mathRound((earnings-loos)*83)}}</p>
+      </div>
+    </div>
+  </main>
+  <main class="a3">
+    <div
+      *ngFor="let val of seasons"
+      [ngClass]="
+        val.success == val.fail
+          ? 'ssn1'
+          : 'ssn' && val.success > val.fail
+          ? 'ssn2'
+          : 'ssn3'
+      "
+    >
+      <p>{{ val.name }}</p>
+      <p style="font-size: 15px">s: {{ val.success }}</p>
+      <p style="font-size: 15px">f: {{ val.fail }}</p>
+    </div>
+  </main>
+  <main class="a4">
+    <p>Start season 5</p>
+    <button class="ssnb" (click)="routers()">Start</button>
+  </main>
+</section>

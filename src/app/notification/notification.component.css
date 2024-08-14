@@ -92,25 +92,45 @@
   text-align: center;
   font-size: 35px;
   color: black;
- align-items: center;
+  align-items: center;
   border-radius: 20px;
   padding-top: 30px;
   border: 1px solid rgb(72, 18, 59);
 }
 .dntm3 {
-  width:320px;
+  width: 320px;
   height: 100%;
   margin-left: 50px;
   text-align: center;
   font-size: 35px;
   color: black;
- align-items: center;
+  align-items: center;
   border-radius: 20px;
   padding-top: 30px;
   display: flex;
   justify-content: space-between;
-  background-color: rgb(211, 206, 206);
+  background-color: rgb(243, 243, 243);
   padding: 10px;
+}
+.dntm34{
+  border: 10px solid rgb(227, 130, 130);
+  animation: dth 1s ease-in-out infinite ;
+  box-shadow: 2px 2px 5px black;
+}
+@keyframes dth{
+  0%{
+    border-top: 10px solid rgb(255, 255, 255);
+ 
+  }
+  25%{
+    border-right: 10px solid white;
+  }
+  50%{
+    border-bottom: 10px solid white;
+  }
+  100%{
+    border-left: 10px solid white;
+  }
 }
 .slctdimg {
   width: 100px;
@@ -315,7 +335,7 @@
   font-size: x-large;
   margin-top: 70px;
   position: relative;
-  margin-top:-20px;
+  margin-top: -20px;
 }
 .alrt2 {
   color: rgb(219, 125, 17);
@@ -339,4 +359,113 @@
   display: block;
   left: 260px;
   margin-top: 125px;
+}
+.crcls {
+  padding-top: 10px;
+  width: 300px;
+  height: 50px;
+  position: relative;
+  left: 800px;
+  top: -40px;
+  display: flex;
+  justify-content: space-evenly;
+}
+.rct1 {
+  width: 30px;
+  height: 30px;
+  background-color: red;
+  border-radius: 5px;
+  box-shadow: 8px 8px  8px black inset;
+}
+.rct11 {
+  width: 23px;
+  height: 23px;
+  background-color: red;
+  position: relative;
+  top: 4px;
+  border-radius: 5px;
+  box-shadow: 8px 8px  8px black inset;
+}
+.spc {
+  animation: expand 1s 1s infinite;
+  transition: 19s;
+}
+@keyframes expand {
+  0% {
+    background-color: rgb(255, 255, 255);
+  }
+  50% {
+    background-color: rgb(123, 18, 60);
+  }
+}
+
+.rct2 {
+  width: 30px;
+  height: 30px;
+  background-color: rgb(255, 119, 0);
+  border-radius: 5px;
+  box-shadow: 8px 8px  8px black inset;
+}
+.rct22 {
+  width: 23px;
+  height: 23px;
+  background-color: rgb(255, 119, 0);
+  position: relative;
+  border-radius: 5px;
+  top: 4px;
+  box-shadow: 8px 8px  8px black inset;
+}
+.rct3 {
+  width: 30px;
+  height: 30px;
+  background-color: rgb(10, 86, 19);
+  border-radius: 5px;
+  box-shadow: 8px 8px  8px black inset;
+}
+.rct33 {
+  width: 23px;
+  height: 23px;
+  background-color: rgb(10, 86, 19);
+  position: relative;
+  top: 4px;
+  border-radius: 5px;
+  box-shadow: 8px 8px  8px black inset;
+}
+.rct4 {
+  width: 30px;
+  height: 30px;
+  background-color: rgb(255, 255, 255);
+  color: brown;
+  padding-top: 8px;
+  font-size: 13px;
+  border-radius: 5px;
+  box-shadow: 8px 8px  8px black inset;
+}
+.rct44 {
+  width: 23px;
+
+  height: 23px;
+  background-color: rgb(255, 255, 255);
+  color: brown;
+  padding-top: 6px;
+  font-size: 11px;
+  position: relative;
+  top: 4px;
+  border-radius: 5px;
+  box-shadow: 8px 8px  8px black inset;
+}
+.crcls p {
+  font-size: 13px;
+  position: relative;
+  left: -11px;
+  top: 18px;
+  color: rgb(110, 107, 107);
+}
+
+.rg {
+  position: relative;
+  top: 76px;
+  color: rgb(86, 21, 68);
+  left: -10px;
+  width: 200px;
 }

@@ -52,6 +52,7 @@ export class HeaderComponent {
   }
   times: any = [];
   lastUpdatedTime: any;
+  showOff:any
   getTimes() {
     const id = localStorage.getItem("userId");
     this.categoriesService.getTimes().subscribe((data: any) => {

@@ -1,0 +1,164 @@
+section {
+  width: 100vw;
+  height: 700px;
+}
+.a1 {
+  width: 100%;
+  height: 100px;
+  background-color: rgb(255, 255, 255);
+  color: black;
+  font-size: 40px;
+  text-align: center;
+  padding-top: 20px;
+  letter-spacing: 1px;
+  background-image: url('https://images.livemint.com/img/2023/03/13/1600x900/Day_trading_guide_Stock_market_news_1678667548170_1678667548474_1678667548474.jpg');
+object-fit: cover;
+}
+.a2 {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  box-shadow: 0px 0px 5px black;
+}
+.ssn{
+  width: 270px;
+  height: 100px;
+  background-color: rgb(239, 244, 239);
+  border-radius: 20px;
+  box-shadow: 2px 2px 5px black;
+  text-align: center;
+  font-size: 30px;
+  padding-top: 30px;
+  margin: 10px;
+}
+.ssn1{
+  width: 270px;
+  height: 100px;
+  background-color: rgb(253, 249, 6);
+  border-radius: 20px;
+  box-shadow: 2px 2px 5px black;
+  text-align: center;
+  font-size: 30px;
+  padding-top: 30px;
+  margin: 10px;
+  color: black;
+}
+.ssn2{
+  width: 270px;
+  height: 100px;
+  background-color: green;
+  border-radius: 20px;
+  box-shadow: 2px 2px 5px black;
+  text-align: center;
+  font-size: 30px;
+  padding-top: 30px;
+  margin: 10px;
+}
+.ssn3{
+  width: 270px;
+  height: 100px;
+  background-color: rgb(240, 12, 12);
+  border-radius: 20px;
+  box-shadow: 2px 2px 5px black;
+  text-align: center;
+  font-size: 30px;
+  padding-top: 30px;
+  margin: 10px;
+}
+.a3 {
+  width: 100%;
+  min-height: 140px;
+  height: fit-content;
+display: flex;
+justify-content: space-evenly;
+padding: 20px;
+flex-wrap: wrap;
+border-bottom: 1px solid rgb(0, 0, 0);
+}
+.a4 {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: space-evenly;
+  font-size: 34px;
+  align-items: center;
+  color: brown;
+}
+.ssnb{
+  width: 200px;
+  height: 60px;
+  background-color: rgb(70, 20, 79);
+  border: 5px solid white;
+  box-shadow: 2px 2px 5px black;
+  border-radius: 5px;
+  color: white;
+  font-size: 23px;
+}
+.ern {
+  width: 500px;
+  height: 200px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.bl1 {
+  width: 150px;
+  height: 170px;
+  background-color: rgb(31, 5, 21);
+  display: inline;
+  text-align: center;
+  font-size: 19px;
+  padding-top: 18px;
+  border: 10px solid white;
+  box-shadow: 2px 2px 5px black;
+  border-radius: 20%;
+}
+
+.bl2 {
+  width: 150px;
+  height: 150px;
+  background-color: rgb(255, 255, 255);
+  border: 19px solid rgb(16, 16, 103);
+  border-radius: 50%;
+  box-shadow: 2px 2px 5px black;
+  text-align: center;
+  padding-top: 30px;
+  background-color: rgb(225, 217, 224);
+  color: black;
+  font-size: 22px;
+}
+.succ {
+  width: 150px;
+  height: 150px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 50%;
+  border: 25px solid rgb(17, 83, 9);
+  text-align: center;
+  padding-top: 40px;
+  color: rgb(26, 105, 32);
+  box-shadow: 2px 2px 5px black;
+}
+.succ2 {
+  width: 150px;
+  height: 150px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 50%;
+  border: 25px solid rgb(243, 8, 8);
+  text-align: center;
+  padding-top: 40px;
+  color: rgb(26, 105, 32);
+  box-shadow: 2px 2px 5px black;
+}
+.succ3 {
+  width: 150px;
+  height: 150px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 50%;
+  border: 25px solid rgb(228, 240, 8);
+  text-align: center;
+  padding-top: 40px;
+  color: rgb(26, 105, 32);
+  box-shadow: 2px 2px 5px black;
+}

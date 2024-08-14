@@ -16,14 +16,16 @@ export class MonitorComponent {
     const currentDate = new Date();
     this.currentYear = currentDate.getFullYear();
     this.defualtDate = currentDate.toISOString().substring(5, 7);
-
   }
   constructor(private categoriesService: CategoriesService) {}
   selection: any;
   onSelected(event: any) {
     this.selection = event.target.value;
   }
-
+  allTimeExpense: any = [];
+  allTimeExpenseTotal: number = 0;
+  allTimeExpenseBalance: number = 0;
+  allTimeIncome: number = 0;
   expenses: any = [];
   expensesJulay: any = [];
   incomes: any = [];
@@ -35,12 +37,14 @@ export class MonitorComponent {
 
   yearlyExpense: any = [];
   yearlyExpenseFinal: any = [];
+  yearlySelectedExpense: any = [];
   yearlyExpenseTotel: any = [];
   yearlyIncome: any = [];
   yearlyIncomeTotel: number = 0;
   yearlyBalence: number = 0;
 
   monthsList = [
+    { id: "0", name: "" },
     { id: "01", name: "January" },
     { id: "02", name: "February" },
     { id: "03", name: "March" },
@@ -57,6 +61,28 @@ export class MonitorComponent {
 
   monthSelected: any;
   monthId: any;
+  sum: number = 0;
+  calculateTotal() {
+    var total = 0;
+    for (let val of this.yearlySelectedExpense) {
+      total += Number(val.expense);
+      this.sum = total;
+    }
+  }
+  selectExpense(obj: any) {
+    const exist = this.yearlySelectedExpense?.find((f: any) => f.id == obj.id);
+    if (!exist) {
+      this.yearlySelectedExpense.push(obj);
+    }
+    this.calculateTotal();
+  }
+  removeItem(val: any) {
+    this.yearlySelectedExpense.splice(val, 1);
+    this.calculateTotal();
+  }
+  coloselection() {
+    this.yearlySelectedExpense = [];
+  }
   selectedMonth(event: any) {
     this.monthSelected = event.target.value;
     const selected = this.monthsList.find(
@@ -66,11 +92,16 @@ export class MonitorComponent {
     this.getExpense();
   }
   selectedYear: any = 2023;
-  idOfMonth: any = '09';
+  idOfMonth: any = "09";
   passId() {
     this.selectedYear = this.selection;
     this.idOfMonth = this.monthId;
-    console.log(' this.selectedYear', this.selectedYear,this.idOfMonth,this.finalExpenseJulay)
+    console.log(
+      " this.selectedYear",
+      this.selectedYear,
+      this.idOfMonth,
+      this.finalExpenseJulay
+    );
   }
   userId = localStorage.getItem("userId");
   getExpense() {
@@ -95,7 +126,25 @@ export class MonitorComponent {
           this.finalExpenseJulay.push(exp);
         }
       }
-
+      // allTime
+      this.allTimeExpense=[]
+      const allTimeExpenseCopy = [...this.expenses];
+      for (let val of allTimeExpenseCopy) {
+        const existingItem = this.allTimeExpense.find(
+          (f: any) => f.name === val.name
+        );
+        if (existingItem) {
+          existingItem.expense += val.expense;
+        } else {
+          this.allTimeExpense.push(val);
+        }
+      }
+      this.allTimeExpense = this.allTimeExpense.sort(
+        (a: any, b: any) => b.expense - a.expense
+      );
+      for (let v of this.allTimeExpense) {
+        this.allTimeExpenseTotal += v.expense;
+      }
       // year
       this.yearlyExpenseFinal = [];
       const yearlyExpenseCopy = [...this.expenses];
@@ -122,7 +171,7 @@ export class MonitorComponent {
       for (const val of this.yearlyExpenseFinal) {
         this.yearlyExpenseTotel += val.expense;
       }
-      console.log("july", this.yearlyExpenseFinal);
+
       this.totalExpJulay = 0;
       this.totalIncomeJulay = 0;
       this.finalExpenseJulay.sort((a: any, b: any) => b.expense - a.expense);
@@ -151,7 +200,9 @@ export class MonitorComponent {
       this.yearlyIncome = yearlyIncomeCopy.filter(
         (f: any) => f.day.substring(0, 4) === this.selectedYear
       );
-
+      for (let val of this.incomes) {
+        this.allTimeIncome += val.amount;
+      }
       for (const val of this.incomesJulay) {
         this.totalIncomeJulay += val.amount;
       }
@@ -163,13 +214,8 @@ export class MonitorComponent {
 
       this.balenceJulay = this.totalIncomeJulay - this.totalExpJulay;
       this.yearlyBalence = this.yearlyIncomeTotel - this.yearlyExpenseTotel;
-      console.log(
-        "incom",
-        this.incomes,
-        this.yearlyIncomeTotel,
-        this.yearlyExpenseTotel,
-        this.yearlyBalence
-      );
+      this.allTimeExpenseBalance =
+        this.allTimeIncome - this.allTimeExpenseTotal;
     });
   }
   chartOptions: any;
@@ -189,27 +235,29 @@ export class MonitorComponent {
           indexLabel: "{name}: {y}",
           indexLabelPlacement: "inside",
           yValueFormatString: "#,###.##'%'",
-          dataPoints: this.finalExpenseJulay
+          dataPoints: this.finalExpenseJulay,
         },
       ],
     };
-   this. chartOption = {
+    this.chartOption = {
       title: {
-        text: "Total Impressions by Platforms"
+        text: "Total Impressions by Platforms",
       },
       animationEnabled: true,
       axisY: {
         includeZero: true,
-        suffix: "%"
+        suffix: "%",
       },
-      data: [{
-        type: "bar",
-        indexLabel: "{name}: {y}",
-        yValueFormatString: "#,###.##'%'",
-        dataPoints: this.finalExpenseJulay
-      }]
-    }
-// for year
+      data: [
+        {
+          type: "bar",
+          indexLabel: "{name}: {y}",
+          yValueFormatString: "#,###.##'%'",
+          dataPoints: this.finalExpenseJulay,
+        },
+      ],
+    };
+    // for year
     for (let exp of this.yearlyExpenseFinal) {
       exp.y = (exp.expense * 100) / this.yearlyExpenseTotel;
     }
@@ -222,26 +270,28 @@ export class MonitorComponent {
           indexLabel: "{name}: {y}",
           indexLabelPlacement: "inside",
           yValueFormatString: "#,###.##'%'",
-          dataPoints: this.yearlyExpenseFinal
+          dataPoints: this.yearlyExpenseFinal,
         },
       ],
     };
-   this. chartOption2 = {
+    this.chartOption2 = {
       title: {
-        text: "Total Impressions by Platforms"
+        text: "Total Impressions by Platforms",
       },
       animationEnabled: true,
       axisY: {
         includeZero: true,
-        suffix: "%"
+        suffix: "%",
       },
-      data: [{
-        type: "bar",
-        indexLabel: "{name}: {y}",
-        yValueFormatString: "#,###.##'%'",
-        dataPoints: this.yearlyExpenseFinal
-      }]
-    }
+      data: [
+        {
+          type: "bar",
+          indexLabel: "{name}: {y}",
+          yValueFormatString: "#,###.##'%'",
+          dataPoints: this.yearlyExpenseFinal,
+        },
+      ],
+    };
   }
 
   public generatePDF(): void {
@@ -264,6 +314,4 @@ export class MonitorComponent {
       }
     );
   }
-
- 
 }

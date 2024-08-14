@@ -1,0 +1,110 @@
+<section class="md">
+  <main class="ds">
+    <div
+      *ngFor="let val of userDays"
+      (click)="openForm()"
+      (click)="addId(val.id)"
+      class="dy"
+      [ngClass]="
+        val.st == 1
+          ? 'dy2'
+          : 'dy' && val.st == 2
+          ? 'dy3'
+          : 'dy' && val.st == 0
+          ? 'dy4'
+          : 'dy'
+      "
+    >
+      <p style="font-size: 35px; font-weight: 800">{{ val.day }}</p>
+      <P>{{ val.dayName }}</P>
+      <p class="sa" *ngIf="val.sArray">s: {{ val.sArray?.length }}</p>
+      <p class="sa" *ngIf="val.fArray">f: {{ val.fArray?.length }}</p>
+    </div>
+  </main>
+  <div class="mn">
+    <div
+      [ngClass]="
+        successTotal.length == failsTotal.length
+          ? 'succ3'
+          : 'succ' && successTotal.length > failsTotal.length
+          ? 'succ'
+          : 'succ2'
+      "
+    >
+      <h3>Success</h3>
+      <h6>s: {{ successTotal.length }}</h6>
+      <h6>f: {{ failsTotal.length }}</h6>
+    </div>
+    <canvasjs-chart
+      [options]="chartOptions"
+      [styles]="{ width: '200px', height: '200px' }"
+    ></canvasjs-chart>
+    <div class="ern">
+      <div class="bl1">
+        <span>Total trad :</span>
+        <span>{{ successTotal.length + failsTotal.length }}</span
+        ><br />
+        <span>Success :</span>
+        <span>{{ successTotal.length }}</span
+        ><br />
+        <span>Fail :</span>
+        <span>{{ failsTotal.length }}</span
+        ><br />
+        <span>Profit :</span>
+        <span>{{mathFix(earnings-loos)}} $</span><br />
+        <span>Earnings :</span>
+        <span>{{mathFix(earnings )}}$</span>
+        <span>Loose :</span>
+        <span>{{mathFix(loos)}}$</span>
+      </div>
+      <div class="bl2">
+        <p>${{mathFix(earnings-loos)}}</p>
+        <p>rs {{(mathFix(earnings-loos)*(83.14))}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="fmd" *ngIf="open">
+    <mat-icon class="clicn" (click)="closeForm()">offline_bolt</mat-icon>
+    <h2>save deatils</h2>
+    <form (ngSubmit)="addTrad()" [formGroup]="tradForm">
+      <label>Trad :</label
+      ><select formControlName="trad">
+        <option>EUR-USD</option>
+        <option>AUD-CAD</option>
+        <option>AUD-USD</option>
+        <option>EUR-JPY</option>
+        <option>NSD-USD</option>
+        <option>USD-CHF</option>
+        <option>USD-JPY</option></select
+      ><br />
+      <mat-radio-group aria-label="Select an option" formControlName="status">
+        <mat-radio-button value="success" (click)="addStatus('successs')"
+          >Success</mat-radio-button
+        >
+        <mat-radio-button value="fail" (click)="addStatus('fail')"
+          >Fail</mat-radio-button
+        >
+      </mat-radio-group>
+      <br />
+      <label>Earnings :</label>
+      <input type="number" formControlName="earnings" /><br />
+      <label *ngIf="status == 'fail'">Fail reason :</label>
+      <input *ngIf="status == 'fail'" formControlName="failReason" /><br />
+      <label>description :</label>
+      <input formControlName="description" /><br />
+      <label>screenshot :</label>
+      <input type="file" (change)="onFile($event)" /><br />
+      <label>Type : </label>
+      <select formControlName="type">
+        <option>LIMA</option>
+        <option>RIYA</option>
+        <option>JEETH</option>
+        <option>TAJ</option></select
+      ><br />
+      <button class="sv">save</button>
+    </form>
+  </div>
+  <button class="fbt" (click)="updateSeason()" (click)="addStatusReport()">
+    finish
+  </button>
+</section>

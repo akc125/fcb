@@ -1,6 +1,7 @@
 import { CategoriesService } from "src/services/categories.service";
 import { Component } from "@angular/core";
 import { CanvasJS } from "@canvasjs/angular-charts";
+import * as moment from 'moment';
 
 @Component({
   selector: "app-home",
@@ -154,7 +155,7 @@ export class HomeComponent {
     // Update dataPoints arrays
 
     const lastElement = this.trackedExpenses[this.trackedExpenses.length - 1];
-    console.log("lastElement", lastElement?.amount, this.expensTotel);
+    console.log("thisMonthExpense", this.thisMonthExpense);
     if (
       Number(this.expensTotel) !== Number(lastElement?.amount) &&
       this.expensTotel !== 0
@@ -219,84 +220,57 @@ export class HomeComponent {
       return 0;
     }
   }
-  mydata = [
-    { x: "2023-08-13T15:53:47.018Z", y: 4632 },
-    { x: "2023-08-14T15:53:47.018Z", y: 4732 },
-    { x: "2023-08-15T15:53:47.018Z", y: 5632 },
-    { x: "2023-08-13T15:53:47.018Z", y: 6632 },
-    { x: "2023-08-13T15:53:47.018Z", y: 7632 },
-  ];
+  // mydata = [
+  //   { x: "2023-08-13T15:53:47.018Z", y: 4632 },
+  //   { x: "2023-08-14T15:53:47.018Z", y: 4732 },
+  //   { x: "2023-08-15T15:53:47.018Z", y: 5632 },
+  //   { x: "2023-08-13T15:53:47.018Z", y: 6632 },
+  //   { x: "2023-08-13T15:53:47.018Z", y: 7632 },
+  // ];
 
-  chart: any;
-  chartOptions: any;
+ 
 
   change() {
     const sd = new Date(2023, 7, 14);
   }
-
-  // render() {
-
-  //     this.chartOptions = {
-  //       animationEnabled: true,
-  //       theme: "light2",
-  //       title: {
-  //         text: "Monthly Expenses"
-  //       },
-  //       axisX: {
-  //         valueFormatString: "DD MMM",
-  //         intervalType: "day",
-  //         interval: 1
-  //       },
-  //       axisY: {
-  //         title: "Expense (INR)"
-  //       },
-  //       toolTip: {
-  //         shared: true
-  //       },
-  //       legend: {
-  //         cursor: "pointer",
-  //         itemclick: (e: any) => {
-  //           if (typeof e.dataSeries.visible === "undefined" || e.dataSeries.visible) {
-  //             e.dataSeries.visible = false;
-  //           } else {
-  //             e.dataSeries.visible = true;
-  //           }
-  //           e.chart.render();
-  //         }
-  //       },
-  //       data: [
-  //         {
-  //           type: "line",
-  //           name: "Expenses",
-  //           showInLegend: true,
-  //           yValueFormatString: "₹#,###",
-  //           dataPoints: this.trackedExpenses.map((expense: any) => ({
-  //             x: new Date(expense.day),
-  //             y: expense.amount
-  //           }))
-  //         }
-  //       ]
-  //     };
-  //   }
-
-  // {
-  // 	type: "line",
-  // 	name: "Maximum",
-  // 	showInLegend: true,
-  // 	yValueFormatString: "#,###°F",
-  // 	dataPoints: [
-  // 		{ x: new Date(2021, 0, 1), y: 40 },
-  // 		{ x: new Date(2021, 1, 1), y: 42 },
-  // 		{ x: new Date(2021, 2, 1), y: 50 },
-  // 		{ x: new Date(2021, 3, 1), y: 62 },
-  // 		{ x: new Date(2021, 4, 1), y: 72 },
-  // 		{ x: new Date(2021, 5, 1), y: 80 },
-  // 		{ x: new Date(2021, 6, 1), y: 85 },
-  // 		{ x: new Date(2021, 7, 1), y: 84 },
-  // 		{ x: new Date(2021, 8, 1), y: 76 },
-  // 		{ x: new Date(2021, 9, 1), y: 64 },
-  // 		{ x: new Date(2021, 10, 1), y: 54 },
-  // 		{ x: new Date(2021, 11, 1), y: 44 }
-  // 	]
-  // }
+ 
+  
+  chart: any;
+  
+  chartOptions = {
+    theme: "light2",
+    animationEnabled: true,
+    zoomEnabled: true,
+    title: {
+      text: "Monthly Expenses in January 2021"
+    },
+    axisX: {
+      title: "Date",
+      valueFormatString: "DD MMM"
+    },
+    axisY: {
+      title: "Expense (INR)",
+      labelFormatter: (e: any) => {
+        var suffixes = ["", "K", "M", "B", "T"];
+  
+        var order = Math.max(Math.floor(Math.log(e.value) / Math.log(1000)), 0);
+        if (order > suffixes.length - 1)
+          order = suffixes.length - 1;
+  
+        var suffix = suffixes[order];
+        return "₹" + (e.value / Math.pow(1000, order)) + suffix;
+      }
+    },
+    data: [{
+      type: "line",
+      xValueFormatString: "DD MMM",
+      yValueFormatString: "₹#,###.##",
+      dataPoints: this.thisMonthExpense.map((entry: any) => ({
+        x: moment(entry.day).format("DD MMM"),
+        y: entry.expense
+      }))
+    }]
+  };
+  
+  
 }

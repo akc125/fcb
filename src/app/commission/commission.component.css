@@ -82,11 +82,13 @@ height: fit-content;
     position: absolute;
     width: 450px;
     height: 330px;
-    border: 1px solid red;
+    border: 10px solid rgb(5, 4, 30);
     left: 700px;
+    border-radius: 30px;
     top: 265px;
 align-items: center;
 padding-top: 7px;
+background-color: rgba(115, 92, 9, 0.6);
 }
 .adb{
     width: 250px;

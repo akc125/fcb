@@ -9,6 +9,7 @@
     <h1 style="font-size: 50px; position: relative; top: 10px; left: 150px">
       DEACTIVATED CREDITS
     </h1>
+    <span class="dactsl">Total: ₹{{ toatalCreditReturned }}</span>
     <div
       class="cn2"
       style="color: white"
@@ -72,7 +73,7 @@
           <tr *ngFor="let v of val.transaction">
             <td>{{ v.index + 1 }}</td>
             <td>₹{{ v.amount }}</td>
-            <td>{{ v.day | date : "dd-MM-yyyy" }}</td>
+            <td>{{ v.date | date : "dd-MM-yyyy" }}</td>
           </tr>
           <tr>
             <td>Total</td>
@@ -231,7 +232,7 @@
         <tr *ngFor="let v of val.transaction">
           <td>{{ v.index + 1 }}</td>
           <td>₹{{ v.amount }}</td>
-          <td>{{ val.day | date : "dd-MM-yyyy" }}</td>
+          <td>{{ v.day | date : "dd-MM-yyyy" }}</td>
         </tr>
         <tr>
           <td>Total</td>

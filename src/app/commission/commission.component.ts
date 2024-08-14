@@ -27,7 +27,6 @@ export class CommissionComponent {
   file: any;
   handleFile(event: any) {
     this.file = event.target.files[0];
-    console.log("file", event.target.files[0]);
   }
   commissionGroup = new FormGroup({
     userid: new FormControl(this.userId),

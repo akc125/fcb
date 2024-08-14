@@ -3,6 +3,26 @@
     class="nyImage"
     src="https://www.grayline.com/wp-content/uploads/2023/02/Brooklyn-Bridge-New-York-United-States.jpg"
   />
+  <div class="rctgl">
+    <div *ngIf="allBalence < (10 * allIncomeTotel) / 100"
+      class="rct1"
+      [ngClass]="allBalence < (10 * allIncomeTotel) / 100 ? 'rct11' : 'rct1'"
+    ></div>
+    <div *ngIf="allBalence > (10 * allIncomeTotel) / 100 &&
+      allBalence < (25 * allIncomeTotel) / 100"
+      class="rct2"
+      [ngClass]="
+        allBalence > (10 * allIncomeTotel) / 100 &&
+        allBalence < (25 * allIncomeTotel) / 100
+          ? 'rct22'
+          : 'rct2'
+      "
+    ></div>
+    <div *ngIf="allBalence > (25 * allIncomeTotel) /100 "
+      class="rct3"
+      [ngClass]="allBalence > (25 * allIncomeTotel) /100  ? 'rct33' : 'rct3'"
+    ></div>
+  </div>
   <h1 class="report">Fcb Reports</h1>
   <div class="insite">
     <span class="gtotal">Grand Total</span>
@@ -122,7 +142,7 @@
   </div>
   <footer>
     <div>
-      <!-- <canvasjs-chart [options]="chartOptions" [styles]="{width: '100%', height:'360px'}"></canvasjs-chart>     -->
+      <canvasjs-chart [options]="chartOptions" [styles]="{width: '100%', height:'360px'}"></canvasjs-chart>    
     </div>
   </footer>
 </div>

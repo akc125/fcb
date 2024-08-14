@@ -23,12 +23,12 @@ export class AppComponent {
       });
     }
   }
-  int = setInterval(() => {
-    this.getTimes();
-    this.getExpenses();
-    this.getUsers();
-    console.log("setint");
-  }, 1000);
+  // int = setInterval(() => {
+  //   this.getTimes();
+  //   this.getExpenses();
+  //   this.getUsers();
+  //   console.log("setint");
+  // }, 1000);
   @ViewChild("toggleButton") toggleButton!: ElementRef;
   @ViewChild("menu") menu!: ElementRef;
 

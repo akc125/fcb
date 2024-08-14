@@ -1,0 +1,25 @@
+<section class="md">
+  <h1>TERMS <span style="color: rgb(255, 0, 0)">&</span>CONDITIONS</h1>
+  <app-rules></app-rules>
+  <input
+    [(ngModel)]="check"
+    type="checkbox"
+    style="
+      width: 20px;
+      height: 20px;
+      border: 5px solid rgb(28, 5, 5);
+      margin-right: 10px;
+    "
+  />
+  <label
+    >I faithfully accept all these rules for my trade to last day in this
+    season</label
+  ><br />
+  <form (ngSubmit)="getSeasons()" [formGroup]="dateFormGroup">
+    <label>Starting Date : </label
+    ><input formControlName="firstDate" class="di" type="date" /><br />
+    <label>Ending Date : </label
+    ><input formControlName="secondDate" class="di" type="date" /><br />
+    <button class="ac">Accept</button>
+  </form>
+</section>

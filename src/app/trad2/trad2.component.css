@@ -1,0 +1,33 @@
+.md {
+  width: 100vw;
+  height: fit-content;
+  text-align: center;
+  padding-top: 10px;
+  color: black;
+  font-size: 30px;
+  background-color: aliceblue;
+  padding-bottom: 40px;
+  letter-spacing: 3px;
+}
+h1 {
+  font-size: 31px;
+  background-color: rgb(52, 10, 49);
+  color: white;
+  padding: 30px;
+}
+.di {
+  margin: 5px;
+}
+.ac {
+  width: 150px;
+  height: 40px;
+  background-color: brown;
+  border: 5px solid white;
+  box-shadow: 2px 2px 5px rgb(60, 5, 5);
+  font-size: 21px;
+  color: rgb(233, 224, 224);
+  margin-top: 30px;
+}
+ol li {
+  margin: 10px;
+}

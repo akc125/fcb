@@ -25,10 +25,14 @@ import { ActionComponent } from "./action/action.component";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { CommissionComponent } from "./commission/commission.component";
 import { NgImageSliderModule } from "ng-image-slider";
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CommissionDetailsComponent } from './commission-details/commission-details.component';
-import { DebitComponent } from './debit/debit.component';
-
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { CommissionDetailsComponent } from "./commission-details/commission-details.component";
+import { DebitComponent } from "./debit/debit.component";
+import { TradComponent } from "./trad/trad.component";
+import { Trad2Component } from "./trad2/trad2.component";
+import { Trad3Component } from "./trad3/trad3.component";
+import { MatRadioModule } from "@angular/material/radio";
+import { RulesComponent } from "./trad2/rules/rules.component";
 
 @NgModule({
   declarations: [
@@ -49,6 +53,10 @@ import { DebitComponent } from './debit/debit.component';
     CommissionComponent,
     CommissionDetailsComponent,
     DebitComponent,
+    TradComponent,
+    Trad2Component,
+    Trad3Component,
+    RulesComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,6 +72,7 @@ import { DebitComponent } from './debit/debit.component';
     MatTooltipModule,
     NgImageSliderModule,
     BrowserAnimationsModule,
+    MatRadioModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

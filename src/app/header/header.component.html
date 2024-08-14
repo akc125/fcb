@@ -62,7 +62,9 @@
     <p class="ntf" *ngIf="lastExpenses.length > 0 && !showNotifications">
       {{ lastExpenses.length }}
     </p>
+
     <button class="rpButton" routerLink="monitor">See Yearly Reports</button>
+
     <div class="dvi" (click)="openProfile()" *ngFor="let d of users">
       <img class="myImage" src="{{ d.imageUrl }}" />
       <p class="myName">{{ d.name }}</p>

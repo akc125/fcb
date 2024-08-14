@@ -28,6 +28,7 @@ export class DebitComponent {
     date: new FormControl(),
   });
   file: any;
+  mydate = '12/12/2023';
   handleFile(e: any) {
     this.file = e.target.files[0];
   }
@@ -68,8 +69,9 @@ export class DebitComponent {
   debits: any = ([] = []);
   getDebits() {
     this.categoriesService.getDebit().subscribe((data: any) => {
-      this.debits = data;
+      this.debits = data.filter((f: any) => f.userId == this.userId);
       this.combainData();
+      console.log("debits",this.debits)
     });
   }
   debitAmounts: any = ([] = []);

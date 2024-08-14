@@ -95,16 +95,30 @@ export class CreaditComponent {
 
   credits: any = [];
   credits2: any = [];
+  credits3: any = [];
   personsTogiveMony: any;
+  toatalCreditReturned: number = 0;
   getCredit() {
     const id = localStorage.getItem("userId");
     this.categoriesService.getCredits().subscribe((data: any) => {
       this.credits = data.filter((f: any) => f.userId == id);
+      this.credits.reverse()
       this.credits2 = data.filter(
         (f: any) => f.active !== "true" && f.userId == id
       );
-      console.log("credits", this.credits);
+      this.credits3 = data.filter(
+        (f: any) => f.active == "true" && f.userId == id
+      );
+      console.log("credits2", this.credits3);
+      this.getTotal();
     });
+    this.getTotal();
+  }
+
+  getTotal() {
+    for (let val of this.credits3) {
+      this.toatalCreditReturned += val.amount;
+    }
   }
   trnsactionForm = new FormGroup({
     amount: new FormControl(),

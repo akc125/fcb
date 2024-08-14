@@ -64,9 +64,23 @@
         style="color: brown"
         >Logout</span
       >
-      <span class="mn mn2" routerLink="monitor">{{ month }}</span>
+      <mat-icon
+        style="color: rgb(85, 76, 14)"
+        routerLink="trad"
+        (click)="select('trad')"
+        >trending_up</mat-icon
+      >
       <span
-        style="background-color: rgb(158, 154, 154)"
+        class="mn mn2"
+        style="border: 1px solid white"
+        routerLink="monitor"
+        >{{ month }}</span
+      >
+      <span
+        style="
+          background-color: rgb(196, 188, 188);
+          border: 1px solid rgb(196, 188, 188);
+        "
         class="mn mn2"
         routerLink="monitor"
         >{{ date }}</span

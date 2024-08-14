@@ -14,6 +14,7 @@ export class ExpenseComponent {
     private categoriesServices: CategoriesService,
     private router: Router
   ) {}
+  
   defaultDate: any;
   ngOnInit(): void {
     this.getCategory();

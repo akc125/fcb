@@ -12,8 +12,10 @@
       type="checkbox"
       formControlName="action"
     /><br />
-    <label *ngIf="dt.type == 'expensiveType'">Expense</label>
-    <input *ngIf="dt.type == 'expensiveType'" formControlName="expense" /><br />
+    <label *ngIf="dt.type == 'expensiveType'||'regularType' ">Expense</label>
+    <input *ngIf="dt.type == 'expensiveType'||'regularType' " formControlName="expense" /><br />
+    <label *ngIf="dt.type == 'regularType'">RgExpense</label>
+    <input type="number" *ngIf="dt.type == 'regularType'" formControlName="rgExpense" /><br />
     <label>Date</label>
     <input
       [(ngModel)]="defaultDate"

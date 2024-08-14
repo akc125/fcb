@@ -42,6 +42,7 @@ export class NotificationComponent {
   }
   actions: any[] = [];
   newActions: any[] = [];
+  latestAction: any = [];
   sendSms(msg: any) {
     const data = {
       message: msg,
@@ -49,14 +50,14 @@ export class NotificationComponent {
     };
     this.categoriesService.sendSms(data).subscribe((data) => {});
   }
-  sendEmail(message:any) {
+  sendEmail(message: any) {
     const data = {
       message: message,
       phone: 919656207607,
     };
     this.categoriesService.sendEmail(data).subscribe((data) => {}),
       (err: any) => {
-        console.log('errors',err);
+        console.log("errors", err);
       };
   }
   getActions() {
@@ -108,25 +109,30 @@ export class NotificationComponent {
           }${month}-${day < 10 ? "0" : ""}${year}`;
           val.nextDate = dateStringWithoutTime;
           val.total = val.expense * val.timeDefference;
+          val.regularExpenseTotal = val.timeDefference * val.rgExpense;
           if (
             val.timeDefference >= val.orengeLine &&
             val.timeDefference < val.redLine
           ) {
             const message = `${val.name} is almost time over it is orenge alert please do it as soon as possible you have ${existingTime} days`;
             // this.sendSms(message);
-            this.sendEmail(message)
+            this.sendEmail(message);
           }
           if (val.timeDefference >= val.redLine) {
             const message = `it is red alert on ${val.name} please do it as soon as possible you have ${existingTime} days`;
             // this.sendSms(message);
-            this.sendEmail(message)
+            this.sendEmail(message);
           }
         }
       }
       this.newActions = this.newActions.sort(
         (a: any, b: any) => a.existingTime - b.existingTime
       );
-      console.log("this.newActions", this.newActions);
+      this.getLengths();
+      if (this.latestAction.length == 0) {
+        this.latestAction = this.newActions;
+      }
+      this.getCtegories();
     });
   }
 
@@ -154,11 +160,74 @@ export class NotificationComponent {
       }
     );
   }
+  red: any;
+  orange: any;
+  green: any;
+  getLengths() {
+    const answ = this.newActions.filter(
+      (f: any) => f.timeDefference >= f.redLine
+    );
+    this.red = answ.length;
+    const org = this.newActions.filter(
+      (f: any) =>
+        f.timeDefference >= f.orengeLine && f.timeDefference < f.redLine
+    );
+    this.orange = org.length;
+    const gr = this.newActions.filter(
+      (f: any) => f.timeDefference < f.orengeLine
+    );
+    this.green = gr.length;
+  }
+  clicked: any;
+  async filterByColor(val: any) {
+    if (val == "red") {
+      this.clicked = "red";
+      this.getActions();
+
+      this.latestAction = this.newActions.filter(
+        (f: any) => f.timeDefference >= f.redLine
+      );
+    } else if (val == "orange") {
+      this.clicked = "orange";
+      this.getActions();
+
+      this.latestAction = this.newActions.filter(
+        (f: any) =>
+          f.timeDefference >= f.orengeLine && f.timeDefference < f.redLine
+      );
+    } else if (val == "green") {
+      this.clicked = "green";
+      this.getActions();
+
+      this.latestAction = this.newActions.filter(
+        (f: any) => f.timeDefference < f.orengeLine
+      );
+    } else {
+      this.clicked = "white";
+      this.latestAction = this.newActions;
+    }
+  }
 
   getCtegories() {
     this.categoriesService.getNotificationCategory().subscribe((data: any) => {
       this.NotificationCategory = data.filter(
         (f: any) => f.userId == this.userId
+      );
+      for (var val of this.NotificationCategory) {
+        for (let value of this.newActions) {
+          if (val.id == value.categoryId) {
+            val.existingTime = value.existingTime;
+          }
+        }
+      }
+      this.NotificationCategory = this.NotificationCategory.sort(
+        (a: any, b: any) => a.existingTime - b.existingTime
+      );
+
+      console.log(
+        "this.newActions",
+        this.newActions,
+        this.NotificationCategory
       );
     });
   }

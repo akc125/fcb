@@ -93,7 +93,7 @@ main{
 .crd{
     width: 550px;
     height: 300px;
-    background-color: rgb(24, 24, 51);
+    background-color: rgb(13, 13, 52);
     border-radius: 20px;
     box-shadow: 2px 2px 5px black;
     text-align: center;
@@ -240,9 +240,10 @@ border-radius: 5px;
     margin-top: 10px;
     position: relative;
     top: 80px;
-    background-color: rgb(76, 10, 10);
+    background-color: rgb(10, 18, 76);
     color: white;
     border: 1px solid white;
+    margin-top: -30px;
 }
 .sdf{
     position: relative;

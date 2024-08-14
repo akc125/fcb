@@ -1,4 +1,4 @@
-import { DebitComponent } from './debit/debit.component';
+import { DebitComponent } from "./debit/debit.component";
 import { ExpenseDetailsComponent } from "./expense-details/expense-details.component";
 import { HomeComponent } from "./home/home.component";
 import { NgModule } from "@angular/core";
@@ -15,6 +15,9 @@ import { NotificationComponent } from "./notification/notification.component";
 import { ActionComponent } from "./action/action.component";
 import { CommissionComponent } from "./commission/commission.component";
 import { CommissionDetailsComponent } from "./commission-details/commission-details.component";
+import { TradComponent } from "./trad/trad.component";
+import { Trad2Component } from "./trad2/trad2.component";
+import { Trad3Component } from "./trad3/trad3.component";
 
 const routes: Routes = [
   { path: "home", component: HomeComponent, canActivate: [authGuard] },
@@ -31,13 +34,32 @@ const routes: Routes = [
     canActivate: [authGuard],
   },
   {
+    path: "trad",
+    component: TradComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: "trad/:id",
+    component: Trad2Component,
+    canActivate: [authGuard],
+  },
+  {
+    path: "trad3",
+    component: Trad3Component,
+    canActivate: [authGuard],
+  },
+  {
     path: "action/:id",
     component: ActionComponent,
     canActivate: [authGuard],
   },
   { path: "register", component: RegisterComponent },
   { path: "about", component: AboutComponent, canActivate: [authGuard] },
-  { path: "commissionDetails/:id", component: CommissionDetailsComponent, canActivate: [authGuard] },
+  {
+    path: "commissionDetails/:id",
+    component: CommissionDetailsComponent,
+    canActivate: [authGuard],
+  },
   { path: "debit", component: DebitComponent, canActivate: [authGuard] },
   { path: "creadit", component: CreaditComponent, canActivate: [authGuard] },
   {

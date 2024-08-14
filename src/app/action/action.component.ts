@@ -42,6 +42,7 @@ export class ActionComponent {
           name: new FormControl(this.name),
           categoryId: new FormControl(this.id),
           expense: new FormControl(),
+          rgExpense: new FormControl(),
           action: new FormControl(),
           day: new FormControl(),
           duration: new FormControl(this.duration),
@@ -54,6 +55,8 @@ export class ActionComponent {
 
   addActions() {
     const formData = this.actionsDataForm.value;
+    console.log('timeDefference',this.actionsDataForm.get('rgExpense').value)
+    formData.rgExpense = Number(formData.rgExpense);
     this.CategoriesService.addNotificationnotificationExpenseAndAction(
       formData
     ).subscribe((data) => {
@@ -120,10 +123,9 @@ export class ActionComponent {
   getActions() {
     this.CategoriesService.getNotificationAndAction().subscribe((data: any) => {
       this.actions = data.filter(
-        (f: any) => f.userId == this.userId && f.categoryId == this.id,
-      
+        (f: any) => f.userId == this.userId && f.categoryId == this.id
       );
-      this.actions.reverse()
+      this.actions.reverse();
     });
   }
 }

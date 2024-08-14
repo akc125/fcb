@@ -12,6 +12,15 @@
   object-fit: cover;
   padding-top: 200px;
   color: black;
+  background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSREpVMOTR8msZXZw2mcZ4XAhR7KoNf0r9JA&usqp=CAU');
+
+background: linear-gradient(rgba(0, 0, 0, 0.4),rgb(255, 255, 255)),url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSzqFszr8QPaJiZHyQ7m30Zm9jcr7Q3APxRg&usqp=CAU');
+background-position: center;
+background-repeat: no-repeat;
+background-size: cover;
+color: red;
+border: 10px solid rgb(255, 145, 0);
+border-radius: 40px;
 }
 .lg input{
   width: 250px;
@@ -37,7 +46,7 @@
   position: relative;
   left: -97px;
   top: 260px;
-  background-color: rgb(114, 19, 76);
+  background-color: rgb(11, 61, 11);
   color: aliceblue;
 }
 .lg label:nth-child(1){
@@ -46,6 +55,10 @@
   left: 790px;
   top: 100px;
   color: rgb(0, 0, 0);
+}
+
+.lg{
+  color: red;
 }
 .sd{
 
@@ -68,4 +81,25 @@
   left: 150px;
   top: 210px;
   margin-bottom: 35px;
+}
+.lg{
+color: red;
+}
+main{
+  position: absolute;
+  width: 500px;
+  height: 350px;
+  background-color: rgb(175, 164, 164,0.1);
+  left: 700px;
+  top: 220px;
+  box-shadow: 2px 2px 5px black;
+  border-radius: 10px;
+}
+h1{
+  position: absolute;
+  top: 290px;
+  font-size: 130px;
+  color: rgb(255, 0, 0);
+  font-weight: 900;
+  left: 50px;
 }

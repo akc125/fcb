@@ -59,9 +59,9 @@
             name="type"
             value="regularType"
             class="nr"
-          /><label style=" position: relative;
-          left: -62px;
-          top: -12px;">Regular</label><br />
+          /><label style="position: relative; left: -62px; top: -12px"
+            >Regular</label
+          ><br />
           <input
             formControlName="duration"
             placeholder="How many Days Duration"
@@ -88,6 +88,35 @@
   <div class="notify">
     <header class="lsthdr">
       <h1 class="lsthd">Actions</h1>
+      <div class="crcls">
+        <div
+          class="rct1"
+          (click)="filterByColor('red')"
+          [ngClass]="clicked == 'red' ? 'rct11' : 'rct1'"
+          [ngClass]="red >= 5 ? 'spc' : ''"
+        ></div>
+        <p>{{ red }}</p>
+        <div
+          class="rct2"
+          (click)="filterByColor('orange')"
+          [ngClass]="clicked == 'orange' ? 'rct22' : 'rct2'"
+        ></div>
+        <p>{{ orange }}</p>
+        <div
+          class="rct3"
+          (click)="filterByColor('green')"
+          [ngClass]="clicked == 'green' ? 'rct33' : 'rct3'"
+        ></div>
+        <p>{{ green }}</p>
+        <div
+          class="rct4"
+          (click)="filterByColor('white')"
+          [ngClass]="clicked == 'white' ? 'rct44' : 'rct4'"
+        >
+          All
+        </div>
+        <p>{{ red + orange + green }}</p>
+      </div>
     </header>
     <div class="acv">
       <p>Items</p>
@@ -95,10 +124,13 @@
       <p>Existing Time</p>
       <p>Warning</p>
     </div>
-    <section class="sec3" *ngFor="let ctg of newActions">
-      <div class="insdctgry">
+    <section class="sec3" *ngFor="let ctg of latestAction">
+      <div class="insdctgry" (click)="navigateToAddPage(ctg.categoryId)">
         <img class="img2" src="{{ ctg.image }}" />
         <h1 class="nm2">{{ ctg.name }}</h1>
+        <h5 class="rg" *ngIf="ctg.regularExpenseTotal > 0">
+          To Pay : {{ ctg.regularExpenseTotal }}
+        </h5>
         <p class="rchgamnt" *ngIf="ctg.expense !== 'null'">{{ ctg.expense }}</p>
         <p
           class="rchgamnt"
@@ -110,18 +142,20 @@
         <p class="dts">{{ ctg.day | date : "dd-MM-yy" }}</p>
       </div>
       <main class="dntm">
-        <h1 *ngIf="ctg.timeDefference > 1">
-          {{ ctg.timeDefference }} days ago
-        </h1>
         <h1 *ngIf="ctg.timeDefference == 1">
           {{ ctg.timeDefference }} day ago
+        </h1>
+        <h1 *ngIf="ctg.timeDefference > 1">
+          {{ ctg.timeDefference }} days ago
         </h1>
         <h1 *ngIf="ctg.timeDefference == 0">Today</h1>
       </main>
 
       <main class="dntm2">
         <h1 *ngIf="ctg.existingTime == 0">last day</h1>
-        <h1 *ngIf="ctg.existingTime < 0" style="color: red">{{ctg.existingTime }}  gone</h1>
+        <h1 *ngIf="ctg.existingTime < 0" style="color: red">
+          {{ ctg.existingTime }} gone
+        </h1>
         <h1 *ngIf="ctg.existingTime > 1">{{ ctg.existingTime }} days</h1>
         <h1 *ngIf="ctg.existingTime == 1">{{ ctg.existingTime }} day</h1>
         <p style="font-size: 16px" *ngIf="ctg.existingTime >= 0">
@@ -132,7 +166,7 @@
         </p>
       </main>
 
-      <main class="dntm3">
+      <main class="dntm3"  [ngClass]="ctg.existingTime <0  ? 'dntm34' : 'dntm3'">
         <mat-icon
           class="alrt"
           [ngClass]="ctg.timeDefference >= ctg.redLine ? 'alrt' : 'alrt2'"
@@ -151,7 +185,7 @@
           class="wng"
           [ngClass]="ctg.timeDefference >= ctg.redLine ? 'wng' : 'wng2'"
         >
-          Your duration period is expired
+          Your duration period expired
         </h1>
         <i
           style="color: green; font-size: 25px; margin-left: 35px"

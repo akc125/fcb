@@ -29,7 +29,7 @@
   grid-template-rows: 435px 435px;
 }
 .grid1 {
-  background-image: url("https://s40424.pcdn.co/in/wp-content/uploads/2023/04/what-does-a-business-analyst-do.png");
+  background-image: url("https://imageio.forbes.com/specials-images/imageserve/5fca87f3ce4ca55e8985a10a/People-meeting-and-discussing-growth-statistics-on-tablet-/960x0.jpg?format=jpg&width=960");
 }
 .grid2 {
   background-color: rgb(255, 255, 255);
@@ -78,9 +78,9 @@ footer {
   }
 }
 .monthName {
-  font-size: 80px;
+  font-size: 60px;
   position: relative;
-  left: 70px;
+  left: 30px;
   color: rgb(183, 23, 23);
   box-shadow: 2px 2px 5px black;
   padding: 10px;
@@ -88,7 +88,7 @@ footer {
 .year {
   font-size: 80px;
   position: relative;
-  left: 90px;
+  left: 50px;
 }
 .item {
   position: relative;
@@ -285,3 +285,121 @@ footer {
   left: 90px;
   color: rgb(255, 255, 255);
 }
+.rctgl{
+  padding-top: 10px;
+  width: 250px;
+  height: 50px;
+  position: absolute;
+  left: 670px;
+  top: 275px;
+  display: flex;
+  justify-content: space-evenly;
+}
+.rct1 {
+  width: 30px;
+  height: 30px;
+  background-color: red;
+  border-radius: 5px;
+  box-shadow: 8px 8px  8px black inset;
+}
+.rct11 {
+  width: 30px;
+  height: 30px;
+  background-color: rgb(47, 1, 1);
+  position: relative;
+  border-radius: 5px;
+  box-shadow: 8px 8px  8px black inset;
+  animation: expand1 1s 1s infinite;
+  transition: 19s;
+}
+@keyframes  expand1 {
+  0% {
+ 
+    background-color: rgb(255, 255, 255);
+  }
+  50% {
+  
+    background-color: rgb(123, 18, 60);
+  }
+}
+
+.rct2 {
+  width: 30px;
+  height: 30px;
+  background-color: rgb(255, 119, 0);
+  border-radius: 5px;
+  box-shadow: 8px 8px  8px black inset;
+}
+.rct22 {
+  width: 30px;
+  height: 30px;
+  background-color: rgb(255, 119, 0);
+  position: relative;
+  border-radius: 5px;
+  box-shadow: 8px 8px  8px black inset;
+  box-shadow: 8px 8px  8px black inset;
+  animation: expand2 1s 1s infinite;
+  transition: 19s;
+}
+@keyframes expand2 {
+  0% {
+ 
+    background-color: rgb(255, 255, 255);
+  }
+  50% {
+  
+    background-color: rgb(255, 98, 0);
+  }
+}
+.rct3 {
+  width: 30px;
+  height: 30px;
+  background-color: rgb(10, 86, 19);
+  border-radius: 5px;
+  box-shadow: 8px 8px  8px black inset;
+}
+.rct33 {
+  width: 30px;
+  height: 30px;
+  background-color: rgb(10, 86, 19);
+  position: relative;
+  border-radius: 5px;
+  box-shadow: 8px 8px  8px black inset;
+  box-shadow: 8px 8px  8px black inset;
+  animation: expand3 1s 1s infinite;
+  transition: 19s;
+}
+@keyframes expand3 {
+  0% {
+ 
+    background-color: rgb(255, 255, 255);
+  }
+  50% {
+  
+    background-color: rgb(50, 144, 10);
+  }
+}
+.rct4 {
+  width: 30px;
+  height: 30px;
+  background-color: rgb(255, 255, 255);
+  color: brown;
+  padding-top: 8px;
+  font-size: 13px;
+  border-radius: 5px;
+  box-shadow: 8px 8px  8px black inset;
+}
+.rct44 {
+  width: 23px;
+
+  height: 23px;
+  background-color: rgb(255, 255, 255);
+  color: brown;
+  padding-top: 6px;
+  font-size: 11px;
+  position: relative;
+  top: 4px;
+  border-radius: 5px;
+  box-shadow: 8px 8px  8px black inset;
+}
+

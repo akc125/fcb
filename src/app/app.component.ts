@@ -92,7 +92,6 @@ export class AppComponent {
             this.lastExpenses.length < 10 ? -10 : -this.lastExpenses.length
           )
           .reverse();
-        console.log("expensesssssss", this.expense.slice(-10));
       } catch (error) {
         console.error("Error processing data:", error);
       }

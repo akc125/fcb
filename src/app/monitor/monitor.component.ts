@@ -2,6 +2,7 @@ import { CategoriesService } from "src/services/categories.service";
 import { Component, ElementRef, ViewChild } from "@angular/core";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import { CategoryFireService } from "src/services/category-fire.service";
 
 @Component({
   selector: "app-monitor",
@@ -17,7 +18,11 @@ export class MonitorComponent {
     this.currentYear = currentDate.getFullYear();
     this.defualtDate = currentDate.toISOString().substring(5, 7);
   }
-  constructor(private categoriesService: CategoriesService) {}
+  constructor(
+    private categoriesService: CategoriesService,
+    private categoriesServiceFire: CategoryFireService,
+
+  ) {}
   selection: any;
   onSelected(event: any) {
     this.selection = event.target.value;
@@ -106,7 +111,7 @@ export class MonitorComponent {
   userId = localStorage.getItem("userId");
   getExpense() {
     const id = localStorage.getItem("userId");
-    this.categoriesService.getExpensList().subscribe((data: any) => {
+    this.categoriesServiceFire.getExpensList().subscribe((data: any) => {
       const expensesCopy = [...this.expenses];
       this.expenses = data.filter((f: any) => f.userId == id);
 
@@ -186,7 +191,7 @@ export class MonitorComponent {
 
   getIncomes() {
     const id = localStorage.getItem("userId");
-    this.categoriesService.getIncomes().subscribe((data: any) => {
+    this.categoriesServiceFire.getIncomes().subscribe((data: any) => {
       this.incomes = data.filter((f: any) => {
         return f.userId == id;
       });

@@ -10,8 +10,8 @@
     <div class="ntb" *ngIf="!open">
       <div class="cntrdv">
         <mat-icon class="ic" (click)="closePopup()">highlight_off</mat-icon>
-        <div class="slctdimg" *ngIf="file">
-          <img class="oil" [src]="file ? file : ''" alt="image" />
+        <div class="slctdimg" *ngIf="setimageURL">
+          <img class="oil" [src]="setimageURL ? setimageURL : ''" alt="image" />
         </div>
         <h1>Add Category</h1>
         <form [formGroup]="categoryForm">
@@ -69,7 +69,7 @@
           <input
             style="position: relative; top: 10px; margin-bottom: 5px"
             type="file"
-            (change)="handleFile($event)"
+            (change)="onSelect($event)"
             placeholder="How many Days Duration"
           /><br />
         </form>
@@ -81,7 +81,7 @@
       *ngFor="let ct of NotificationCategory"
       (click)="navigateToAddPage(ct.id)"
     >
-      <img class="imgt" src="{{ ct.image }}" />
+      <img class="imgt" src="{{ ct.imageUrl }}" />
       <p class="nm">{{ ct.name }}</p>
     </div>
   </section>
@@ -126,7 +126,7 @@
     </div>
     <section class="sec3" *ngFor="let ctg of latestAction">
       <div class="insdctgry" (click)="navigateToAddPage(ctg.categoryId)">
-        <img class="img2" src="{{ ctg.image }}" />
+        <img class="img2" src="{{ ctg.imageUrl }}" />
         <h1 class="nm2">{{ ctg.name }}</h1>
         <h5 class="rg" *ngIf="ctg.regularExpenseTotal > 0">
           To Pay : {{ ctg.regularExpenseTotal }}
@@ -166,7 +166,7 @@
         </p>
       </main>
 
-      <main class="dntm3"  [ngClass]="ctg.existingTime <0  ? 'dntm34' : 'dntm3'">
+      <main class="dntm3" [ngClass]="ctg.existingTime < 0 ? 'dntm34' : 'dntm3'">
         <mat-icon
           class="alrt"
           [ngClass]="ctg.timeDefference >= ctg.redLine ? 'alrt' : 'alrt2'"

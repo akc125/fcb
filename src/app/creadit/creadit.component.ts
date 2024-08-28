@@ -1,6 +1,19 @@
-import { CategoriesService } from "src/services/categories.service";
-import { Component } from "@angular/core";
-import { FormArray, FormControl, FormGroup } from "@angular/forms";
+import { CategoriesService } from 'src/services/categories.service';
+import { Component } from '@angular/core';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { CategoryFireService } from 'src/services/category-fire.service';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+
+import {
+  collection,
+  getFirestore,
+  getDocs,
+  addDoc,
+  deleteDoc,
+  doc,
+  updateDoc,
+  getDoc,
+} from 'firebase/firestore';
 interface CreditFormData {
   name: string;
   amount: number;
@@ -11,16 +24,16 @@ interface CreditFormData {
   contact: string;
 }
 @Component({
-  selector: "app-creadit",
-  templateUrl: "./creadit.component.html",
-  styleUrls: ["./creadit.component.css"],
+  selector: 'app-creadit',
+  templateUrl: './creadit.component.html',
+  styleUrls: ['./creadit.component.css'],
 })
 export class CreaditComponent {
   ngOnInit(): void {
     this.getCredit();
     this.getTransaction();
   }
-  constructor(private categoriesService: CategoriesService) {}
+  constructor(private categoriesServiceFire: CategoryFireService) {}
   creditForm = new FormGroup({
     name: new FormControl(),
     amount: new FormControl(),
@@ -32,21 +45,20 @@ export class CreaditComponent {
   });
   file: any; // Initialize the 'file' variable as a string or null.
   sendFile: any;
-  onSelect(event: any) {
-    const selectedFile = event.target.files[0];
-    this.sendFile = event.target.files[0];
-    if (selectedFile) {
-      // Generate a data URL from the selected file and set it to 'file'.
+  image: any;
+  setimageURL: any;
+  onSelect = (e: any) => {
+    if (e.target.files[0]) {
+      const file = e.target.files[0];
+      this.image = file;
+
       const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.file = e.target.result;
+      reader.onloadend = () => {
+        this.setimageURL = reader.result;
       };
-      reader.readAsDataURL(selectedFile);
-    } else {
-      // If no file is selected, clear the 'file' variable.
-      this.file = null;
+      reader.readAsDataURL(file);
     }
-  }
+  };
 
   open: any;
   openForm() {
@@ -55,42 +67,26 @@ export class CreaditComponent {
   closeForm() {
     this.open = false;
   }
-  saveCredit() {
-    const formData = new FormData();
-    const userId = localStorage.getItem("userId");
+  async saveCredit() {
+    const storage = getStorage();
 
-    // Define an object that maps form control names to their values
-    const formControls: { [key: string]: string } = {
-      name: "name",
-      amount: "amount",
-      date: "date",
-      duration: "duration",
-      address: "address",
-      status: "status",
-      contact: "contact",
-    };
-
-    // Loop through the form controls and append them to formData
-    for (const key in formControls) {
-      if (formControls.hasOwnProperty(key)) {
-        const controlName = formControls[key];
-        const controlValue = this.creditForm.get(controlName)?.value;
-        formData.append(key, controlValue);
+    try {
+      if (this.image) {
+        const imageRef = ref(storage, `images/${this.image.name}`);
+        const snapshot = await uploadBytes(imageRef, this.image);
+        this.setimageURL = await getDownloadURL(snapshot.ref);
       }
-    }
-
-    // Append userId if it exists
-    if (userId !== null) {
-      formData.append("userId", userId);
-    }
-
-    // Append the file
-    formData.append("myFile", this.sendFile);
-
-    this.categoriesService.addCredits(formData).subscribe((data: any) => {
-      alert("posted successfully");
+      const newData = {
+        ...this.creditForm.value,
+        imageUrl: this.setimageURL,
+        active: true,
+      };
+      await this.categoriesServiceFire.addCredits(newData);
       this.getCredit();
-    });
+    } catch (error) {
+      console.error('Error saving credit:', error);
+      alert('An error occurred while saving the credit. Please try again.');
+    }
   }
 
   credits: any = [];
@@ -99,18 +95,20 @@ export class CreaditComponent {
   personsTogiveMony: any;
   toatalCreditReturned: number = 0;
   getCredit() {
-    const id = localStorage.getItem("userId");
-    this.categoriesService.getCredits().subscribe((data: any) => {
+    const id = localStorage.getItem('userId');
+    this.categoriesServiceFire.getCredits().subscribe((data: any) => {
       this.credits = data.filter((f: any) => f.userId == id);
-      this.credits.reverse()
+      console.log('credits', data);
+      this.credits.reverse();
       this.credits2 = data.filter(
-        (f: any) => f.active !== "true" && f.userId == id
+        (f: any) => f.active !== 'true' && f.userId == id
       );
       this.credits3 = data.filter(
-        (f: any) => f.active == "true" && f.userId == id
+        (f: any) => f.active == 'true' && f.userId == id
       );
-      console.log("credits2", this.credits3);
+      console.log('credits2', this.credits3);
       this.getTotal();
+      this.getTransaction()
     });
     this.getTotal();
   }
@@ -126,7 +124,7 @@ export class CreaditComponent {
   });
   addTransaction(creditId: any) {
     const data = { ...this.trnsactionForm.value, creditId: creditId };
-    this.categoriesService.addTransaction(data).subscribe((data: any) => {
+    this.categoriesServiceFire.addTransaction(data).then((data: any) => {
       this.getTransaction();
     });
   }
@@ -148,12 +146,12 @@ export class CreaditComponent {
   incomeWithCredit: any;
   balance: any;
   getTransaction() {
-    const id = localStorage.getItem("userId");
-    const incomes = localStorage.getItem("income");
-    const expense = localStorage.getItem("expense");
+    const id = localStorage.getItem('userId');
+    const incomes = localStorage.getItem('income');
+    const expense = localStorage.getItem('expense');
     this.currentIncome = incomes;
     this.expense = expense;
-    this.categoriesService.getTransactions().subscribe((data: any) => {
+    this.categoriesServiceFire.getTransactions().subscribe((data: any) => {
       this.tansactions = data.filter((f: any) => f.userId == id);
 
       for (let val of this.credits) {
@@ -165,9 +163,8 @@ export class CreaditComponent {
             ...p,
             index,
           }));
-          val.total = transactions.reduce((sum: any, v: any) => {
-            let ans = (sum += v.amount);
-            return ans;
+          val.total = transactions.reduce((sum: number, v: any) => {
+            return sum + Number(v.amount);
           }, 0);
 
           val.existing = val.amount - val.total;
@@ -197,9 +194,9 @@ export class CreaditComponent {
       let sum = 0;
       let returnedAmount = 0;
       for (let v of this.credits2) {
-        sum = sum + v.amount;
+        sum = sum + Number(v.amount);
         for (let b of v.transaction) {
-          returnedAmount += b.amount;
+          returnedAmount += Number(b.amount);
         }
       }
       this.totalCredit = sum;
@@ -211,17 +208,17 @@ export class CreaditComponent {
   }
   hide: boolean = false;
   deActiveFile(id: any) {
-    this.hide = true;
+    this.hide = false;
     const data = { id: id, hide: this.hide };
-    this.categoriesService.hideFile(data).subscribe((data: any) => {
+    this.categoriesServiceFire.hideFile(data).then((data: any) => {
       this.getCredit();
       this.getTransaction();
     });
   }
   activeFile(id: any) {
-    this.hide = false;
+    this.hide = true;
     const data = { id: id, hide: this.hide };
-    this.categoriesService.hideFile(data).subscribe((data: any) => {
+    this.categoriesServiceFire.hideFile(data).then((data: any) => {
       this.getCredit();
       this.getTransaction();
     });

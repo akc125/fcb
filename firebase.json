@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "dist/fcb-project",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

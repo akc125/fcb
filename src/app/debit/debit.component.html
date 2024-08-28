@@ -15,9 +15,14 @@
       <label>Description :</label
       ><input placeholder="Description" formControlName="description" /><br />
       <label>Date :</label
-      ><input placeholder="Date" [(ngModel)]="mydate" type="date" formControlName="date" /><br />
+      ><input
+        placeholder="Date"
+        [(ngModel)]="mydate"
+        type="date"
+        formControlName="date"
+      /><br />
       <label>Select :</label
-      ><input type="file" (change)="handleFile($event)" /><br />
+      ><input type="file" (change)="onSelect($event)" /><br />
       <button (click)="addDebits()">Add+</button>
     </form>
   </div>
@@ -62,7 +67,7 @@
           <tr *ngFor="let val of val.amountData; let i = index">
             <td>{{ i + 1 }}</td>
             <td>{{ val.amount }}</td>
-            <td>{{ val.day | date : "dd-MM-yyyy" }}</td>
+            <td>{{ val.date | date : "dd-MM-yyyy" }}</td>
           </tr>
           <tr>
             <td>Total</td>
@@ -88,7 +93,7 @@
   </main>
 
   <div class="da" *ngIf="open">
-    <div *ngFor="let val of debits">
+    <div *ngFor="let val of debits; let i = index">
       <div class="crd2" *ngIf="val.active == 0">
         <h1>{{ val.name }}</h1>
         <span>Amount :</span>
@@ -106,9 +111,9 @@
             <th>Date</th>
           </tr>
           <tr *ngFor="let v of val.amountData">
-            <td>{{ v.id }}</td>
+            <td>{{ i + 1 }}</td>
             <td>{{ v.amount }}</td>
-            <td>{{ v.day | date : "dd-MM-yyyy" }}</td>
+            <td>{{ v.date | date : "dd-MM-yyyy" }}</td>
           </tr>
           <tr>
             <td>Total</td>

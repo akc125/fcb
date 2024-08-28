@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CategoriesService } from 'src/services/categories.service';
+import { CategoryFireService } from 'src/services/category-fire.service';
 
 @Component({
   selector: 'app-expense-details',
@@ -15,7 +16,7 @@ export class ExpenseDetailsComponent {
 
   constructor(
     private route: ActivatedRoute,
-    private categoriesService: CategoriesService
+    private categoriesServiceFire: CategoryFireService
   ) {}
 
   ngOnInit(): void {
@@ -30,18 +31,19 @@ export class ExpenseDetailsComponent {
       date: currentDate,
       descId: this.id,
     };
-    this.categoriesService.postDesciption(data).subscribe(() => {
+    this.categoriesServiceFire.postDesciption(data).then(() => {
       this.getDescriptions();
     });
   }
 
   getDescriptions() {
     const id = localStorage.getItem('userId');
-    this.categoriesService.getDescription().subscribe((data) => {
+    this.categoriesServiceFire.getDescription().subscribe((data) => {
       this.descriptions = data;
       this.descriptions = this.descriptions.filter(
         (f: any) => f.descId == this.id && f.userId == id
       );
+      console.log('descriptions',this.descriptions)
       this.desc.setValue('');
     });
   }

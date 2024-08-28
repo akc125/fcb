@@ -1,20 +1,22 @@
-import { CategoriesService } from "src/services/categories.service";
-import { Component } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { FormControl, FormGroup } from "@angular/forms";
+import { CategoriesService } from 'src/services/categories.service';
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormControl, FormGroup } from '@angular/forms';
+import { CategoryFireService } from 'src/services/category-fire.service';
 
 @Component({
-  selector: "app-expense",
-  templateUrl: "./expense.component.html",
-  styleUrls: ["./expense.component.css"],
+  selector: 'app-expense',
+  templateUrl: './expense.component.html',
+  styleUrls: ['./expense.component.css'],
 })
 export class ExpenseComponent {
   constructor(
     private route: ActivatedRoute,
     private categoriesServices: CategoriesService,
+    private categoriesServicesFire: CategoryFireService,
     private router: Router
   ) {}
-  
+
   defaultDate: any;
   ngOnInit(): void {
     this.getCategory();
@@ -27,15 +29,15 @@ export class ExpenseComponent {
   lastDate: any;
   filter: boolean = false;
   expense: any;
-  exName: any = "";
+  exName: any = '';
   defualtMonth: any;
-  id: any = this.route.snapshot.paramMap.get("id");
+  id: any = this.route.snapshot.paramMap.get('id');
   expenseFormGroup = new FormGroup({
     expense: new FormControl(this.exName),
     name: new FormControl(),
     date: new FormControl(),
     catId: new FormControl(this.id),
-    times:new FormControl(new Date())
+    times: new FormControl(new Date()),
   });
   dateFilterGroup = new FormGroup({
     lastDate: new FormControl(),
@@ -43,7 +45,7 @@ export class ExpenseComponent {
   });
   categories: any = [];
   async getCategory() {
-    this.categoriesServices.getCategories().subscribe((data: any) => {
+    this.categoriesServicesFire.getCategories().subscribe((data: any) => {
       this.categories = data;
       this.findName();
     });
@@ -59,7 +61,7 @@ export class ExpenseComponent {
       ...this.expenseFormGroup.value,
       name: this.expense.name,
     };
-    this.categoriesServices.addExpense(formData).subscribe((data: any) => {
+    this.categoriesServicesFire.addExpense(formData).then((data: any) => {
       this.getExpenses();
     });
   }
@@ -71,8 +73,8 @@ export class ExpenseComponent {
   mapedData: any[] = [];
   filteredTotal: number = 0;
   async getExpenses() {
-    const id = localStorage.getItem("userId");
-    this.categoriesServices.getExpensList().subscribe((data) => {
+    const id = localStorage.getItem('userId');
+    this.categoriesServicesFire.getExpensList().subscribe((data) => {
       this.expenses = data;
       this.compleateExpense = data;
       this.expenses = this.expenses.filter(
@@ -89,18 +91,18 @@ export class ExpenseComponent {
   }
 
   getFiltered() {
-    const id = localStorage.getItem("userId");
+    const id = localStorage.getItem('userId');
     this.compleateCategoryExpense = this.compleateExpense.filter(
       (f: any) => f.catId == this.id && f.userId == id
     );
     setTimeout(() => {
       for (const exp of this.compleateCategoryExpense) {
         this.filteredTotal += exp.expense;
-      } 
+      }
     }, 100);
-   
-    const lastDate = this.dateFilterGroup.get("lastDate")?.value;
-    const firstDate = this.dateFilterGroup.get("firstDate")?.value;
+
+    const lastDate = this.dateFilterGroup.get('lastDate')?.value;
+    const firstDate = this.dateFilterGroup.get('firstDate')?.value;
     this.filteredData = this.compleateCategoryExpense.filter(
       (f: any) => f.day > lastDate && f.day < firstDate
     );
@@ -120,7 +122,7 @@ export class ExpenseComponent {
     } else {
       this.mapedData = this.expenses;
     }
-    this.mapedData.reverse()
+    this.mapedData.reverse();
   }
 
   navigateToDetailsPage(id: any) {

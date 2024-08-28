@@ -4,8 +4,8 @@
     <form (submit)="addCommissions()" [formGroup]="commissionGroup">
       <input placeholder="Name" formControlName="name" /><br />
       <input placeholder="Description" formControlName="description" /><br />
-      <input type="file" (change)="handleFile($event)" /><br />
-      <input placeholder="Date" formControlName="date" type="date" /><br />
+      <input type="file" (change)="onSelect($event)" /><br />
+      <input placeholder="Date" formControlName="day" type="date" /><br />
       <input placeholder="Amount" formControlName="amount" /><br />
       <input placeholder="Guarantee" formControlName="guarantee" /><br />
       <button class="adb">Add+</button>>
@@ -13,6 +13,7 @@
   </div>
   <main class="lst1">
     <h1 class="hd">Your <span class="spn">Properties </span> Commission</h1>
+    <button class="dcbtn" (click)="goToDeCommissionPage()">Decommission</button>
     <div class="expl">
       <p>
         You can add your properties here and it is value and guarantee period
@@ -32,7 +33,7 @@
       [ngClass]="data.guarantee == 'null' ? 'as' : 'crd'"
     >
       <div [ngClass]="data.guarantee == 'null' ? 'd11' : 'd1'">
-        <img src="{{ data.image }}" />
+        <img src="{{ data.imageUrl }}" />
       </div>
       <div [ngClass]="data.guarantee == 'null' ? 'd22' : 'd2'">
         <h1>{{ data.name }}</h1>

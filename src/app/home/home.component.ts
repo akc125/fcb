@@ -2,6 +2,7 @@ import { CategoriesService } from "src/services/categories.service";
 import { Component } from "@angular/core";
 import { CanvasJS } from "@canvasjs/angular-charts";
 import * as moment from 'moment';
+import { CategoryFireService } from "src/services/category-fire.service";
 
 @Component({
   selector: "app-home",
@@ -26,7 +27,11 @@ export class HomeComponent {
     this.day = days.toISOString().slice(0, 19).replace("T", " ");
     this.initializeChart();
   }
-  constructor(private categoriesService: CategoriesService) {}
+  constructor(
+    private categoriesService: CategoriesService,
+    private categoriesServiceFire: CategoryFireService,
+
+  ) {}
   userId = localStorage.getItem("userId");
   finalExpense: any = [];
   lstThreeOfFiinalExpense: any = [];
@@ -45,7 +50,7 @@ export class HomeComponent {
   }
   getExpenses() {
     const id = localStorage.getItem("userId");
-    this.categoriesService.getExpensList().subscribe((data) => {
+    this.categoriesServiceFire.getExpensList().subscribe((data) => {
       this.expense = JSON.parse(JSON.stringify(data)).filter((f: any) => {
         return f.userId == id;
       });
@@ -188,7 +193,7 @@ export class HomeComponent {
 
   getIncome() {
     const id = localStorage.getItem("userId");
-    this.categoriesService.getIncomes().subscribe((data: any) => {
+    this.categoriesServiceFire.getIncomes().subscribe((data: any) => {
       this.income = data.filter((f: any) => f.userId == id);
       const incomCopy = [...this.income];
       this.thisMonthIncome = incomCopy.filter(

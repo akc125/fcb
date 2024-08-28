@@ -1,40 +1,58 @@
-import { CategoriesService } from 'src/services/categories.service';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { AuthService } from 'src/services/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent {
-  ngOnInit(): void {}
-  constructor(
-    private categoriesService: CategoriesService,
-    private router: Router
-  ) {}
+export class LoginComponent implements OnInit {
   loginFormGroup = new FormGroup({
-    name: new FormControl(),
+    email: new FormControl(),
     password: new FormControl(),
   });
-  onLigin() {
-    this.categoriesService.getLogin(this.loginFormGroup.value).subscribe(
-      (data: any) => {
-        const userId = data.id;
-        localStorage.setItem('token', data.mytoken);
-        localStorage.setItem('userId', userId);
-        console.log('data', data);
+
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {}
+
+  async onLogin() {
+    const { email, password } = this.loginFormGroup.value;
+    console.log('email2', email, password);
+
+    try {
+      // Await the login method which returns UserCredential
+      const userCredential = await this.authService.login(email as string, password as string);
+      
+      // Get the user from the credential
+      const user = userCredential.user;
+
+      if (user) {
+        // Retrieve the token from Firebase
+        const token = await user.getIdToken();
+        
+        // Store token and user ID in local storage
+        localStorage.setItem('token', token);
+        localStorage.setItem('userId', user.uid);
+        
+        console.log('User data:', user);
+        console.log('Token:', token);
+        
+        // Navigate to the home page
         this.router.navigate(['home']);
-      },
-      (error: any) => {
-        alert('wrong entry',);
-        console.log('data', error);
       }
-    );
+    } catch (error) {
+      alert('Invalid login credentials');
+      console.error('Login error:', error);
+    }
   }
-  registerNavigate(){
-    this.router.navigate(['register'])
+
+  registerNavigate() {
+    this.router.navigate(['register']);
   }
 }

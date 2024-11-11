@@ -101,21 +101,21 @@ export class CreaditComponent {
       console.log('credits', data);
       this.credits.reverse();
       this.credits2 = data.filter(
-        (f: any) => f.active !== 'true' && f.userId == id
+        (f: any) => f.active == true && f.userId == id
       );
       this.credits3 = data.filter(
-        (f: any) => f.active == 'true' && f.userId == id
+        (f: any) => f.active !== true && f.userId == id
       );
       console.log('credits2', this.credits3);
       this.getTotal();
-      this.getTransaction()
+      this.getTransaction();
     });
     this.getTotal();
   }
 
   getTotal() {
     for (let val of this.credits3) {
-      this.toatalCreditReturned += val.amount;
+      this.toatalCreditReturned += Number(val.amount);
     }
   }
   trnsactionForm = new FormGroup({

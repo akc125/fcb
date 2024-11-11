@@ -150,6 +150,20 @@ export class CategoryFireService {
         )
       );
   }
+  getDiary() {
+    return this.firestore
+      .collection('diary')
+      .snapshotChanges()
+      .pipe(
+        map((actions) =>
+          actions.map((a) => {
+            const data = a.payload.doc.data() as any;
+            const id = a.payload.doc.id;
+            return { id, ...data };
+          })
+        )
+      );
+  }
   getCommissions() {
     return this.firestore
       .collection('commision')
@@ -182,6 +196,13 @@ export class CategoryFireService {
     const userId = localStorage.getItem('userId');
     return this.firestore.collection('categories').add({
       name: data,
+      userId: userId,
+    });
+  }
+  addDiary(data: any) {
+    const userId = localStorage.getItem('userId');
+    return this.firestore.collection('diary').add({
+      ...data,
       userId: userId,
     });
   }

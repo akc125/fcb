@@ -16,6 +16,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AboutComponent } from './about/about.component';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatIconModule } from '@angular/material/icon';
 import { HeaderComponent } from './header/header.component';
@@ -38,6 +39,7 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { environment } from 'src/environments/environment.development';
 import { DecommissionComponent } from './decommission/decommission.component';
+import { DiaryComponent } from './diary/diary.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,6 +64,7 @@ import { DecommissionComponent } from './decommission/decommission.component';
     Trad3Component,
     RulesComponent,
     DecommissionComponent,
+    DiaryComponent,
   ],
   imports: [
     BrowserModule,

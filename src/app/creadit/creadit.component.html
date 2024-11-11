@@ -283,7 +283,7 @@
           <div
             class="clnt"
             *ngFor="let val of credits"
-            [ngStyle]="{ display: val.active == 'true' ? 'none' : 'flex' }"
+            [ngStyle]="{ display: val.active == false ? 'none' : 'flex' }"
           >
             <img alt="image" src="{{ val.imageUrl }}" />
             <p>{{ val.name }}</p>

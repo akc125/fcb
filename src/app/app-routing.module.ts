@@ -19,6 +19,7 @@ import { TradComponent } from './trad/trad.component';
 import { Trad2Component } from './trad2/trad2.component';
 import { Trad3Component } from './trad3/trad3.component';
 import { DecommissionComponent } from './decommission/decommission.component';
+import { DiaryComponent } from './diary/diary.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [authGuard] },
@@ -32,6 +33,11 @@ const routes: Routes = [
   {
     path: 'commission',
     component: CommissionComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'diary',
+    component: DiaryComponent,
     canActivate: [authGuard],
   },
   {

@@ -243,6 +243,7 @@ export class CategoryFireService {
   updateCommission(data: any) {
     return this.firestore.collection('commision').doc(data.id).update(data);
   }
+  
   updateNotificationCategory(data: any) {
     console.log('updationdata', data);
     return this.firestore

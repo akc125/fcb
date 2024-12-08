@@ -298,3 +298,58 @@ border-bottom: 1px solid black;
 .ntt{
   margin-left: 30px;
 }
+
+
+.nav {
+  display: flex;
+  gap: 20px;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown span {
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  background: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  top: 25px;
+  left: 0;
+  padding: 10px 0;
+  z-index: 1000;
+}
+
+.dropdown-content span {
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.dropdown-content span:hover {
+  background-color: #f5f5f5;
+}
+
+.hm,
+.hm2,
+.fn,
+.fn2,
+.mns,
+.mns2,
+.mnss,
+.mnss2,
+.iuh,
+.iuh2,
+.iuhs,
+.iuhs2,
+.iuhss,
+.iuhss2 {
+  font-size: 16px;
+  cursor: pointer;
+}
+

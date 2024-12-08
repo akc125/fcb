@@ -40,6 +40,7 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { environment } from 'src/environments/environment.development';
 import { DecommissionComponent } from './decommission/decommission.component';
 import { DiaryComponent } from './diary/diary.component';
+import { BudgetComponent } from './budget/budget.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,6 +66,7 @@ import { DiaryComponent } from './diary/diary.component';
     RulesComponent,
     DecommissionComponent,
     DiaryComponent,
+    BudgetComponent,
   ],
   imports: [
     BrowserModule,

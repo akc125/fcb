@@ -1,16 +1,16 @@
-import { CategoriesService } from "src/services/categories.service";
-import { Component, ElementRef, ViewChild } from "@angular/core";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
-import { CategoryFireService } from "src/services/category-fire.service";
+import { CategoriesService } from 'src/services/categories.service';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import { CategoryFireService } from 'src/services/category-fire.service';
 
 @Component({
-  selector: "app-monitor",
-  templateUrl: "./monitor.component.html",
-  styleUrls: ["./monitor.component.css"],
+  selector: 'app-monitor',
+  templateUrl: './monitor.component.html',
+  styleUrls: ['./monitor.component.css'],
 })
 export class MonitorComponent {
-  @ViewChild("invoice") invoiceElement!: ElementRef;
+  @ViewChild('invoice') invoiceElement!: ElementRef;
   defualtDate: any;
   currentYear: any;
   ngOnInit(): void {
@@ -20,8 +20,7 @@ export class MonitorComponent {
   }
   constructor(
     private categoriesService: CategoriesService,
-    private categoriesServiceFire: CategoryFireService,
-
+    private categoriesServiceFire: CategoryFireService
   ) {}
   selection: any;
   onSelected(event: any) {
@@ -32,13 +31,15 @@ export class MonitorComponent {
   allTimeExpenseBalance: number = 0;
   allTimeIncome: number = 0;
   expenses: any = [];
+  expensesByYear: any = [];
+  expensesAllTime: any = [];
   expensesJulay: any = [];
   incomes: any = [];
   incomesJulay: any = [];
   totalIncomeJulay: number = 0;
   finalExpenseJulay: any = [];
   totalExpJulay: number = 0;
-  balenceJulay: number = 10;
+  balenceJulay: number = 0;
 
   yearlyExpense: any = [];
   yearlyExpenseFinal: any = [];
@@ -49,19 +50,19 @@ export class MonitorComponent {
   yearlyBalence: number = 0;
 
   monthsList = [
-    { id: "0", name: "" },
-    { id: "01", name: "January" },
-    { id: "02", name: "February" },
-    { id: "03", name: "March" },
-    { id: "04", name: "April" },
-    { id: "05", name: "May" },
-    { id: "06", name: "June" },
-    { id: "07", name: "July" },
-    { id: "08", name: "August" },
-    { id: "09", name: "September" },
-    { id: "10", name: "October" },
-    { id: "11", name: "November" },
-    { id: "12", name: "December" },
+    { id: '0', name: '' },
+    { id: '01', name: 'January' },
+    { id: '02', name: 'February' },
+    { id: '03', name: 'March' },
+    { id: '04', name: 'April' },
+    { id: '05', name: 'May' },
+    { id: '06', name: 'June' },
+    { id: '07', name: 'July' },
+    { id: '08', name: 'August' },
+    { id: '09', name: 'September' },
+    { id: '10', name: 'October' },
+    { id: '11', name: 'November' },
+    { id: '12', name: 'December' },
   ];
 
   monthSelected: any;
@@ -88,109 +89,132 @@ export class MonitorComponent {
   coloselection() {
     this.yearlySelectedExpense = [];
   }
+  prevMonthId: string = '';
   selectedMonth(event: any) {
     this.monthSelected = event.target.value;
     const selected = this.monthsList.find(
       (f: any) => f.name === this.monthSelected
     );
     this.monthId = selected?.id;
+    this.monthId = selected?.id || '';
+
+    let prevMonth = (parseInt(this.monthId) - 1).toString().padStart(2, '0');
+    if (prevMonth === '00') {
+      prevMonth = '12'; 
+    }
+    this.prevMonthId = prevMonth;
+    console.log('prevMonthId',this.prevMonthId)
     this.getExpense();
   }
   selectedYear: any = 2023;
-  idOfMonth: any = "09";
+  idOfMonth: any = '09';
   passId() {
     this.selectedYear = this.selection;
     this.idOfMonth = this.monthId;
-    console.log(
-      " this.selectedYear",
-      this.selectedYear,
-      this.idOfMonth,
-      this.finalExpenseJulay
-    );
+    console.log('property', this.finalExpenseJulay);
   }
-  userId = localStorage.getItem("userId");
+  userId = localStorage.getItem('userId');
   getExpense() {
-    const id = localStorage.getItem("userId");
-    this.categoriesServiceFire.getExpensList().subscribe((data: any) => {
-      const expensesCopy = [...this.expenses];
-      this.expenses = data.filter((f: any) => f.userId == id);
-
-      this.expensesJulay = expensesCopy.filter(
-        (f: any) =>
-          Number(f.day.substring(5, 7)) == parseInt(this.idOfMonth) &&
-          f.day.substring(0, 4) === this.selectedYear
-      );
-      this.finalExpenseJulay = [];
-      for (const exp of this.expensesJulay) {
-        const existing = this.finalExpenseJulay.find(
-          (f: any) => f.name === exp.name
-        );
-        if (existing) {
-          existing.expense += exp.expense;
-        } else {
-          this.finalExpenseJulay.push(exp);
+    const id = localStorage.getItem('userId');
+    this.categoriesServiceFire.getExpensList().subscribe((data) => {
+      this.expenses = JSON.parse(JSON.stringify(data)).filter((f: any) => {
+        return f.userId == id;
+      });
+      this.expensesByYear = JSON.parse(JSON.stringify(data)).filter(
+        (f: any) => {
+          return f.userId == id;
         }
-      }
-      // allTime
-      this.allTimeExpense=[]
-      const allTimeExpenseCopy = [...this.expenses];
-      for (let val of allTimeExpenseCopy) {
-        const existingItem = this.allTimeExpense.find(
-          (f: any) => f.name === val.name
-        );
-        if (existingItem) {
-          existingItem.expense += val.expense;
-        } else {
-          this.allTimeExpense.push(val);
+      );
+      this.expensesAllTime = JSON.parse(JSON.stringify(data)).filter(
+        (f: any) => {
+          return f.userId == id;
         }
-      }
-      this.allTimeExpense = this.allTimeExpense.sort(
-        (a: any, b: any) => b.expense - a.expense
       );
-      for (let v of this.allTimeExpense) {
-        this.allTimeExpenseTotal += v.expense;
-      }
-      // year
-      this.yearlyExpenseFinal = [];
-      const yearlyExpenseCopy = [...this.expenses];
-      this.yearlyExpense = yearlyExpenseCopy.filter(
-        (f: any) => f.day.substring(0, 4) == this.selectedYear
-      );
-      for (let exp of this.yearlyExpense) {
-        const existing = this.yearlyExpenseFinal.find(
-          (f: any) => f.name === exp.name
-        );
-        if (existing) {
-          existing.expense += exp.expense;
-        } else {
-          this.yearlyExpenseFinal.push(exp);
-        }
-      }
-
-      this.yearlyExpenseTotel = 0;
-      this.yearlyIncomeTotel = 0;
-
-      this.yearlyExpenseFinal = this.yearlyExpenseFinal.sort(
-        (a: any, b: any) => b.expense - a.expense
-      );
-      for (const val of this.yearlyExpenseFinal) {
-        this.yearlyExpenseTotel += val.expense;
-      }
-
-      this.totalExpJulay = 0;
-      this.totalIncomeJulay = 0;
-      this.finalExpenseJulay.sort((a: any, b: any) => b.expense - a.expense);
-      for (const val of this.finalExpenseJulay) {
-        this.totalExpJulay += val.expense;
-      }
+      this.calculateExpense();
     });
     setTimeout(() => {
       this.getExpensePercentage();
     }, 1000);
   }
 
+  calculateExpense() {
+    const MonthExpenseCopy = JSON.parse(JSON.stringify(this.expenses));
+    this.expensesJulay = MonthExpenseCopy.filter(
+      (f: any) =>
+        Number(f.day.substring(5, 7)) == parseInt(this.idOfMonth) &&
+        f.day.substring(0, 4) === this.selectedYear
+    );
+
+    this.finalExpenseJulay = [];
+    for (const exp of this.expensesJulay) {
+      const existing = this.finalExpenseJulay.find(
+        (f: any) => f.name === exp.name
+      );
+      if (existing) {
+        existing.expense += Number(exp.expense);
+      } else {
+        this.finalExpenseJulay.push(exp);
+      }
+    }
+    this.totalExpJulay = 0;
+    this.totalIncomeJulay = 0;
+    this.finalExpenseJulay.sort((a: any, b: any) => b.expense - a.expense);
+    for (const val of this.finalExpenseJulay) {
+      this.totalExpJulay += val.expense;
+    }
+    
+    // year
+    this.yearlyExpenseFinal = [];
+    const yearlyExpenseCopys = JSON.parse(JSON.stringify(this.expensesByYear));
+    this.yearlyExpense = yearlyExpenseCopys.filter(
+      (f: any) => f.day.substring(0, 4) == this.selectedYear
+    );
+    for (let exp of this.yearlyExpense) {
+      const existing = this.yearlyExpenseFinal.find(
+        (f: any) => f.name === exp.name
+      );
+      if (existing) {
+        existing.expense += exp.expense;
+      } else {
+        this.yearlyExpenseFinal.push(exp);
+      }
+    }
+
+    this.yearlyExpenseTotel = 0;
+    this.yearlyIncomeTotel = 0;
+
+    this.yearlyExpenseFinal = this.yearlyExpenseFinal.sort(
+      (a: any, b: any) => b.expense - a.expense
+    );
+    for (const val of this.yearlyExpenseFinal) {
+      this.yearlyExpenseTotel += val.expense;
+    }
+
+   
+
+    // allTime
+    this.allTimeExpense = [];
+    const allTimeExpenseCopy = JSON.parse(JSON.stringify(this.expensesAllTime));
+    for (let val of allTimeExpenseCopy) {
+      const existingItem = this.allTimeExpense.find(
+        (f: any) => f.name === val.name
+      );
+      if (existingItem) {
+        existingItem.expense += val.expense;
+      } else {
+        this.allTimeExpense.push(val);
+      }
+    }
+    this.allTimeExpense = this.allTimeExpense.sort(
+      (a: any, b: any) => b.expense - a.expense
+    );
+    for (let v of this.allTimeExpense) {
+      this.allTimeExpenseTotal += v.expense;
+    }
+  }
+
   getIncomes() {
-    const id = localStorage.getItem("userId");
+    const id = localStorage.getItem('userId');
     this.categoriesServiceFire.getIncomes().subscribe((data: any) => {
       this.incomes = data.filter((f: any) => {
         return f.userId == id;
@@ -235,10 +259,10 @@ export class MonitorComponent {
       animationEnabled: true,
       data: [
         {
-          type: "pie",
+          type: 'pie',
           startAngle: 45,
-          indexLabel: "{name}: {y}",
-          indexLabelPlacement: "inside",
+          indexLabel: '{name}: {y}',
+          indexLabelPlacement: 'inside',
           yValueFormatString: "#,###.##'%'",
           dataPoints: this.finalExpenseJulay,
         },
@@ -246,17 +270,17 @@ export class MonitorComponent {
     };
     this.chartOption = {
       title: {
-        text: "Total Impressions by Platforms",
+        text: 'Total Impressions by Platforms',
       },
       animationEnabled: true,
       axisY: {
         includeZero: true,
-        suffix: "%",
+        suffix: '%',
       },
       data: [
         {
-          type: "bar",
-          indexLabel: "{name}: {y}",
+          type: 'bar',
+          indexLabel: '{name}: {y}',
           yValueFormatString: "#,###.##'%'",
           dataPoints: this.finalExpenseJulay,
         },
@@ -270,10 +294,10 @@ export class MonitorComponent {
       animationEnabled: true,
       data: [
         {
-          type: "pie",
+          type: 'pie',
           startAngle: 45,
-          indexLabel: "{name}: {y}",
-          indexLabelPlacement: "inside",
+          indexLabel: '{name}: {y}',
+          indexLabelPlacement: 'inside',
           yValueFormatString: "#,###.##'%'",
           dataPoints: this.yearlyExpenseFinal,
         },
@@ -281,17 +305,17 @@ export class MonitorComponent {
     };
     this.chartOption2 = {
       title: {
-        text: "Total Impressions by Platforms",
+        text: 'Total Impressions by Platforms',
       },
       animationEnabled: true,
       axisY: {
         includeZero: true,
-        suffix: "%",
+        suffix: '%',
       },
       data: [
         {
-          type: "bar",
-          indexLabel: "{name}: {y}",
+          type: 'bar',
+          indexLabel: '{name}: {y}',
           yValueFormatString: "#,###.##'%'",
           dataPoints: this.yearlyExpenseFinal,
         },
@@ -302,13 +326,13 @@ export class MonitorComponent {
   public generatePDF(): void {
     html2canvas(this.invoiceElement.nativeElement, { scale: 1.5 }).then(
       (canvas) => {
-        const imageGeneratedFromTemplate = canvas.toDataURL("image/png");
+        const imageGeneratedFromTemplate = canvas.toDataURL('image/png');
         const fileWidth = 200;
         const generatedImageHeight = (canvas.height * fileWidth) / canvas.width;
-        let PDF = new jsPDF("p", "mm", "a4");
+        let PDF = new jsPDF('p', 'mm', 'a4');
         PDF.addImage(
           imageGeneratedFromTemplate,
-          "PNG",
+          'PNG',
           5,
           5,
           fileWidth,

@@ -9,73 +9,102 @@
     <h1 class="fcb" routerLink="home">FCB</h1>
     <div class="nav" style="display: flex">
       <span
-        [ngClass]="selcetion == 'home' ? 'hm' : 'hm2'"
+        [ngClass]="selcetion === 'home' ? 'hm' : 'hm2'"
         routerLink="home"
         (click)="select('home')"
-        >Home</span
       >
+        Home
+      </span>
+
+      <div class="dropdown">
+        <span
+          [ngClass]="selcetion === 'finance' ? 'fn' : 'fn2'"
+          (click)="toggleDropdown();select('finance')"
+        >
+          Finance 
+        </span>
+        <div class="dropdown-content" *ngIf="dropdownOpen">
+          <span
+            [ngClass]="selcetion === 'categories' ? 'ct' : 'ct2'"
+            routerLink="categories"
+            (click)="select('categories')"
+          >
+            Categories
+          </span>
+          <span
+            [ngClass]="selcetion === 'monitor' ? 'mn' : 'mn22'"
+            routerLink="monitor"
+            (click)="select('monitor')"
+          >
+            Monitor
+          </span>
+          <span
+            [ngClass]="selcetion === 'budget' ? 'mn' : 'mn22'"
+            routerLink="budget"
+            (click)="select('budget')"
+          >
+            Budget
+          </span>
+        </div>
+      </div>
+
       <span
-        [ngClass]="selcetion == 'categories' ? 'ct' : 'ct2'"
-        routerLink="categories"
-        (click)="select('categories')"
-        >Categories</span
-      >
-      <span
-        [ngClass]="selcetion == 'monitor' ? 'mn' : 'mn22'"
-        routerLink="monitor"
-        (click)="select('monitor')"
-        >Monitor</span
-      >
-      <span
-        [ngClass]="selcetion == 'about' ? 'mns' : 'mns2'"
+        [ngClass]="selcetion === 'about' ? 'mns' : 'mns2'"
         routerLink="about"
         (click)="select('about')"
-        >About</span
       >
+        About
+      </span>
       <span
-        [ngClass]="selcetion == 'notification' ? 'mnss' : 'mnss2'"
+        [ngClass]="selcetion === 'notification' ? 'mnss' : 'mnss2'"
         routerLink="notification"
         (click)="select('notification')"
-        >Notification</span
       >
+        Notification
+      </span>
       <span
-        [ngClass]="selcetion == 'creadit' ? 'iuh' : 'iuh2'"
+        [ngClass]="selcetion === 'creadit' ? 'iuh' : 'iuh2'"
         routerLink="creadit"
         (click)="select('creadit')"
-        >Creadit</span
       >
+        Creadit
+      </span>
       <span
-        [ngClass]="selcetion == 'debit' ? 'iuhs' : 'iuhs2'"
+        [ngClass]="selcetion === 'debit' ? 'iuhs' : 'iuhs2'"
         routerLink="debit"
         (click)="select('debit')"
-        >Debit</span
       >
+        Debit
+      </span>
       <span
-        [ngClass]="selcetion == 'commission' ? 'iuhss' : 'iuhss2'"
+        [ngClass]="selcetion === 'commission' ? 'iuhss' : 'iuhss2'"
         routerLink="commission"
         (click)="select('commission')"
-        >commission</span
       >
+        Commission
+      </span>
       <span
         class="mna"
         routerLink="monitor"
-        (click)="select('monitor')"
         (click)="logout()"
         style="color: brown"
-        >Logout</span
       >
+        Logout
+      </span>
       <mat-icon
         style="color: rgb(85, 76, 14)"
         routerLink="trad"
         (click)="select('trad')"
-        >trending_up</mat-icon
       >
+        trending_up
+      </mat-icon>
       <span
         class="mn mn2"
         style="border: 1px solid white"
         routerLink="monitor"
-        >{{ month }}</span
       >
+        {{ month }}
+      </span>
       <span
         style="
           background-color: rgb(196, 188, 188);
@@ -83,69 +112,11 @@
         "
         class="mn mn2"
         routerLink="monitor"
-        >{{ date }}</span
       >
-    </div>
-    <mat-icon
-      #toggleButton
-      class="ic toggleButton"
-      matBadge="15"
-      matBadgeColor="warn"
-      (click)="showNotification()"
-      >announcement</mat-icon
-    >
-    <div class="ntl menu" *ngIf="showNotifications" #menu>
-      <table *ngFor="let vl of expense" class="ntt">
-        <tr>
-          <label
-            *ngIf="vl.position == 'new'"
-            style="
-              background-color: rgb(107, 255, 32);
-              border-radius: 50%;
-              color: white;
-              width: 30px;
-              font-size: 10px;
-              padding: 5px;
-              margin-left: -35px;
-            "
-          >
-            New
-          </label>
-          <td>{{ vl.name }}</td>
-          <td>₹{{ vl.expense }}</td>
-          <td>{{ vl.day | date : "dd-MM-yyyy" }}</td>
-        </tr>
-      </table>
-    </div>
-    <p class="ntf" *ngIf="lastExpenses.length > 0 && !showNotifications">
-      {{ lastExpenses.length }}
-    </p>
-    <button class="rpButton" routerLink="monitor">See Yearly Reports</button>
-    <div class="dvi" (click)="openProfile()" *ngFor="let d of users">
-      <img class="myImage" src="{{ d.imageUrl }}" />
-      <p class="myName">{{ d.name }}</p>
+        {{ date }}
+      </span>
     </div>
   </header>
-  <section class="profilePop" *ngIf="profileOpen">
-    <div class="profile">
-      <img class="myImage2" *ngFor="let d of users" src="{{ d.imageUrl }}" />
-      <p *ngFor="let d of users">{{ d.name }}</p>
-      <input class="mi" type="file" (change)="onselect($event)" />
-      <button class="mb" (click)="upload()">Update</button>
-      <p
-        class="xe"
-        style="
-          position: relative;
-          left: 500px;
-          top: -210px;
-          font-size: 16px;
-          cursor: pointer;
-        "
-        (click)="openProfile()"
-      >
-        close
-      </p>
-    </div>
-  </section>
   <div class="main"><router-outlet></router-outlet></div>
+
 </section>

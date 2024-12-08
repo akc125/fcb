@@ -20,6 +20,7 @@ import { Trad2Component } from './trad2/trad2.component';
 import { Trad3Component } from './trad3/trad3.component';
 import { DecommissionComponent } from './decommission/decommission.component';
 import { DiaryComponent } from './diary/diary.component';
+import { BudgetComponent } from './budget/budget.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [authGuard] },
@@ -28,6 +29,11 @@ const routes: Routes = [
   {
     path: 'notification',
     component: NotificationComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'budget',
+    component: BudgetComponent,
     canActivate: [authGuard],
   },
   {

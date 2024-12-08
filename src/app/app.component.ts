@@ -31,7 +31,8 @@ export class AppComponent {
   // }, 1000);
   @ViewChild("toggleButton") toggleButton!: ElementRef;
   @ViewChild("menu") menu!: ElementRef;
-
+  selcetion: string = "";
+  dropdownOpen: boolean = false;
   constructor(
     private router: Router,
     private categoriesService: CategoriesService,
@@ -56,6 +57,16 @@ export class AppComponent {
       this.addTime();
     }
   }
+  toggleDropdown() {
+    this.dropdownOpen = !this.dropdownOpen;
+  }
+
+  // Handle selection
+  selects(value: string) {
+    this.selcetion = value;
+    this.dropdownOpen = false; // Close dropdown on selection
+  }
+
   times: any = [];
   lastUpdatedTime: any;
   getTimes() {
@@ -149,7 +160,6 @@ export class AppComponent {
     }
   }
 
-  selcetion: any;
   select(value: any) {
     this.selcetion = value;
   }

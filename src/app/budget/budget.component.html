@@ -1,0 +1,79 @@
+<section
+  class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 report"
+  id="invoice"
+  #invoice
+>
+  <div class="d1">
+    <h3>Budget Items Movements</h3>
+    <div style="width: 80%; margin: auto">
+      <canvas id="barChart"></canvas>
+    </div>
+    <div class="items">
+      <div class="item" *ngFor="let val of budgets" (click)="editMode(val)">
+        <p>{{ val.name }}</p>
+        <br />
+        <p>₹{{ val.amount }}</p>
+        <br />
+      </div>
+    </div>
+  </div>
+  <div class="d2">
+    <div class="hd">
+      <h1 class="bdgthdng">Budget {{ currentMonth }} {{ currentYear }}</h1>
+      <button class="adbtn" (click)="openForm()">Add new</button>
+      <button class="adbtnPrnt" (click)="generatePDF()">Print</button>
+    </div>
+    <div class="pi">
+      <canvasjs-chart
+        [options]="chartOptions"
+        [styles]="{ width: '100%', height: '200px' }"
+      ></canvasjs-chart>
+    </div>
+    <div class="bar">
+      <canvasjs-chart
+        [options]="chartOptions2"
+        [styles]="{ width: '100%', height: '170px' }"
+      ></canvasjs-chart>
+    </div>
+  </div>
+  <!-- form -->
+  <main class="fm" *ngIf="open">
+    <h3 *ngIf="mode !== 'EDIT'">Add Budget Items</h3>
+    <h3 *ngIf="mode == 'EDIT'">Edit Budget Items</h3>
+    <form [formGroup]="budgetFormGroup">
+      <label style="margin-right: 30px">Name</label>
+      <input formControlName="name" /><br />
+      <label style="margin-right: 16px">Amount</label>
+      <input type="number" formControlName="amount" /><br />
+      <label>Categories</label>
+      <div class="ctgrs">
+        <div *ngFor="let val of categories">
+          <p
+            (click)="addSelectedCategory(val.id)"
+            *ngIf="
+              !categoriesIdFromBudgetData.includes(val.id) &&
+              !categoriesSelectedIds.includes(val.id)
+            "
+          >
+            {{ val.name }}
+          </p>
+        </div>
+      </div>
+    </form>
+    <!-- display -->
+    <div class="display">
+      <div *ngFor="let val of categoriesSelected">
+        <p (click)="removeSelectedCategory(val.id)">
+          {{ val.name }}
+        </p>
+      </div>
+    </div>
+    <button (click)="mode == 'EDIT' ? EditForm() : saveForm()" class="svb">
+      Save
+    </button>
+    <button (click)="closeForm()" class="cnb">Cancel</button>
+    <button class="cnbd" *ngIf="mode === 'EDIT'" (click)="deleteBudget()">
+      Delete
+    </button>
+  </main>
+</section>

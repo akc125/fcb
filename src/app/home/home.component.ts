@@ -1,13 +1,13 @@
-import { CategoriesService } from "src/services/categories.service";
-import { Component } from "@angular/core";
-import { CanvasJS } from "@canvasjs/angular-charts";
+import { CategoriesService } from 'src/services/categories.service';
+import { Component } from '@angular/core';
+import { CanvasJS } from '@canvasjs/angular-charts';
 import * as moment from 'moment';
-import { CategoryFireService } from "src/services/category-fire.service";
+import { CategoryFireService } from 'src/services/category-fire.service';
 
 @Component({
-  selector: "app-home",
-  templateUrl: "./home.component.html",
-  styleUrls: ["./home.component.css"],
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
   defaultDate: any;
@@ -20,19 +20,18 @@ export class HomeComponent {
     this.getExpenses();
     this.getIncome();
     const currentDate = new Date();
-    this.month = currentDate.toLocaleString("en-US", { month: "long" });
+    this.month = currentDate.toLocaleString('en-US', { month: 'long' });
     this.year = currentDate.getFullYear();
     this.defaultDate = currentDate.toISOString().substring(5, 7);
     const days = new Date();
-    this.day = days.toISOString().slice(0, 19).replace("T", " ");
+    this.day = days.toISOString().slice(0, 19).replace('T', ' ');
     this.initializeChart();
   }
   constructor(
     private categoriesService: CategoriesService,
-    private categoriesServiceFire: CategoryFireService,
-
+    private categoriesServiceFire: CategoryFireService
   ) {}
-  userId = localStorage.getItem("userId");
+  userId = localStorage.getItem('userId');
   finalExpense: any = [];
   lstThreeOfFiinalExpense: any = [];
   expense: any = [];
@@ -49,7 +48,7 @@ export class HomeComponent {
     // this.chart.render(); // Render the chart
   }
   getExpenses() {
-    const id = localStorage.getItem("userId");
+    const id = localStorage.getItem('userId');
     this.categoriesServiceFire.getExpensList().subscribe((data) => {
       this.expense = JSON.parse(JSON.stringify(data)).filter((f: any) => {
         return f.userId == id;
@@ -76,39 +75,39 @@ export class HomeComponent {
   convertDateFormat(dateStr: any) {
     const date = new Date(dateStr);
 
-    const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const months = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
 
     const dayOfWeek = weekdays[date.getDay()];
     const month = months[date.getMonth()];
     const day = date.getDate();
     const year = date.getFullYear();
-    const hours = date.getHours().toString().padStart(2, "0");
-    const minutes = date.getMinutes().toString().padStart(2, "0");
-    const seconds = date.getSeconds().toString().padStart(2, "0");
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
 
     // Get the time zone offset in hours and minutes
     const timeZoneOffset = date.getTimezoneOffset();
     const timeZoneOffsetHours = Math.floor(Math.abs(timeZoneOffset) / 60)
       .toString()
-      .padStart(2, "0");
+      .padStart(2, '0');
     const timeZoneOffsetMinutes = (Math.abs(timeZoneOffset) % 60)
       .toString()
-      .padStart(2, "0");
-    const timeZoneSign = timeZoneOffset >= 0 ? "-" : "+";
+      .padStart(2, '0');
+    const timeZoneSign = timeZoneOffset >= 0 ? '-' : '+';
 
     return `${dayOfWeek} ${month} ${day} ${year} ${hours}:${minutes}:${seconds} GMT${timeZoneSign}${timeZoneOffsetHours}${timeZoneOffsetMinutes}`;
   }
@@ -135,7 +134,7 @@ export class HomeComponent {
     for (const exp of this.finalExpense) {
       this.expensTotel += exp.expense;
     }
-    localStorage.setItem('expense',this.expensTotel)
+    localStorage.setItem('expense', this.expensTotel);
     // all expense
     const ExpenseCopy = JSON.parse(JSON.stringify(this.expense));
     for (const val of ExpenseCopy) {
@@ -160,24 +159,24 @@ export class HomeComponent {
     // Update dataPoints arrays
 
     const lastElement = this.trackedExpenses[this.trackedExpenses.length - 1];
-    console.log("thisMonthExpense", this.thisMonthExpense);
+    console.log('thisMonthExpense', this.thisMonthExpense);
     if (
       Number(this.expensTotel) !== Number(lastElement?.amount) &&
       this.expensTotel !== 0
     ) {
-      console.log("Condition met");
+      console.log('Condition met');
       this.tackExpenseTotel({
         amount: this.expensTotel,
         day: this.day,
       });
     } else {
-      console.log("Condition not met");
+      console.log('Condition not met');
     }
     console.log(
-      "this.trackedExpenses",
+      'this.trackedExpenses',
 
       this.trackedExpenses,
-      "this.NewtrackedExpenses",
+      'this.NewtrackedExpenses',
       this.newTrckedArray
     );
     // this.render()
@@ -192,7 +191,7 @@ export class HomeComponent {
   }
 
   getIncome() {
-    const id = localStorage.getItem("userId");
+    const id = localStorage.getItem('userId');
     this.categoriesServiceFire.getIncomes().subscribe((data: any) => {
       this.income = data.filter((f: any) => f.userId == id);
       const incomCopy = [...this.income];
@@ -201,7 +200,8 @@ export class HomeComponent {
       );
       for (const inc of this.thisMonthIncome) {
         this.incomeTotel += inc.amount;
-      }     localStorage.setItem('income',this.incomeTotel)
+      }
+      localStorage.setItem('income', this.incomeTotel);
       this.balense = this.incomeTotel - this.expensTotel;
       // all income
       for (const val of this.income) {
@@ -211,8 +211,6 @@ export class HomeComponent {
       this.allBalence = this.allIncomeTotel - this.allExpenseTotel;
 
       this.average = Math.round((this.expensTotel * 100) / this.incomeTotel);
- 
- 
     });
   }
   calculatePercentage(expense: number) {
@@ -233,49 +231,45 @@ export class HomeComponent {
   //   { x: "2023-08-13T15:53:47.018Z", y: 7632 },
   // ];
 
- 
-
   change() {
     const sd = new Date(2023, 7, 14);
   }
- 
-  
+
   chart: any;
-  
+
   chartOptions = {
-    theme: "light2",
+    theme: 'light2',
     animationEnabled: true,
     zoomEnabled: true,
     title: {
-      text: "Monthly Expenses in January 2021"
+      text: 'Monthly Expenses in January 2021',
     },
     axisX: {
-      title: "Date",
-      valueFormatString: "DD MMM"
+      title: 'Date',
+      valueFormatString: 'DD MMM',
     },
     axisY: {
-      title: "Expense (INR)",
+      title: 'Expense (INR)',
       labelFormatter: (e: any) => {
-        var suffixes = ["", "K", "M", "B", "T"];
-  
+        var suffixes = ['', 'K', 'M', 'B', 'T'];
+
         var order = Math.max(Math.floor(Math.log(e.value) / Math.log(1000)), 0);
-        if (order > suffixes.length - 1)
-          order = suffixes.length - 1;
-  
+        if (order > suffixes.length - 1) order = suffixes.length - 1;
+
         var suffix = suffixes[order];
-        return "₹" + (e.value / Math.pow(1000, order)) + suffix;
-      }
+        return '₹' + e.value / Math.pow(1000, order) + suffix;
+      },
     },
-    data: [{
-      type: "line",
-      xValueFormatString: "DD MMM",
-      yValueFormatString: "₹#,###.##",
-      dataPoints: this.thisMonthExpense.map((entry: any) => ({
-        x: moment(entry.day).format("DD MMM"),
-        y: entry.expense
-      }))
-    }]
+    data: [
+      {
+        type: 'line',
+        xValueFormatString: 'DD MMM',
+        yValueFormatString: '₹#,###.##',
+        dataPoints: this.thisMonthExpense.map((entry: any) => ({
+          x: moment(entry.day).format('DD MMM'),
+          y: entry.expense,
+        })),
+      },
+    ],
   };
-  
-  
 }

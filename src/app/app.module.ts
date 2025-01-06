@@ -41,6 +41,9 @@ import { environment } from 'src/environments/environment.development';
 import { DecommissionComponent } from './decommission/decommission.component';
 import { DiaryComponent } from './diary/diary.component';
 import { BudgetComponent } from './budget/budget.component';
+import { HistoryComponent } from './history/history.component';
+import { MasterComponent } from './master/master.component';
+import { CalendarComponent } from './calendar/calendar.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,6 +61,7 @@ import { BudgetComponent } from './budget/budget.component';
     NotificationComponent,
     ActionComponent,
     CommissionComponent,
+    HistoryComponent,
     CommissionDetailsComponent,
     DebitComponent,
     TradComponent,
@@ -67,6 +71,9 @@ import { BudgetComponent } from './budget/budget.component';
     DecommissionComponent,
     DiaryComponent,
     BudgetComponent,
+    HistoryComponent,
+    MasterComponent,
+    CalendarComponent,
   ],
   imports: [
     BrowserModule,

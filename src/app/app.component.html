@@ -25,6 +25,13 @@
         </span>
         <div class="dropdown-content" *ngIf="dropdownOpen">
           <span
+            [ngClass]="selcetion === 'history' ? 'ct' : 'ct2'"
+            routerLink="history"
+            (click)="select('categories')"
+          >
+            History
+          </span>
+          <span
             [ngClass]="selcetion === 'categories' ? 'ct' : 'ct2'"
             routerLink="categories"
             (click)="select('categories')"
@@ -44,6 +51,13 @@
             (click)="select('budget')"
           >
             Budget
+          </span>
+          <span
+            [ngClass]="selcetion === 'master' ? 'mn' : 'mn22'"
+            routerLink="master"
+            (click)="select('master')"
+          >
+            Master
           </span>
         </div>
       </div>
@@ -101,7 +115,7 @@
       <span
         class="mn mn2"
         style="border: 1px solid white"
-        routerLink="monitor"
+        routerLink="calendar"
       >
         {{ month }}
       </span>

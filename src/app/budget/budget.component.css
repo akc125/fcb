@@ -4,6 +4,23 @@ section {
   background-color: red;
   display: flex;
 }
+.prv{
+  position: relative;
+  left: 375px;
+  top: -20px;
+}
+.current{
+  position: relative;
+  left: 250px;
+  top: -20px;
+  color: blue;
+}
+.month{
+  position: relative;
+  left: 350px;
+  top: -20px;
+  color: red;
+}
 .d1 {
   width: 60%;
   height: 100%;
@@ -34,7 +51,7 @@ section {
   height: fit-content;
   padding-left: 20px;
   display: flex;
-  margin-top: 40px;
+  margin-top: 10px;
   flex-wrap: wrap;
   padding-left: 20px;
   margin-left: 70px;
@@ -47,9 +64,10 @@ canvas {
 .item {
   width: 100px;
   height: 40px;
-  background-color: rgb(77, 18, 55);
+  background-color: rgb(197, 196, 197);
   color: rgb(228, 227, 227);
   font-size: 12px;
+  color: black;
   text-align: center;
   padding-top: 2px;
   padding-top: 2px;
@@ -58,11 +76,11 @@ canvas {
   border-radius: 10px;
   box-shadow: 2px 2px 3px rgb(90, 87, 87);
 }
-.item p{
+.item p {
   margin-bottom: -10px;
 }
 
-.svb{
+.svb {
   position: absolute;
   top: 350px;
   width: 100px;
@@ -72,7 +90,7 @@ canvas {
   color: rgb(191, 187, 187);
   margin-right: 20px;
 }
-.cnb{
+.cnb {
   position: absolute;
   top: 350px;
   width: 100px;
@@ -82,7 +100,7 @@ canvas {
   color: rgb(191, 187, 187);
   margin-right: 20px;
 }
-.cnbd{
+.cnbd {
   position: absolute;
   top: 350px;
   width: 100px;
@@ -93,14 +111,17 @@ canvas {
   margin-right: 20px;
 }
 .adbtn {
-  position: relative;
+  position: absolute;
+  left: 94%;
+  top: 500px;
   width: 60px;
   height: 20px;
-  left: 49%;
-  background-color: black;
+  background-color: rgb(218, 215, 215);
   color: rgb(235, 235, 235);
   margin-right: 20px;
   font-size: 12px;
+  z-index: 1000;
+  color: black;
   border-radius: 10px;
   box-shadow: 1px 1px 3px rgb(92, 91, 91);
 }
@@ -112,16 +133,19 @@ canvas {
   padding-top: 20px; /* Add padding if needed */
 }
 .adbtnPrnt {
-  position: relative;
   width: 60px;
   height: 20px;
   left: -230px;
-  background-color: black;
+  background-color: rgb(65, 13, 51);
   color: rgb(235, 235, 235);
   margin-right: 20px;
   font-size: 12px;
   border-radius: 10px;
   box-shadow: 1px 1px 3px rgb(92, 91, 91);
+  position: absolute;
+  left: 94%;
+  top: 530px;
+  z-index: 1000;
 }
 .ctgrs {
   height: 140px;

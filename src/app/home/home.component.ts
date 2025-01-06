@@ -17,7 +17,7 @@ export class HomeComponent {
   ngOnInit(): void {
     // this.change()
     this.getTrackedExpenses();
-    this.getExpenses();
+    this.getCategories();
     this.getIncome();
     const currentDate = new Date();
     this.month = currentDate.toLocaleString('en-US', { month: 'long' });
@@ -25,7 +25,7 @@ export class HomeComponent {
     this.defaultDate = currentDate.toISOString().substring(5, 7);
     const days = new Date();
     this.day = days.toISOString().slice(0, 19).replace('T', ' ');
-    this.initializeChart();
+    this.runChart();
   }
   constructor(
     private categoriesService: CategoriesService,
@@ -42,11 +42,7 @@ export class HomeComponent {
   incomeTotel: any = 0;
   balense: any = 0;
   average: number = 0;
-  initializeChart() {
-    // Create the chart and pass chartOptions
-    // this.chart = new CanvasJS.Chart("chartContainer", this.chartOptions);
-    // this.chart.render(); // Render the chart
-  }
+
   getExpenses() {
     const id = localStorage.getItem('userId');
     this.categoriesServiceFire.getExpensList().subscribe((data) => {
@@ -111,7 +107,23 @@ export class HomeComponent {
 
     return `${dayOfWeek} ${month} ${day} ${year} ${hours}:${minutes}:${seconds} GMT${timeZoneSign}${timeZoneOffsetHours}${timeZoneOffsetMinutes}`;
   }
+  categories:any=[]
+  getCategories() {
+    this.categoriesServiceFire.getCategories().subscribe((data) => {
+      this.categories = data;
+      console.log('categories',data)
+    });
+    this.getExpenses();
+  }
+ 
   calculateExpense() {
+    for (let val of this.expense) {
+      for (let v of this.categories) {
+        if (val.catId == v.id) {
+          val.name = v.name;
+        }
+      }
+    }
     const MonthExpenseCopy = JSON.parse(JSON.stringify(this.expense));
     this.thisMonthExpense = MonthExpenseCopy.filter(
       (f: any) =>
@@ -157,9 +169,15 @@ export class HomeComponent {
     }
 
     // Update dataPoints arrays
-
     const lastElement = this.trackedExpenses[this.trackedExpenses.length - 1];
-    console.log('thisMonthExpense', this.thisMonthExpense);
+
+    // this.thisMonthExpense = this.thisMonthExpense.map((p: any) => {
+    //   return {
+    //     ...p,
+    //     day: new Date(p.day).toString(),
+    //   };
+    // });
+    // console.log('thisMonthExpense', aft);
     if (
       Number(this.expensTotel) !== Number(lastElement?.amount) &&
       this.expensTotel !== 0
@@ -179,7 +197,7 @@ export class HomeComponent {
       'this.NewtrackedExpenses',
       this.newTrckedArray
     );
-    // this.render()
+    this.runChart()
   }
 
   tackExpenseTotel(data: any) {
@@ -223,21 +241,24 @@ export class HomeComponent {
       return 0;
     }
   }
-  // mydata = [
-  //   { x: "2023-08-13T15:53:47.018Z", y: 4632 },
-  //   { x: "2023-08-14T15:53:47.018Z", y: 4732 },
-  //   { x: "2023-08-15T15:53:47.018Z", y: 5632 },
-  //   { x: "2023-08-13T15:53:47.018Z", y: 6632 },
-  //   { x: "2023-08-13T15:53:47.018Z", y: 7632 },
-  // ];
+  mydata = [
+    { x: '2023-08-13T15:53:47.018Z', y: 4632 },
+    { x: '2023-08-14T15:53:47.018Z', y: 4732 },
+    { x: '2023-08-15T15:53:47.018Z', y: 5632 },
+    { x: '2023-08-13T15:53:47.018Z', y: 6632 },
+    { x: '2023-08-13T15:53:47.018Z', y: 7632 },
+  ];
 
   change() {
     const sd = new Date(2023, 7, 14);
   }
 
   chart: any;
+  chartOptions:any;
+  runChart(){
 
-  chartOptions = {
+  
+  this.chartOptions = {
     theme: 'light2',
     animationEnabled: true,
     zoomEnabled: true,
@@ -265,11 +286,30 @@ export class HomeComponent {
         type: 'line',
         xValueFormatString: 'DD MMM',
         yValueFormatString: '₹#,###.##',
-        dataPoints: this.thisMonthExpense.map((entry: any) => ({
-          x: moment(entry.day).format('DD MMM'),
-          y: entry.expense,
-        })),
+        // dataPoints: [
+        //   { x: new Date(2021, 0, 1), y: 40 },
+        //   { x: new Date(2021, 1, 1), y: 42 },
+        //   { x: new Date(2021, 2, 1), y: 50 },
+        //   { x: new Date(2021, 3, 1), y: 62 },
+        //   { x: new Date(2021, 4, 1), y: 72 },
+        //   { x: new Date(2021, 5, 1), y: 80 },
+        //   { x: new Date(2021, 6, 1), y: 85 },
+        //   { x: new Date(2021, 7, 1), y: 84 },
+        //   { x: new Date(2021, 8, 1), y: 76 },
+        //   { x: new Date(2021, 9, 1), y: 64 },
+        //   { x: new Date(2021, 10, 1), y: 54 },
+        //   { x: new Date(2021, 11, 1), y: 44 }
+        // ]
+
+        dataPoints: this.thisMonthExpense.map((entry: any) => {
+          console.log('Original entry.day:', entry.day,entry.expense);
+          const date = new Date(entry.day);  // Ensure `entry.day` is a Date object
+          return {
+            x: entry.day, // Valid Date object
+            y: entry.expense,
+          };
+        }),
       },
     ],
-  };
+  };}
 }

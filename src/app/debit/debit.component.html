@@ -27,6 +27,7 @@
     </form>
   </div>
   <main>
+    <p>{{totalAmount}}</p>
     <div *ngFor="let val of debits">
       <div class="crd" *ngIf="val.active == 1">
         <h1>{{ val.name }}</h1>

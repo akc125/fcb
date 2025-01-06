@@ -166,7 +166,6 @@ export class CreaditComponent {
           val.total = transactions.reduce((sum: number, v: any) => {
             return sum + Number(v.amount);
           }, 0);
-
           val.existing = val.amount - val.total;
           if (val.existing < 0) {
             const overPaid = Math.abs(val.existing);
@@ -175,6 +174,8 @@ export class CreaditComponent {
           // if (val.amount - val.total == 0) {
           //   this.deActiveFile(val.id);
           // }
+          // exist total
+
           val.income = Number(incomes) + Number(val.total || val.amount);
           if (val.existing < 0) {
             val.income =
@@ -205,7 +206,9 @@ export class CreaditComponent {
       this.incomeWithCredit = parseFloat(this.currentIncome) + Number(sum);
       this.balance = this.incomeWithCredit - this.expense;
     });
+    console.log('trans',this.credits2)
   }
+
   hide: boolean = false;
   deActiveFile(id: any) {
     this.hide = false;

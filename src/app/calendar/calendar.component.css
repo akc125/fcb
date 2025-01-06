@@ -1,0 +1,97 @@
+/* Full-page calendar */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+  
+  .calendar-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    box-shadow: none;
+    border: none;
+    color: black;
+  }
+  
+  .header {
+    padding: 1rem;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .header h2 {
+    margin: 0;
+    font-size: 2rem;
+  }
+  
+  .month-select {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .days-of-week {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+  
+  .day-name {
+    padding: 0.5rem 0;
+  }
+  
+  .dates {
+    flex: 1;
+    display: grid;
+    grid-template-rows: repeat(6, 1fr);
+    grid-auto-rows: 1fr;
+  }
+  
+  .week {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+  }
+  
+  .date {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    font-size: 1.2rem;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  }
+  
+  .date:hover {
+    transform: scale(1.05);
+    background-color: #f0f8ff;
+  }
+  
+  .date.holiday {
+    background-color: #ffdddd;
+  }
+  
+  .date.today {
+    background-color: #d4edda;
+    font-weight: bold;
+    border: 2px solid #28a745;
+  }
+  
+  .holiday-name {
+    font-size: 0.8rem;
+    color: red;
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+  }
+  

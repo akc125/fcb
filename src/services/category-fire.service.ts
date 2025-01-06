@@ -121,6 +121,20 @@ export class CategoryFireService {
         )
       );
   }
+  getAsset() {
+    return this.firestore
+      .collection('asset')
+      .snapshotChanges()
+      .pipe(
+        map((actions) =>
+          actions.map((a) => {
+            const data = a.payload.doc.data() as any;
+            const id = a.payload.doc.id;
+            return { id, ...data };
+          })
+        )
+      );
+  }
 
   getTimes() {
     return this.firestore
@@ -271,6 +285,7 @@ export class CategoryFireService {
     const userId = localStorage.getItem('userId');
     return this.firestore.collection('expense').add({
       name: data.name,
+      description:data.description,
       expense: data.expense,
       catId: data.catId,
       day: data.date,
@@ -278,7 +293,10 @@ export class CategoryFireService {
       times: data.times,
     });
   }
-
+  deleteExpense(expenseId: string) {
+    return this.firestore.collection('expense').doc(expenseId).delete();
+  }
+  
   addIncomes(data: any) {
     const id = localStorage.getItem('userId');
     return this.firestore.collection('incomes').add({

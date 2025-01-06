@@ -1,0 +1,68 @@
+<section class="historySection">
+  <h1 id="cthd">categories</h1>
+  <div class="a1">
+    <div class="b1"></div>
+    <div class="b2">
+      <label class="l1">All</label>
+      <mat-icon (click)="swithToAll()"> sentiment_satisfied_alt</mat-icon>
+      <label class="l2" (click)="switchToCurrent()">Current</label>
+      <mat-icon (click)="switchToCurrent()"> sentiment_satisfied_alt</mat-icon>
+      <label class="l3">Prive </label>
+      <mat-icon (click)="changeMonthToPreve()">
+        sentiment_satisfied_alt</mat-icon
+      >
+      <p class="mnth">{{ defualtMonthName }}</p>
+      <p class="mnth">{{ expenseTotel }}</p>
+    </div>
+  </div>
+  <div class="ins">
+    <div class="ctg" *ngFor="let val of categories">
+      <div class="hddv">
+        <form [formGroup]="expenseFormGroup" (ngSubmit)="addData()">
+          <p class="smhd">{{ val.name }}</p>
+          <input
+            class="in1"
+            placeholder="amount"
+            type="number"
+            formControlName="expense"
+            required
+            (click)="addCatId(val.id)"
+          /><input
+            class="in3"
+            type="date"
+            [(ngModel)]="defaultDate"
+            formControlName="date"
+          /><input
+            class="in2"
+            formControlName="description"
+            placeholder="description"
+          /><button class="addbtn" type="submit">Add</button>
+        </form>
+      </div>
+      <table class="tb">
+        <thead>
+          <th>no</th>
+          <th>date</th>
+          <th>expense</th>
+          <th>Description</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let v of val.expense" (click)="deleteExpense(v.id)">
+            <td>{{ v.index }}</td>
+            <td>{{ v.day | date : "dd /MM/ yyyy" }}</td>
+            <td>{{ v.expense }}</td>
+            <td *ngFor="let val of v.desc">{{ val.desc }}</td>
+            <td>{{ v.description }}</td>
+          </tr>
+          <tr>
+            <td>total</td>
+            <td></td>
+            <td style="text-align: center; color: red">
+              {{ val.total }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

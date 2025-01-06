@@ -12,11 +12,23 @@ import { CategoryFireService } from 'src/services/category-fire.service';
 export class MonitorComponent {
   @ViewChild('invoice') invoiceElement!: ElementRef;
   defualtDate: any;
-  currentYear: any;
+  currentYear: any = '2024';
+  currentMonth: any;
+
   ngOnInit(): void {
+    this.setCurrentValues();
     const currentDate = new Date();
     this.currentYear = currentDate.getFullYear();
     this.defualtDate = currentDate.toISOString().substring(5, 7);
+    this.currentMonth = new Intl.DateTimeFormat('en-US', {
+      month: 'long',
+    }).format(currentDate);
+    this.getCategories();
+    this.getIncomes();
+    this.passId();
+    setTimeout(() => {
+      this.getExpensePercentage();
+    }, 2000);
   }
   constructor(
     private categoriesService: CategoriesService,
@@ -25,6 +37,9 @@ export class MonitorComponent {
   selection: any;
   onSelected(event: any) {
     this.selection = event.target.value;
+    this.getExpense();
+    this.getIncomes();
+    this.passId();
   }
   allTimeExpense: any = [];
   allTimeExpenseTotal: number = 0;
@@ -66,7 +81,7 @@ export class MonitorComponent {
   ];
 
   monthSelected: any;
-  monthId: any;
+  monthId: any = 1;
   sum: number = 0;
   calculateTotal() {
     var total = 0;
@@ -90,6 +105,7 @@ export class MonitorComponent {
     this.yearlySelectedExpense = [];
   }
   prevMonthId: string = '';
+
   selectedMonth(event: any) {
     this.monthSelected = event.target.value;
     const selected = this.monthsList.find(
@@ -100,20 +116,37 @@ export class MonitorComponent {
 
     let prevMonth = (parseInt(this.monthId) - 1).toString().padStart(2, '0');
     if (prevMonth === '00') {
-      prevMonth = '12'; 
+      prevMonth = '12';
     }
     this.prevMonthId = prevMonth;
-    console.log('prevMonthId',this.prevMonthId)
+    console.log('prevMonthId', this.prevMonthId);
+    this.getCategories();
     this.getExpense();
+    this.getIncomes();
+    this.passId();
   }
   selectedYear: any = 2023;
-  idOfMonth: any = '09';
+  idOfMonth: any;
+  setCurrentValues(): void {
+    const currentDate = new Date();
+    this.selection = currentDate.getFullYear().toString(); // Get current year as a string
+    this.idOfMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Get current month and pad with leading zero if needed
+  }
   passId() {
-    this.selectedYear = this.selection;
+    this.selectedYear = this.selection ? this.selection : this.currentYear;
     this.idOfMonth = this.monthId;
     console.log('property', this.finalExpenseJulay);
   }
   userId = localStorage.getItem('userId');
+  categories: any = [];
+  getCategories() {
+    this.categoriesServiceFire.getCategories().subscribe((data) => {
+      this.categories = data;
+      console.log('categories', data);
+    });
+    this.getExpense();
+  }
+
   getExpense() {
     const id = localStorage.getItem('userId');
     this.categoriesServiceFire.getExpensList().subscribe((data) => {
@@ -138,6 +171,13 @@ export class MonitorComponent {
   }
 
   calculateExpense() {
+    for (let val of this.expenses) {
+      for (let v of this.categories) {
+        if (val.catId == v.id) {
+          val.name = v.name;
+        }
+      }
+    }
     const MonthExpenseCopy = JSON.parse(JSON.stringify(this.expenses));
     this.expensesJulay = MonthExpenseCopy.filter(
       (f: any) =>
@@ -156,16 +196,17 @@ export class MonitorComponent {
         this.finalExpenseJulay.push(exp);
       }
     }
+    console.log('finalExpenseJulay', this.finalExpenseJulay);
     this.totalExpJulay = 0;
     this.totalIncomeJulay = 0;
     this.finalExpenseJulay.sort((a: any, b: any) => b.expense - a.expense);
     for (const val of this.finalExpenseJulay) {
       this.totalExpJulay += val.expense;
     }
-    
+
     // year
     this.yearlyExpenseFinal = [];
-    const yearlyExpenseCopys = JSON.parse(JSON.stringify(this.expensesByYear));
+    const yearlyExpenseCopys = JSON.parse(JSON.stringify(this.expenses));
     this.yearlyExpense = yearlyExpenseCopys.filter(
       (f: any) => f.day.substring(0, 4) == this.selectedYear
     );
@@ -190,11 +231,9 @@ export class MonitorComponent {
       this.yearlyExpenseTotel += val.expense;
     }
 
-   
-
     // allTime
     this.allTimeExpense = [];
-    const allTimeExpenseCopy = JSON.parse(JSON.stringify(this.expensesAllTime));
+    const allTimeExpenseCopy = JSON.parse(JSON.stringify(this.expenses));
     for (let val of allTimeExpenseCopy) {
       const existingItem = this.allTimeExpense.find(
         (f: any) => f.name === val.name

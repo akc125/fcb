@@ -35,7 +35,11 @@ export class BudgetComponent {
     this.getBudget();
     this.getExpenses();
     this.getTotalPers();
-    this.renderChart();
+    setTimeout(() => {
+      this.renderChart();
+    }, 1000);
+    this.currentMonthFl = new Date().getMonth();
+    this.currentYear = new Date().getFullYear();
   }
   categories: any = [];
   budgets: any = [];
@@ -47,9 +51,9 @@ export class BudgetComponent {
     private BudgetService: BudgetService,
     private categoriesServiceFire: CategoryFireService
   ) {}
-   currentDate = new Date();
-   currentMonth = this.currentDate.toLocaleString('default', { month: 'long' }); 
-   currentYear = this.currentDate.getFullYear(); // e
+  currentDate = new Date();
+  currentMonth = this.currentDate.toLocaleString('default', { month: 'long' });
+  currentYear = this.currentDate.getFullYear(); // e
   budgetFormGroup = new FormGroup({
     name: new FormControl(),
     amount: new FormControl(),
@@ -74,6 +78,27 @@ export class BudgetComponent {
       }
     );
   }
+  defualtMonthName: any;
+  changeMonthToPreve(): void {
+    const dfltm = Number(this.currentMonthFl) - 1;
+    const prevMonth = dfltm > 0 ? dfltm : 12;
+    const monthName = new Date(0, this.currentMonthFl - 1).toLocaleString(
+      'default',
+      {
+        month: 'long',
+      }
+    );
+    this.currentMonthFl = prevMonth;
+    this.defualtMonthName = monthName;
+    this.currentYear = 2024;
+    this.getExpenses();
+  }
+  switchToCurrent() {
+    this.currentMonthFl = new Date().getMonth();
+    this.getExpenses();
+    this.currentYear = new Date().getFullYear();
+    this.defualtMonthName = '';
+  }
   getBudget() {
     const id = localStorage.getItem('userId');
     this.BudgetService.getBudgets().subscribe((data: any) => {
@@ -81,7 +106,6 @@ export class BudgetComponent {
       this.createNewBudgetArray();
       this.getBudgetPers();
       this.addSelectedCategoriesFromBudgetArray();
-      console.log('bdgt', this.budgets);
     });
   }
   categoriesIdFromBudgetData: any = [];
@@ -225,18 +249,24 @@ export class BudgetComponent {
     }
   }
   expense: any = []; // Assuming budgets is an array
+  currentMonthFl: any;
 
   getExpenses() {
+    console.log('currentMonthFl', this.currentMonthFl);
     const id = localStorage.getItem('userId');
-    const currentMonth = new Date().getMonth();
-    const currentYear = new Date().getFullYear();
     this.categoriesServiceFire.getExpensList().subscribe((data) => {
       this.expense = JSON.parse(JSON.stringify(data)).filter((f: any) => {
         const expenseDate = new Date(f.day);
+        console.log(
+          'expenseDate',
+          expenseDate.getMonth(),
+          this.currentMonthFl,
+          expenseDate.getFullYear()
+        );
         return (
           f.userId === id &&
-          expenseDate.getMonth() === currentMonth &&
-          expenseDate.getFullYear() === currentYear
+          expenseDate.getMonth() === this.currentMonthFl &&
+          expenseDate.getFullYear() === this.currentYear
         );
       });
       this.calculateExpense();
@@ -339,17 +369,15 @@ export class BudgetComponent {
   }
   chart: any;
 
-
-
   renderChart(): void {
     const labels = this.budgets.map((item: any) => item.name);
     const budgets = this.budgets.map((item: any) => item.amount);
     const expenses = this.budgets.map((item: any) => item.expense);
-  
+
     if (this.chart) {
       this.chart.destroy();
     }
-  
+
     const config: ChartConfiguration = {
       type: 'bar' as ChartType,
       data: {
@@ -380,7 +408,8 @@ export class BudgetComponent {
                 const datasetIndex = context.datasetIndex;
                 const value = context.raw; // Current value (Budget or Expense)
                 const budget = budgets[context.dataIndex];
-                if (datasetIndex === 1) { // Expense dataset
+                if (datasetIndex === 1) {
+                  // Expense dataset
                   const percentage = ((value / budget) * 100).toFixed(2);
                   return `${context.dataset.label}: ${value} (${percentage}%)`;
                 }
@@ -393,7 +422,9 @@ export class BudgetComponent {
           x: {
             title: {
               display: true,
-              text: 'Categories',
+              text: `Categories Expense ${
+                this.totalExpenseByExpenseAll
+              } extra  ${this.totalExpenseByExpenseAll - this.totalBudget}`,
             },
           },
           y: {
@@ -406,13 +437,14 @@ export class BudgetComponent {
         },
       },
     };
-  
-    const chartElement = document.getElementById('barChart') as HTMLCanvasElement;
+
+    const chartElement = document.getElementById(
+      'barChart'
+    ) as HTMLCanvasElement;
     if (chartElement) {
       this.chart = new Chart(chartElement, config);
     } else {
       console.error('Canvas element with id "barChart" not found.');
     }
   }
-  
 }

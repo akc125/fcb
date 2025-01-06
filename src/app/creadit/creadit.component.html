@@ -130,7 +130,11 @@
       <button class="cls" (click)="closeForm()">close</button>
       <form [formGroup]="creditForm">
         <div class="imgc">
-          <img *ngIf="setimageURL" class="im" [src]="setimageURL ? setimageURL : ''" />
+          <img
+            *ngIf="setimageURL"
+            class="im"
+            [src]="setimageURL ? setimageURL : ''"
+          />
         </div>
         <input type="file" id="df" (change)="onSelect($event)" /><br />
         <label>Name</label><input class="fmu" formControlName="name" /><br />
@@ -287,18 +291,18 @@
           >
             <img alt="image" src="{{ val.imageUrl }}" />
             <p>{{ val.name }}</p>
-            <p>{{ val.amount }}</p>
+            <p>{{ val.existing }}</p>
           </div>
         </div>
         <div>
-          <span>Total</span>
-          <span>{{ totalCredit }}</span
-          ><br />
+          <span>Existing</span>
+          <span>{{ totalExsisting }}</span>
+          <br />
           <span>Returend</span>
           <span>{{ retunedTotal }}</span
           ><br />
-          <span>Existing</span>
-          <span>{{ totalExsisting }}</span>
+          <span>Total</span>
+          <span>{{ totalCredit }}</span>
         </div>
       </div>
       <div class="lst2">

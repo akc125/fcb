@@ -21,6 +21,9 @@ import { Trad3Component } from './trad3/trad3.component';
 import { DecommissionComponent } from './decommission/decommission.component';
 import { DiaryComponent } from './diary/diary.component';
 import { BudgetComponent } from './budget/budget.component';
+import { HistoryComponent } from './history/history.component';
+import { MasterComponent } from './master/master.component';
+import { CalendarComponent } from './calendar/calendar.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [authGuard] },
@@ -39,6 +42,21 @@ const routes: Routes = [
   {
     path: 'commission',
     component: CommissionComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'calendar',
+    component: CalendarComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'master',
+    component: MasterComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'history',
+    component: HistoryComponent,
     canActivate: [authGuard],
   },
   {

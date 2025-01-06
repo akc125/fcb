@@ -3,21 +3,26 @@
     <label style="font-size: 15px"
       >If you want Monthly report select month</label
     ><br />
-    <select (change)="selectedMonth($event)" class="sl">
+    <select
+      (change)="selectedMonth($event)"
+      class="sl"
+      [(ngModel)]="currentMonth"
+    >
       <option *ngFor="let month of monthsList" [value]="month.name">
         {{ month.name }}
       </option>
     </select>
+
     <label class="mg">If you want Yearly report select month Select year</label
     ><br />
-    <select (change)="onSelected($event)" class="sl2">
+    <select (change)="onSelected($event)" [value]="currentYear" class="sl2">
       <option [value]="2021">2021</option>
       <option [value]="2022">2022</option>
       <option [value]="2023">2023</option>
       <option [value]="2024">2024</option>
       <option [value]="2025">2025</option></select
     ><button class="yrButton" (click)="getExpense(); getIncomes(); passId()">
-      Save
+      Open
     </button>
     <button class="printButton" (click)="generatePDF()">Print</button>
     <div class="gt">
@@ -30,7 +35,9 @@
         <div class="vDiv vDiv1">
           <p class="mn">Monthly</p>
           <p class="rp">FCB REPORT</p>
-          <span class="jn">{{ monthSelected }}</span
+          <span class="jn">{{
+            monthSelected ? monthSelected : currentMonth
+          }}</span
           ><span class="yr">{{ selection }}</span>
         </div>
         <div class="vDiv vDiv2">

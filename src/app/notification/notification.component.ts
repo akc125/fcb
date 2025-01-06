@@ -1,12 +1,13 @@
-import { Component } from "@angular/core";
-import { FormControl, FormGroup } from "@angular/forms";
-import { Router } from "@angular/router";
-import { CategoriesService } from "src/services/categories.service";
-
+import { Component } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { CategoriesService } from 'src/services/categories.service';
+import { CategoryFireService } from 'src/services/category-fire.service';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 @Component({
-  selector: "app-notification",
-  templateUrl: "./notification.component.html",
-  styleUrls: ["./notification.component.css"],
+  selector: 'app-notification',
+  templateUrl: './notification.component.html',
+  styleUrls: ['./notification.component.css'],
 })
 export class NotificationComponent {
   ngOnInit(): void {
@@ -15,14 +16,15 @@ export class NotificationComponent {
   }
   constructor(
     private categoriesService: CategoriesService,
+    private categoriesServiceFire: CategoryFireService,
     private router: Router
   ) {}
-  userId = localStorage.getItem("userId");
+  userId = localStorage.getItem('userId');
   categoryForm = new FormGroup({
     name: new FormControl(),
     userId: new FormControl(this.userId),
     duration: new FormControl(),
-    type: new FormControl(""),
+    type: new FormControl(''),
   });
   file: any;
   sendFile: any;
@@ -57,40 +59,25 @@ export class NotificationComponent {
     };
     this.categoriesService.sendEmail(data).subscribe((data) => {}),
       (err: any) => {
-        console.log("errors", err);
+        console.log('errors', err);
       };
   }
   getActions() {
-    this.categoriesService.getNotificationAndAction().subscribe((data: any) => {
-      this.actions = data.filter((f: any) => f.userId == this.userId);
-      let lastElementMap: { [categoryId: string]: any } = {};
-      for (let val of this.actions) {
-        lastElementMap[val.categoryId] = val;
-        const date1 = new Date(val.day);
-        const date2 = new Date();
-        const timeDefference = date1.getTime() - date2.getTime();
-        const differenceInDays = Math.floor(
-          timeDefference / (1000 * 60 * 60 * 24)
-        );
-        val.timeDefference = Math.abs(differenceInDays);
-        const existingTime = val.updatedDuration - Math.abs(differenceInDays);
-        val.existingTime = existingTime;
-      }
-      this.newActions = Object.values(lastElementMap);
-      for (let val of this.newActions) {
-        const exist = this.NotificationCategory.find(
-          (f: any) => f.id == val.categoryId
-        );
-        if (exist) {
-          val.image = exist.image;
-          val.updatedDuration = parseFloat(exist.duration);
-          val.orengeLine = (val.updatedDuration * 80) / 100;
-          val.redLine = (val.updatedDuration * 90) / 100;
+    this.categoriesServiceFire
+      .getNotificationAndAction()
+      .subscribe((data: any) => {
+        this.actions = data
+          .filter((f: any) => f.userId == this.userId)
+          .sort(
+            (a: any, b: any) =>
+              new Date(a.createdAt.seconds * 1000).getTime() -
+              new Date(b.createdAt.seconds * 1000).getTime()
+          );
+        let lastElementMap: { [categoryId: string]: any } = {};
+        for (let val of this.actions) {
           lastElementMap[val.categoryId] = val;
           const date1 = new Date(val.day);
           const date2 = new Date();
-          date1.setHours(0, 0, 0, 0);
-          date2.setHours(0, 0, 0, 0);
           const timeDefference = date1.getTime() - date2.getTime();
           const differenceInDays = Math.floor(
             timeDefference / (1000 * 60 * 60 * 24)
@@ -98,67 +85,107 @@ export class NotificationComponent {
           val.timeDefference = Math.abs(differenceInDays);
           const existingTime = val.updatedDuration - Math.abs(differenceInDays);
           val.existingTime = existingTime;
-          const refDate = new Date(date1);
-          refDate.setDate(refDate.getDate() + val.updatedDuration);
-          const date = new Date(refDate);
-          const year = date.getFullYear();
-          const month = date.getMonth() + 1;
-          const day = date.getDate();
-          const dateStringWithoutTime = `${day}-${
-            month < 10 ? "0" : ""
-          }${month}-${day < 10 ? "0" : ""}${year}`;
-          val.nextDate = dateStringWithoutTime;
-          val.total = val.expense * val.timeDefference;
-          val.regularExpenseTotal = val.timeDefference * val.rgExpense;
-          if (
-            val.timeDefference >= val.orengeLine &&
-            val.timeDefference < val.redLine
-          ) {
-            const message = `${val.name} is almost time over it is orenge alert please do it as soon as possible you have ${existingTime} days`;
-            // this.sendSms(message);
-            this.sendEmail(message);
-          }
-          if (val.timeDefference >= val.redLine) {
-            const message = `it is red alert on ${val.name} please do it as soon as possible you have ${existingTime} days`;
-            // this.sendSms(message);
-            this.sendEmail(message);
+        }
+        this.newActions = Object.values(lastElementMap);
+        for (let val of this.newActions) {
+          const exist = this.NotificationCategory.find(
+            (f: any) => f.id == val.categoryId
+          );
+          if (exist) {
+            val.image = exist.image;
+            val.updatedDuration = parseFloat(exist.duration);
+            val.orengeLine = (val.updatedDuration * 80) / 100;
+            val.redLine = (val.updatedDuration * 90) / 100;
+            lastElementMap[val.categoryId] = val;
+            const date1 = new Date(val.day);
+            const date2 = new Date();
+            date1.setHours(0, 0, 0, 0);
+            date2.setHours(0, 0, 0, 0);
+            const timeDefference = date1.getTime() - date2.getTime();
+            const differenceInDays = Math.floor(
+              timeDefference / (1000 * 60 * 60 * 24)
+            );
+            val.timeDefference = Math.abs(differenceInDays);
+            const existingTime =
+              val.updatedDuration - Math.abs(differenceInDays);
+            val.existingTime = existingTime;
+            const refDate = new Date(date1);
+            refDate.setDate(refDate.getDate() + val.updatedDuration);
+            const date = new Date(refDate);
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
+            const dateStringWithoutTime = `${day}-${
+              month < 10 ? '0' : ''
+            }${month}-${day < 10 ? '0' : ''}${year}`;
+            val.nextDate = dateStringWithoutTime;
+            val.total = val.expense * val.timeDefference;
+            val.regularExpenseTotal = val.timeDefference * val.rgExpense;
+            if (
+              val.timeDefference >= val.orengeLine &&
+              val.timeDefference < val.redLine
+            ) {
+              const message = `${val.name} is almost time over it is orenge alert please do it as soon as possible you have ${existingTime} days`;
+              // this.sendSms(message);
+              this.sendEmail(message);
+            }
+            if (val.timeDefference >= val.redLine) {
+              const message = `it is red alert on ${val.name} please do it as soon as possible you have ${existingTime} days`;
+              // this.sendSms(message);
+              this.sendEmail(message);
+            }
           }
         }
-      }
-      this.newActions = this.newActions.sort(
-        (a: any, b: any) => a.existingTime - b.existingTime
-      );
-      this.getLengths();
-      if (this.latestAction.length == 0) {
-        this.latestAction = this.newActions;
-      }
-      this.getCtegories();
-    });
-  }
-
-  addCategory() {
-    const data = this.categoryForm.value;
-    const formData = new FormData();
-    const formControlNames = ["name", "userId", "duration", "type"];
-    formControlNames.forEach((controlName) => {
-      const controlValue = this.categoryForm.get(controlName)?.value;
-      if (controlValue !== undefined) {
-        formData.append(controlName, controlValue);
-      }
-    });
-
-    formData.append("myFile", this.sendFile);
-
-    this.categoriesService.addNotificationCategory(formData).subscribe(
-      (data) => {
-        console.log("Created successfully", data);
+        this.newActions = this.newActions.sort(
+          (a: any, b: any) => a.existingTime - b.existingTime
+        );
+        this.getLengths();
+        if (this.latestAction.length == 0) {
+          this.latestAction = this.newActions;
+        }
         this.getCtegories();
-        this.closePopup();
-      },
-      (error) => {
-        console.log("Creation failed", error);
+      });
+  }
+  image: any;
+  setimageURL: any;
+  onSelect = (e: any) => {
+    if (e.target.files[0]) {
+      const file = e.target.files[0];
+      this.image = file;
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        this.setimageURL = reader.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  async addCategory() {
+    const storage = getStorage();
+    try {
+      if (this.image) {
+        const imageRef = ref(storage, `images/${this.image.name}`);
+        const snapshot = await uploadBytes(imageRef, this.image);
+        this.setimageURL = await getDownloadURL(snapshot.ref);
       }
-    );
+      const newData = {
+        ...this.categoryForm.value,
+        imageUrl: this.setimageURL,
+      };
+      this.categoriesServiceFire.addNotificationCategory(newData).then(
+        (data) => {
+          console.log('Created successfully', data);
+          this.getCtegories();
+          this.closePopup();
+        },
+        (error) => {
+          console.log('Creation failed', error);
+        }
+      );
+    } catch (error) {
+      console.error('Error saving credit:', error);
+      alert('An error occurred while saving the credit. Please try again.');
+    }
   }
   red: any;
   orange: any;
@@ -180,56 +207,57 @@ export class NotificationComponent {
   }
   clicked: any;
   async filterByColor(val: any) {
-    if (val == "red") {
-      this.clicked = "red";
+    if (val == 'red') {
+      this.clicked = 'red';
       this.getActions();
 
       this.latestAction = this.newActions.filter(
         (f: any) => f.timeDefference >= f.redLine
       );
-    } else if (val == "orange") {
-      this.clicked = "orange";
+    } else if (val == 'orange') {
+      this.clicked = 'orange';
       this.getActions();
-
       this.latestAction = this.newActions.filter(
         (f: any) =>
           f.timeDefference >= f.orengeLine && f.timeDefference < f.redLine
       );
-    } else if (val == "green") {
-      this.clicked = "green";
+    } else if (val == 'green') {
+      this.clicked = 'green';
       this.getActions();
 
       this.latestAction = this.newActions.filter(
         (f: any) => f.timeDefference < f.orengeLine
       );
     } else {
-      this.clicked = "white";
+      this.clicked = 'white';
       this.latestAction = this.newActions;
     }
   }
 
   getCtegories() {
-    this.categoriesService.getNotificationCategory().subscribe((data: any) => {
-      this.NotificationCategory = data.filter(
-        (f: any) => f.userId == this.userId
-      );
-      for (var val of this.NotificationCategory) {
-        for (let value of this.newActions) {
-          if (val.id == value.categoryId) {
-            val.existingTime = value.existingTime;
+    this.categoriesServiceFire
+      .getNotificationCategory()
+      .subscribe((data: any) => {
+        this.NotificationCategory = data.filter(
+          (f: any) => f.userId == this.userId
+        );
+        for (var val of this.NotificationCategory) {
+          for (let value of this.newActions) {
+            if (val.id == value.categoryId) {
+              val.existingTime = value.existingTime;
+            }
           }
         }
-      }
-      this.NotificationCategory = this.NotificationCategory.sort(
-        (a: any, b: any) => a.existingTime - b.existingTime
-      );
+        this.NotificationCategory = this.NotificationCategory.sort(
+          (a: any, b: any) => a.existingTime - b.existingTime
+        );
 
-      console.log(
-        "this.newActions",
-        this.newActions,
-        this.NotificationCategory
-      );
-    });
+        console.log(
+          'this.newActions',
+          this.newActions,
+          this.NotificationCategory
+        );
+      });
   }
   open = true;
 
@@ -239,7 +267,7 @@ export class NotificationComponent {
   closePopup() {
     this.open = true;
     this.categoryForm.reset();
-    this.file = "";
+    this.file = '';
   }
 
   navigateToAddPage(id: any) {

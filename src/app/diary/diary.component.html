@@ -1,0 +1,31 @@
+<main>
+  <input type="date" class="fltrdt" [formControl]="diarydate" />
+  <button (click)="getDiary()">get</button>
+  <section class="cnt" *ngFor="let val of diary">
+    <div class="sdbr">
+      <h1>{{ val.year }}</h1>
+      <h1 style="font-size: 43px">{{ val.monthName }}</h1>
+      <h1>{{ val.dayName }}</h1>
+      <h1 class="dte">{{ val.date }}</h1>
+    </div>
+    <div class="mn">
+      <div class="images">
+        <div class="snglimg"></div>
+        <div class="snglimg"></div>
+      </div>
+
+      <mat-icon class="addicn" (click)="setOpen()">add_circle_outline</mat-icon>
+      <div class="adddry" *ngIf="open">
+        <mat-icon class="icncls" (click)="setOpen()">view_column</mat-icon>
+        <form [formGroup]="diaryForm">
+          <input class="dtfm" type="date" formControlName="date" /><br />
+          <textarea class="txtara" formControlName="text"></textarea><br />
+          <button class="sv" (click)="saveDiary()">Save</button>
+        </form>
+      </div>
+      <p class="drys">
+        {{ val.text }}
+      </p>
+    </div>
+  </section>
+</main>

@@ -6,9 +6,10 @@
   color: black;
   background-color: rgb(241, 230, 230);
 }
-.addfm{
+
+.addfm {
   width: 400px;
-min-height: 200px;
+  min-height: 200px;
   max-height: fit-content;
   background-color: rgb(255, 255, 255);
   position: absolute;
@@ -21,22 +22,21 @@ min-height: 200px;
   padding-bottom: 20px;
 }
 
-
-.addfm table{
+.addfm table {
   width: 90%;
 }
-.addfm table th td{
+.addfm table th td {
   height: 30px;
   background-color: black;
   color: white;
   border: none;
 }
 .addfm table th {
-background-color: rgb(21, 21, 55);
-color: white;
-width: 100px;
+  background-color: rgb(21, 21, 55);
+  color: white;
+  width: 100px;
 }
-.addfm button{
+.addfm button {
   position: relative;
   top: 10px;
   width: 100px;
@@ -53,8 +53,7 @@ width: 100px;
   padding-top: 20px;
   border-bottom: 5px solid rgb(138, 15, 15);
   box-shadow: 5px 5px 8px rgb(150, 143, 143);
-  background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-8nUEe9kXynec7livCogu2C4KUX6xGeRXnQ&usqp=CAU');
-
+  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-8nUEe9kXynec7livCogu2C4KUX6xGeRXnQ&usqp=CAU");
 }
 .sl {
   width: 350px;
@@ -132,7 +131,7 @@ width: 100px;
   /* box-shadow: 5px 5px 8px rgb(86, 81, 81); */
   position: relative;
   background-color: white;
-  margin-bottom:50px ;
+  margin-bottom: 50px;
 }
 
 .vDiv {
@@ -213,7 +212,7 @@ th {
   left: 50px;
   width: 550px;
 }
-.gt{
+.gt {
   width: 100%;
   min-height: 1500px;
   height: fit-content;
@@ -221,15 +220,13 @@ th {
   top: 40px;
   display: block;
 }
-.mntbl th{
+.mntbl th {
   background-color: rgb(11, 11, 61);
   color: white;
   height: 50px;
 }
-.fstbl th{
+.fstbl th {
   background-color: rgb(11, 11, 61);
   color: white;
   height: 50px;
 }
-
-

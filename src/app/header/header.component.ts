@@ -1,6 +1,7 @@
 import { CategoriesService } from "src/services/categories.service";
 import { Router } from "@angular/router";
 import { Component, Renderer2, ElementRef, ViewChild } from "@angular/core";
+import { CategoryFireService } from "src/services/category-fire.service";
 
 @Component({
   selector: 'app-header',
@@ -29,6 +30,7 @@ export class HeaderComponent {
   constructor(
     private router: Router,
     private categoriesService: CategoriesService,
+    private categoriesServiceFire: CategoryFireService,
     private renderer: Renderer2
   ) {}
 
@@ -36,7 +38,7 @@ export class HeaderComponent {
   lastExpenses: any = [];
   addTime() {
     const times = new Date();
-    this.categoriesService.addNotificationTime(times).subscribe((data) => {
+    this.categoriesServiceFire.addNotificationTime(times).then((data) => {
       this.getTimes();
     });
   }
@@ -55,7 +57,7 @@ export class HeaderComponent {
   showOff:any
   getTimes() {
     const id = localStorage.getItem("userId");
-    this.categoriesService.getTimes().subscribe((data: any) => {
+    this.categoriesServiceFire.getTimes().subscribe((data: any) => {
       this.times = data.filter((f: any) => f.userId == id);
       this.lastUpdatedTime = this.times[this.times.length - 1];
       console.log("times", this.lastUpdatedTime);
@@ -64,7 +66,7 @@ export class HeaderComponent {
   getExpenses() {
     const id = localStorage.getItem("userId");
 
-    this.categoriesService.getExpensList().subscribe((data) => {
+    this.categoriesServiceFire.getExpensList().subscribe((data) => {
       try {
         this.expense = JSON.parse(JSON.stringify(data)).filter((f: any) => {
           return f.userId == id;

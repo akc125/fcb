@@ -1,0 +1,32 @@
+<div class="calendar-container">
+    <div class="header">
+      <h2>{{ months[currentMonth] }} {{ currentYear }}</h2>
+      <select (change)="changeMonth($event)" class="month-select">
+        <option *ngFor="let month of months; let i = index" [value]="i" [selected]="i === currentMonth">
+          {{ month }}
+        </option>
+      </select>
+    </div>
+  
+    <div class="days-of-week">
+      <div *ngFor="let day of daysOfWeek" class="day-name">{{ day }}</div>
+    </div>
+  
+    <div class="dates">
+      <div class="week" *ngFor="let week of dates">
+        <div
+          *ngFor="let date of week"
+          class="date"
+          [ngClass]="{
+            holiday: date?.isHoliday,
+            today: date?.isToday
+          }"
+          [title]="date?.holidayName || ''"
+        >
+          {{ date?.day || '' }}
+          <span class="holiday-name" *ngIf="date?.isHoliday">{{ date.holidayName }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  

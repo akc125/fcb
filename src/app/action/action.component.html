@@ -1,21 +1,22 @@
-<div class="ac" *ngFor="let dt of data">
+
+<div class="ac" >
   <mat-icon class="RPLY" (click)="return()">replay</mat-icon>
   <div class="ndiv">
-    <img class="im" src="{{ dt.image }}" />
-    <h1 class="hdi" style="font-weight: 800; font-size: 60px">{{ dt.name }}</h1>
+    <img class="im" src="{{ data.imageUrl }}" />
+    <h1 class="hdi" style="font-weight: 800; font-size: 60px">{{ data.name }}</h1>
   </div>
   <h1>Add Data</h1>
   <form [formGroup]="actionsDataForm">
-    <label *ngIf="dt.type == 'actionType'">Action</label>
+    <label *ngIf="data.type == 'actionType'">Action</label>
     <input
-      *ngIf="dt.type == 'actionType'"
+      *ngIf="data.type == 'actionType'"
       type="checkbox"
       formControlName="action"
     /><br />
-    <label *ngIf="dt.type == 'expensiveType'||'regularType' ">Expense</label>
-    <input *ngIf="dt.type == 'expensiveType'||'regularType' " formControlName="expense" /><br />
-    <label *ngIf="dt.type == 'regularType'">RgExpense</label>
-    <input type="number" *ngIf="dt.type == 'regularType'" formControlName="rgExpense" /><br />
+    <label *ngIf="data.type == 'expensiveType'||'regularType' ">Expense</label>
+    <input *ngIf="data.type == 'expensiveType'||'regularType' " formControlName="expense" /><br />
+    <label *ngIf="data.type == 'regularType'">RgExpense</label>
+    <input type="number" *ngIf="data.type == 'regularType'" formControlName="rgExpense" /><br />
     <label>Date</label>
     <input
       [(ngModel)]="defaultDate"
@@ -45,20 +46,19 @@
       (click)="closePopup()"
       >highlight_off</mat-icon
     >
-    <img alt="image" class="imn" [src]="file" *ngIf="file" />
+    <img alt="image" class="imn" [src]="setimageURL" *ngIf="setimageURL" />
     <form
       onsubmit="updateCategory()"
       [formGroup]="categoryUpdateForm"
-      *ngFor="let dt of data"
     >
       <label>Name</label>
-      <input formControlName="name" /><br />
+      <input formControlName="name" [(ngModel)]="name"/><br />
       <label>Duration</label>
-      <input formControlName="duration" /><br />
+      <input formControlName="duration" [(ngModel)]="duration"/><br />
       <label>Image</label>
-      <input (change)="handleFile($event)" type="file" /><br />
+      <input (change)="onSelect($event)" type="file" /><br />
       <label>Type</label>
-      <input formControlName="type" /><br />
+      <input formControlName="type" [(ngModel)]="type"/><br />
       <button (click)="updateCategory()" class="sbt">Update</button>
     </form>
   </div>

@@ -352,6 +352,10 @@ table td:nth-child(2) {
   padding-top: 40px;
   display: flex;
   justify-content: space-between;
+  overflow: scroll;
+}
+.lst ::-webkit-scrollbar{
+  display: none;
 }
 .lst2 {
   width: 50%;

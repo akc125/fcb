@@ -1,36 +1,41 @@
-<main class="mn" *ngFor="let val of details">
+<main class="mn">
   <div class="d1">
-    <img class="ib" src="{{ val.image }}" />
-    <h1>{{ val.name }}</h1>
+    <img class="ib" src="{{ details.imageUrl }}" />
+    <h1>{{ details.name }}</h1>
     <section class="desc">
       <p>
-        {{ val.description }}
+        {{ details.description }}
       </p>
     </section>
   </div>
   <div class="d2">
-    <span class="sp1" *ngIf="val.age.years > 0">{{ val.age.years }} years</span>
-    <span class="sp2" *ngIf="val.age.months !== 0">
-      {{ val.age.months }} months</span
+    <span class="sp1" *ngIf="details.age.years > 0"
+      >{{ details.age.years }} years</span
     >
-    <span class="sp3" >{{ val.age.days }} days</span>
-    <p>Commission Date: {{ val.day | date : "dd-MM-yyyy" }}</p>
-    <p>Amount Rs.{{ val.amount }}</p>
-    <p *ngIf="val.age.months == 0">Age: {{ val.age.days }} days</p>
-    <p *ngIf="val.age.years == 0">
-      Age: {{ val.age.months }} months {{ val.age.days }} days
+    <span class="sp2" *ngIf="details.age.months !== 0">
+      {{ details.age.months }} months</span
+    >
+    <span class="sp3">{{ details.age.days }} days</span>
+    <p>Commission Date: {{ details.day | date : "dd-MM-yyyy" }}</p>
+    <p>Amount Rs.{{ details.amount }}</p>
+    <p *ngIf="details.age.months == 0">Age: {{ details.age.days }} days</p>
+    <p *ngIf="details.age.years == 0">
+      Age: {{ details.age.months }} months {{ details.age.days }} days
     </p>
-    <p *ngIf="val.age.years > 0">
-      Age: {{ val.age.years }} years {{ val.age.months }} months
-      {{ val.age.days }} days
+    <p *ngIf="details.age.years > 0">
+      Age: {{ details.age.years }} years {{ details.age.months }} months
+      {{ details.age.days }} days
     </p>
-    <p>Status: active</p>
+    <p>Status: {{ details.active ? 'Active' : 'Deactive' }}</p>
   </div>
   <div class="d3">
     <canvasjs-chart
-      *ngIf="val.guarantee !== 'null'"
+      *ngIf="details.guarantee !== 'null'"
       [options]="chartOptions"
       [styles]="{ width: '80%', height: '170px' }"
     ></canvasjs-chart>
   </div>
+  <button class="dacv" (click)="updateCommission()">
+    {{ details.active == true ? "Deactivate" : "Activate" }}
+  </button>
 </main>

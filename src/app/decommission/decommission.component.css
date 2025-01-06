@@ -1,0 +1,160 @@
+
+.cnt {
+    width: 100%;
+    height: fit-content;
+    min-height: 600px;
+    padding-bottom: 70px;
+    background-color: rgb(243, 240, 240);
+    padding-top: 10px;
+    color: black;
+    text-align: center;
+  }
+  .hd{
+      font-size: 64px;
+      color: white;
+      position: relative;
+      top: 50px;
+  }
+  .spn{
+      background-color: orangered;
+  }
+  .expl{
+      width: 400px;
+      height: 300px;
+      background-color: rgb(47, 50, 50,0.3);
+      position: relative;
+      top: 110px;
+      left: 100px;
+      padding: 20px;
+  }
+  .expl p{
+      color: antiquewhite;
+      font-size: 17px;
+      letter-spacing: 2px;
+      word-spacing: 10px;
+  }
+  .expl button{
+      background-color: orangered; 
+      width: 200px;
+      height: 30px;
+      color: aliceblue;
+      border: none;
+  }
+  .lst1{
+      width: 100vw;
+      height: 600px;
+      background: linear-gradient(rgb(0, 0, 0) ,rgba(3, 3, 16, 0.5)),url('https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+  
+  }
+  .lst2{
+      width: 100vw;
+      background-color: white;
+      display: flex;
+      justify-content: space-evenly;
+  flex-wrap: wrap;
+  height: fit-content;
+  }
+  .crd{
+      width: 290px;
+      height: 490px;
+      /* max-height: fit-content; */
+      margin-top: 15px;
+      border-radius: 10px;
+      box-shadow: 2px 2px 5px rgb(139, 133, 133);
+      overflow: hidden;
+  }
+  .as{
+      width: 290px;
+      height: 390px;
+      /* max-height: fit-content; */
+      margin-top: 15px;
+      border-radius: 10px;
+      box-shadow: 2px 2px 5px rgb(139, 133, 133);
+      overflow: hidden;
+  }
+  .clsb{
+      color: aliceblue;
+  
+  }
+  .fm{
+      position: absolute;
+      width: 450px;
+      height: 330px;
+      border: 10px solid rgb(5, 4, 30);
+      left: 700px;
+      border-radius: 30px;
+      top: 265px;
+  align-items: center;
+  padding-top: 7px;
+  background-color: rgba(115, 92, 9, 0.6);
+  }
+  .adb{
+      width: 250px;
+      height: 30px;
+      margin: 10px;
+      background-color: rgb(99, 94, 10);
+      color: white;
+      margin-left: 15px;
+  }
+  .fm input{
+      width: 250px;
+      height: 30px;
+      margin: 5px;
+      border: 2px solid red;
+  }
+  .d1{
+      width: 100%;
+      height: 40%;
+      background-color: white;
+      overflow: hidden;
+  }
+  .d11{
+      width: 100%;
+      height: 60%;
+      background-color: white;
+      overflow: hidden;
+  }
+  .d1 img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: 0.3s;
+  }
+  .d1 img:hover{
+      transform: rotate(-2deg)scale(1.1);
+  
+  }
+  .d11 img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: 0.3s;
+  }
+  .d11 img:hover{
+      transform: rotate(-2deg)scale(1.1);
+  
+  }
+  .d2{
+      width: 100%;
+      height: 40%;
+      background-color: rgb(255, 255, 255);
+      padding-top: 10px;
+  }
+  .d22{
+      width: 100%;
+      height: 60%;
+      background-color: rgb(255, 255, 255);
+      padding-top: 10px;
+  }
+  .d2{
+      font-size: 25px;
+      color: rgb(0, 0, 0);
+  }
+  .d2 p{
+      position: relative;
+      top: -30px;
+      font-size: 16px;
+  }

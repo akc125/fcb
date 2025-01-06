@@ -1,39 +1,60 @@
-import { CategoriesService } from "src/services/categories.service";
-import { Component, ElementRef, ViewChild } from "@angular/core";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
+import { CategoriesService } from 'src/services/categories.service';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import { CategoryFireService } from 'src/services/category-fire.service';
 
 @Component({
-  selector: "app-monitor",
-  templateUrl: "./monitor.component.html",
-  styleUrls: ["./monitor.component.css"],
+  selector: 'app-monitor',
+  templateUrl: './monitor.component.html',
+  styleUrls: ['./monitor.component.css'],
 })
 export class MonitorComponent {
-  @ViewChild("invoice") invoiceElement!: ElementRef;
+  @ViewChild('invoice') invoiceElement!: ElementRef;
   defualtDate: any;
-  currentYear: any;
+  currentYear: any = '2024';
+  currentMonth: any;
+
   ngOnInit(): void {
+    this.setCurrentValues();
     const currentDate = new Date();
     this.currentYear = currentDate.getFullYear();
     this.defualtDate = currentDate.toISOString().substring(5, 7);
+    this.currentMonth = new Intl.DateTimeFormat('en-US', {
+      month: 'long',
+    }).format(currentDate);
+    this.getCategories();
+    this.getIncomes();
+    this.passId();
+    setTimeout(() => {
+      this.getExpensePercentage();
+    }, 2000);
   }
-  constructor(private categoriesService: CategoriesService) {}
+  constructor(
+    private categoriesService: CategoriesService,
+    private categoriesServiceFire: CategoryFireService
+  ) {}
   selection: any;
   onSelected(event: any) {
     this.selection = event.target.value;
+    this.getExpense();
+    this.getIncomes();
+    this.passId();
   }
   allTimeExpense: any = [];
   allTimeExpenseTotal: number = 0;
   allTimeExpenseBalance: number = 0;
   allTimeIncome: number = 0;
   expenses: any = [];
+  expensesByYear: any = [];
+  expensesAllTime: any = [];
   expensesJulay: any = [];
   incomes: any = [];
   incomesJulay: any = [];
   totalIncomeJulay: number = 0;
   finalExpenseJulay: any = [];
   totalExpJulay: number = 0;
-  balenceJulay: number = 10;
+  balenceJulay: number = 0;
 
   yearlyExpense: any = [];
   yearlyExpenseFinal: any = [];
@@ -44,23 +65,23 @@ export class MonitorComponent {
   yearlyBalence: number = 0;
 
   monthsList = [
-    { id: "0", name: "" },
-    { id: "01", name: "January" },
-    { id: "02", name: "February" },
-    { id: "03", name: "March" },
-    { id: "04", name: "April" },
-    { id: "05", name: "May" },
-    { id: "06", name: "June" },
-    { id: "07", name: "July" },
-    { id: "08", name: "August" },
-    { id: "09", name: "September" },
-    { id: "10", name: "October" },
-    { id: "11", name: "November" },
-    { id: "12", name: "December" },
+    { id: '0', name: '' },
+    { id: '01', name: 'January' },
+    { id: '02', name: 'February' },
+    { id: '03', name: 'March' },
+    { id: '04', name: 'April' },
+    { id: '05', name: 'May' },
+    { id: '06', name: 'June' },
+    { id: '07', name: 'July' },
+    { id: '08', name: 'August' },
+    { id: '09', name: 'September' },
+    { id: '10', name: 'October' },
+    { id: '11', name: 'November' },
+    { id: '12', name: 'December' },
   ];
 
   monthSelected: any;
-  monthId: any;
+  monthId: any = 1;
   sum: number = 0;
   calculateTotal() {
     var total = 0;
@@ -83,110 +104,157 @@ export class MonitorComponent {
   coloselection() {
     this.yearlySelectedExpense = [];
   }
+  prevMonthId: string = '';
+
   selectedMonth(event: any) {
     this.monthSelected = event.target.value;
     const selected = this.monthsList.find(
       (f: any) => f.name === this.monthSelected
     );
     this.monthId = selected?.id;
+    this.monthId = selected?.id || '';
+
+    let prevMonth = (parseInt(this.monthId) - 1).toString().padStart(2, '0');
+    if (prevMonth === '00') {
+      prevMonth = '12';
+    }
+    this.prevMonthId = prevMonth;
+    console.log('prevMonthId', this.prevMonthId);
+    this.getCategories();
     this.getExpense();
+    this.getIncomes();
+    this.passId();
   }
   selectedYear: any = 2023;
-  idOfMonth: any = "09";
-  passId() {
-    this.selectedYear = this.selection;
-    this.idOfMonth = this.monthId;
-    console.log(
-      " this.selectedYear",
-      this.selectedYear,
-      this.idOfMonth,
-      this.finalExpenseJulay
-    );
+  idOfMonth: any;
+  setCurrentValues(): void {
+    const currentDate = new Date();
+    this.selection = currentDate.getFullYear().toString(); // Get current year as a string
+    this.idOfMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Get current month and pad with leading zero if needed
   }
-  userId = localStorage.getItem("userId");
+  passId() {
+    this.selectedYear = this.selection ? this.selection : this.currentYear;
+    this.idOfMonth = this.monthId;
+    console.log('property', this.finalExpenseJulay);
+  }
+  userId = localStorage.getItem('userId');
+  categories: any = [];
+  getCategories() {
+    this.categoriesServiceFire.getCategories().subscribe((data) => {
+      this.categories = data;
+      console.log('categories', data);
+    });
+    this.getExpense();
+  }
+
   getExpense() {
-    const id = localStorage.getItem("userId");
-    this.categoriesService.getExpensList().subscribe((data: any) => {
-      const expensesCopy = [...this.expenses];
-      this.expenses = data.filter((f: any) => f.userId == id);
-
-      this.expensesJulay = expensesCopy.filter(
-        (f: any) =>
-          Number(f.day.substring(5, 7)) == parseInt(this.idOfMonth) &&
-          f.day.substring(0, 4) === this.selectedYear
-      );
-      this.finalExpenseJulay = [];
-      for (const exp of this.expensesJulay) {
-        const existing = this.finalExpenseJulay.find(
-          (f: any) => f.name === exp.name
-        );
-        if (existing) {
-          existing.expense += exp.expense;
-        } else {
-          this.finalExpenseJulay.push(exp);
+    const id = localStorage.getItem('userId');
+    this.categoriesServiceFire.getExpensList().subscribe((data) => {
+      this.expenses = JSON.parse(JSON.stringify(data)).filter((f: any) => {
+        return f.userId == id;
+      });
+      this.expensesByYear = JSON.parse(JSON.stringify(data)).filter(
+        (f: any) => {
+          return f.userId == id;
         }
-      }
-      // allTime
-      this.allTimeExpense=[]
-      const allTimeExpenseCopy = [...this.expenses];
-      for (let val of allTimeExpenseCopy) {
-        const existingItem = this.allTimeExpense.find(
-          (f: any) => f.name === val.name
-        );
-        if (existingItem) {
-          existingItem.expense += val.expense;
-        } else {
-          this.allTimeExpense.push(val);
+      );
+      this.expensesAllTime = JSON.parse(JSON.stringify(data)).filter(
+        (f: any) => {
+          return f.userId == id;
         }
-      }
-      this.allTimeExpense = this.allTimeExpense.sort(
-        (a: any, b: any) => b.expense - a.expense
       );
-      for (let v of this.allTimeExpense) {
-        this.allTimeExpenseTotal += v.expense;
-      }
-      // year
-      this.yearlyExpenseFinal = [];
-      const yearlyExpenseCopy = [...this.expenses];
-      this.yearlyExpense = yearlyExpenseCopy.filter(
-        (f: any) => f.day.substring(0, 4) == this.selectedYear
-      );
-      for (let exp of this.yearlyExpense) {
-        const existing = this.yearlyExpenseFinal.find(
-          (f: any) => f.name === exp.name
-        );
-        if (existing) {
-          existing.expense += exp.expense;
-        } else {
-          this.yearlyExpenseFinal.push(exp);
-        }
-      }
-
-      this.yearlyExpenseTotel = 0;
-      this.yearlyIncomeTotel = 0;
-
-      this.yearlyExpenseFinal = this.yearlyExpenseFinal.sort(
-        (a: any, b: any) => b.expense - a.expense
-      );
-      for (const val of this.yearlyExpenseFinal) {
-        this.yearlyExpenseTotel += val.expense;
-      }
-
-      this.totalExpJulay = 0;
-      this.totalIncomeJulay = 0;
-      this.finalExpenseJulay.sort((a: any, b: any) => b.expense - a.expense);
-      for (const val of this.finalExpenseJulay) {
-        this.totalExpJulay += val.expense;
-      }
+      this.calculateExpense();
     });
     setTimeout(() => {
       this.getExpensePercentage();
     }, 1000);
   }
 
+  calculateExpense() {
+    for (let val of this.expenses) {
+      for (let v of this.categories) {
+        if (val.catId == v.id) {
+          val.name = v.name;
+        }
+      }
+    }
+    const MonthExpenseCopy = JSON.parse(JSON.stringify(this.expenses));
+    this.expensesJulay = MonthExpenseCopy.filter(
+      (f: any) =>
+        Number(f.day.substring(5, 7)) == parseInt(this.idOfMonth) &&
+        f.day.substring(0, 4) === this.selectedYear
+    );
+
+    this.finalExpenseJulay = [];
+    for (const exp of this.expensesJulay) {
+      const existing = this.finalExpenseJulay.find(
+        (f: any) => f.name === exp.name
+      );
+      if (existing) {
+        existing.expense += Number(exp.expense);
+      } else {
+        this.finalExpenseJulay.push(exp);
+      }
+    }
+    console.log('finalExpenseJulay', this.finalExpenseJulay);
+    this.totalExpJulay = 0;
+    this.totalIncomeJulay = 0;
+    this.finalExpenseJulay.sort((a: any, b: any) => b.expense - a.expense);
+    for (const val of this.finalExpenseJulay) {
+      this.totalExpJulay += val.expense;
+    }
+
+    // year
+    this.yearlyExpenseFinal = [];
+    const yearlyExpenseCopys = JSON.parse(JSON.stringify(this.expenses));
+    this.yearlyExpense = yearlyExpenseCopys.filter(
+      (f: any) => f.day.substring(0, 4) == this.selectedYear
+    );
+    for (let exp of this.yearlyExpense) {
+      const existing = this.yearlyExpenseFinal.find(
+        (f: any) => f.name === exp.name
+      );
+      if (existing) {
+        existing.expense += exp.expense;
+      } else {
+        this.yearlyExpenseFinal.push(exp);
+      }
+    }
+
+    this.yearlyExpenseTotel = 0;
+    this.yearlyIncomeTotel = 0;
+
+    this.yearlyExpenseFinal = this.yearlyExpenseFinal.sort(
+      (a: any, b: any) => b.expense - a.expense
+    );
+    for (const val of this.yearlyExpenseFinal) {
+      this.yearlyExpenseTotel += val.expense;
+    }
+
+    // allTime
+    this.allTimeExpense = [];
+    const allTimeExpenseCopy = JSON.parse(JSON.stringify(this.expenses));
+    for (let val of allTimeExpenseCopy) {
+      const existingItem = this.allTimeExpense.find(
+        (f: any) => f.name === val.name
+      );
+      if (existingItem) {
+        existingItem.expense += val.expense;
+      } else {
+        this.allTimeExpense.push(val);
+      }
+    }
+    this.allTimeExpense = this.allTimeExpense.sort(
+      (a: any, b: any) => b.expense - a.expense
+    );
+    for (let v of this.allTimeExpense) {
+      this.allTimeExpenseTotal += v.expense;
+    }
+  }
+
   getIncomes() {
-    const id = localStorage.getItem("userId");
-    this.categoriesService.getIncomes().subscribe((data: any) => {
+    const id = localStorage.getItem('userId');
+    this.categoriesServiceFire.getIncomes().subscribe((data: any) => {
       this.incomes = data.filter((f: any) => {
         return f.userId == id;
       });
@@ -230,10 +298,10 @@ export class MonitorComponent {
       animationEnabled: true,
       data: [
         {
-          type: "pie",
+          type: 'pie',
           startAngle: 45,
-          indexLabel: "{name}: {y}",
-          indexLabelPlacement: "inside",
+          indexLabel: '{name}: {y}',
+          indexLabelPlacement: 'inside',
           yValueFormatString: "#,###.##'%'",
           dataPoints: this.finalExpenseJulay,
         },
@@ -241,17 +309,17 @@ export class MonitorComponent {
     };
     this.chartOption = {
       title: {
-        text: "Total Impressions by Platforms",
+        text: 'Total Impressions by Platforms',
       },
       animationEnabled: true,
       axisY: {
         includeZero: true,
-        suffix: "%",
+        suffix: '%',
       },
       data: [
         {
-          type: "bar",
-          indexLabel: "{name}: {y}",
+          type: 'bar',
+          indexLabel: '{name}: {y}',
           yValueFormatString: "#,###.##'%'",
           dataPoints: this.finalExpenseJulay,
         },
@@ -265,10 +333,10 @@ export class MonitorComponent {
       animationEnabled: true,
       data: [
         {
-          type: "pie",
+          type: 'pie',
           startAngle: 45,
-          indexLabel: "{name}: {y}",
-          indexLabelPlacement: "inside",
+          indexLabel: '{name}: {y}',
+          indexLabelPlacement: 'inside',
           yValueFormatString: "#,###.##'%'",
           dataPoints: this.yearlyExpenseFinal,
         },
@@ -276,17 +344,17 @@ export class MonitorComponent {
     };
     this.chartOption2 = {
       title: {
-        text: "Total Impressions by Platforms",
+        text: 'Total Impressions by Platforms',
       },
       animationEnabled: true,
       axisY: {
         includeZero: true,
-        suffix: "%",
+        suffix: '%',
       },
       data: [
         {
-          type: "bar",
-          indexLabel: "{name}: {y}",
+          type: 'bar',
+          indexLabel: '{name}: {y}',
           yValueFormatString: "#,###.##'%'",
           dataPoints: this.yearlyExpenseFinal,
         },
@@ -297,13 +365,13 @@ export class MonitorComponent {
   public generatePDF(): void {
     html2canvas(this.invoiceElement.nativeElement, { scale: 1.5 }).then(
       (canvas) => {
-        const imageGeneratedFromTemplate = canvas.toDataURL("image/png");
+        const imageGeneratedFromTemplate = canvas.toDataURL('image/png');
         const fileWidth = 200;
         const generatedImageHeight = (canvas.height * fileWidth) / canvas.width;
-        let PDF = new jsPDF("p", "mm", "a4");
+        let PDF = new jsPDF('p', 'mm', 'a4');
         PDF.addImage(
           imageGeneratedFromTemplate,
-          "PNG",
+          'PNG',
           5,
           5,
           fileWidth,

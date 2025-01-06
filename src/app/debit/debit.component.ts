@@ -1,11 +1,12 @@
-import { CategoriesService } from "src/services/categories.service";
-import { Component } from "@angular/core";
-import { FormControl, FormControlName, FormGroup } from "@angular/forms";
-
+import { CategoriesService } from 'src/services/categories.service';
+import { Component } from '@angular/core';
+import { FormControl, FormControlName, FormGroup } from '@angular/forms';
+import { CategoryFireService } from 'src/services/category-fire.service';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 @Component({
-  selector: "app-debit",
-  templateUrl: "./debit.component.html",
-  styleUrls: ["./debit.component.css"],
+  selector: 'app-debit',
+  templateUrl: './debit.component.html',
+  styleUrls: ['./debit.component.css'],
 })
 export class DebitComponent {
   ngOnInit(): void {
@@ -13,8 +14,11 @@ export class DebitComponent {
     this.getDebitAmounts();
     this.combainData();
   }
-  constructor(private categoriesService: CategoriesService) {}
-  userId = localStorage.getItem("userId");
+  constructor(
+    private categoriesServiceFire: CategoryFireService
+  ) {}
+
+  userId = localStorage.getItem('userId');
   debitFormGroup = new FormGroup({
     name: new FormControl(),
     description: new FormControl(),
@@ -32,51 +36,65 @@ export class DebitComponent {
   handleFile(e: any) {
     this.file = e.target.files[0];
   }
-  addDebits() {
-    const formDta = new FormData();
-    const debits = [
-      "name",
-      "description",
-      "date",
-      "amount",
-      "userId",
-      "active",
-    ];
-    debits.forEach((element) => {
-      const values = this.debitFormGroup.get(element)?.value;
-      if (values) {
-        formDta.append(element, values);
+  image: any;
+  setimageURL: any;
+  onSelect = (e: any) => {
+    if (e.target.files[0]) {
+      const file = e.target.files[0];
+      this.image = file;
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        this.setimageURL = reader.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  async addDebits() {
+    try {
+      const storage = getStorage();
+      if (this.image) {
+        const imageRef = ref(storage, `images/${this.image.name}`);
+        const snapshot = await uploadBytes(imageRef, this.image);
+        this.setimageURL = await getDownloadURL(snapshot.ref);
       }
-    });
-    formDta.append("myFile", this.file);
-    this.categoriesService.addDebit(formDta).subscribe((data) => {
-      this.getCloseMainForm();
-      this.getDebits();
-    });
+
+      const newData = {
+        ...this.debitFormGroup.value,
+        image: this.setimageURL,
+      };
+      this.categoriesServiceFire.addDebit(newData).then((data) => {
+        this.getCloseMainForm();
+        this.getDebits();
+      });
+    } catch (error) {
+      console.error('Error saving credit:', error);
+      alert('An error occurred while saving the credit. Please try again.');
+    }
   }
   addDebitAmount(id: any) {
     const data = {
-      amount: this.debitAmountFormGroup.get("amount")?.value,
-      date: this.debitAmountFormGroup.get("date")?.value,
+      amount: this.debitAmountFormGroup.get('amount')?.value,
+      date: this.debitAmountFormGroup.get('date')?.value,
       cardId: id,
       userId: this.userId,
     };
-    this.categoriesService.addDebitAmount(data).subscribe((data) => {
+    this.categoriesServiceFire.addDebitAmount(data).then((data) => {
       this.getCloseForm();
       this.getDebitAmounts();
     });
   }
   debits: any = ([] = []);
   getDebits() {
-    this.categoriesService.getDebit().subscribe((data: any) => {
+    this.categoriesServiceFire.getDebit().subscribe((data: any) => {
       this.debits = data.filter((f: any) => f.userId == this.userId);
       this.combainData();
-      console.log("debits",this.debits)
+      console.log('debits', this.debits);
     });
   }
   debitAmounts: any = ([] = []);
   getDebitAmounts() {
-    this.categoriesService.getDebitAmount().subscribe((data: any) => {
+    this.categoriesServiceFire.getDebitAmount().subscribe((data: any) => {
       this.debitAmounts = data;
       this.combainData();
     });
@@ -97,9 +115,9 @@ export class DebitComponent {
       });
       var sum = 0;
       for (let v of val.amountData) {
-        sum += v.amount;
+        sum += Number(v.amount);
         val.total = sum;
-        val.exist = val.amount - val.total;
+        val.exist = Number(val.amount) - Number(val.total);
         if (val.total == 0) {
           val.exist = val.amount;
         }
@@ -107,22 +125,24 @@ export class DebitComponent {
     }
     const cards = this.debits.filter((f: any) => f.active == 1);
     this.totalCards = cards.length;
-    console.log("cardssss", cards);
+    console.log('cardssss', cards);
   }
   updateDebit(id: any) {
     const data = {
-      active: false,
+      active: 0,
+      id: id,
     };
-    this.categoriesService.updateDebit(data, id).subscribe((data) => {
+    this.categoriesServiceFire.updateDebit(data).then((data) => {
       this.getDebits();
       this.combainData();
     });
   }
   active(id: any) {
     const data = {
-      active: true,
+      active: 1,
+      id: id,
     };
-    this.categoriesService.updateDebit(data, id).subscribe((data) => {
+    this.categoriesServiceFire.updateDebit(data).then((data) => {
       this.getDebits();
       this.combainData();
     });

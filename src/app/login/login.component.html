@@ -1,15 +1,16 @@
 <div class="lg">
-    <p class="fc">FCB</p>
-    <form [formGroup]="loginFormGroup">
-        <label>User Name</label>
-        <input placeholder="User Name" formControlName="name">
-        <label class="sd">Password</label>
-        <input class="ps" placeholder="Password" type="password"  formControlName="password">
-    </form> 
-    <button (click)="onLigin()">Login</button> 
-       <p routerLink="register" (click)="registerNavigate()" class="rg">Register</p>         
-      </div>
-      
-
-
-
+  <p class="fc">FCB</p>
+  <form [formGroup]="loginFormGroup">
+    <label>User Name</label>
+    <input placeholder="User Name" formControlName="email" />
+    <label class="sd">Password</label>
+    <input
+      class="ps"
+      placeholder="Password"
+      type="password"
+      formControlName="password"
+    />
+  </form>
+  <button (click)="onLogin()">Login</button>
+  <p routerLink="register" (click)="registerNavigate()" class="rg">Register</p>
+</div>

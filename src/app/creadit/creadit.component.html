@@ -14,7 +14,7 @@
       class="cn2"
       style="color: white"
       *ngFor="let val of credits"
-      [ngClass]="{ hdr: val.active !== 'true' }"
+      [ngClass]="{ hdr: val.active }"
     >
       <div>
         <div class="imgd2">
@@ -31,7 +31,7 @@
           </tr>
           <tr>
             <td>Date :</td>
-            <td>{{ val.day | date : "dd/MM/yyyy" }}</td>
+            <td>{{ val.date | date : "dd/MM/yyyy" }}</td>
           </tr>
           <tr>
             <td>Duration :</td>
@@ -130,7 +130,11 @@
       <button class="cls" (click)="closeForm()">close</button>
       <form [formGroup]="creditForm">
         <div class="imgc">
-          <img *ngIf="file" class="im" [src]="file ? file : ''" />
+          <img
+            *ngIf="setimageURL"
+            class="im"
+            [src]="setimageURL ? setimageURL : ''"
+          />
         </div>
         <input type="file" id="df" (change)="onSelect($event)" /><br />
         <label>Name</label><input class="fmu" formControlName="name" /><br />
@@ -163,7 +167,7 @@
     <div
       class="cn"
       *ngFor="let val of credits"
-      [ngClass]="{ hdr: val.active == 'true' }"
+      [ngClass]="{ hdr: !val.active }"
     >
       <div class="imgd">
         <img *ngIf="val.imageUrl" class="im" src="{{ val.imageUrl }}" />
@@ -179,7 +183,7 @@
         </tr>
         <tr>
           <td>Date :</td>
-          <td>{{ val.day }}</td>
+          <td>{{ val.date | date : "dd-MM-yyyy" }}</td>
         </tr>
         <tr>
           <td>Duration :</td>
@@ -283,22 +287,22 @@
           <div
             class="clnt"
             *ngFor="let val of credits"
-            [ngStyle]="{ display: val.active == 'true' ? 'none' : 'flex' }"
+            [ngStyle]="{ display: val.active == false ? 'none' : 'flex' }"
           >
             <img alt="image" src="{{ val.imageUrl }}" />
             <p>{{ val.name }}</p>
-            <p>{{ val.amount }}</p>
+            <p>{{ val.existing }}</p>
           </div>
         </div>
         <div>
-          <span>Total</span>
-          <span>{{ totalCredit }}</span
-          ><br />
+          <span>Existing</span>
+          <span>{{ totalExsisting }}</span>
+          <br />
           <span>Returend</span>
           <span>{{ retunedTotal }}</span
           ><br />
-          <span>Existing</span>
-          <span>{{ totalExsisting }}</span>
+          <span>Total</span>
+          <span>{{ totalCredit }}</span>
         </div>
       </div>
       <div class="lst2">

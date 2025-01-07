@@ -1,13 +1,14 @@
 <section class="fl">
   <header class="hd">
-    <h1 (click)="getOpenMainForm()">DEBIT +</h1>
+    <h1 (click)="getOpenMainForm(null, 'add')">DEBIT +</h1>
     <p [ngClass]="!open ? 'act' : 'act2'" (click)="getClose()">Active</p>
     <p [ngClass]="open ? 'dact' : 'dact2'" (click)="getOpen()">Deactive</p>
   </header>
   <div class="mForm" *ngIf="openMainForm">
     <mat-icon class="clic" (click)="getCloseMainForm()"> near_me</mat-icon>
     <form [formGroup]="debitFormGroup">
-      <h1>Add Debit</h1>
+      <h1 *ngIf="mode !== 'edit'">Add Debit</h1>
+      <h1 *ngIf="mode == 'edit'">Edit Debit</h1>
       <label>Name :</label>
       <input placeholder="Name" formControlName="name" /><br />
       <label>Amount :</label
@@ -17,71 +18,77 @@
       <label>Date :</label
       ><input
         placeholder="Date"
-        [(ngModel)]="mydate"
+        [(ngModel)]="defaultDate"
         type="date"
         formControlName="date"
       /><br />
-      <label>Select :</label
-      ><input type="file" (change)="onSelect($event)" /><br />
-      <button (click)="addDebits()">Add+</button>
+      <!-- <input type="file" (change)="onSelect($event)" /><br /> -->
+      <button *ngIf="mode !== 'edit'" (click)="addDebits()">Add+</button>
+      <button *ngIf="mode == 'edit'" (click)="editDebits()">Update+</button>
     </form>
   </div>
   <main>
-    <p>{{totalAmount}}</p>
     <div *ngFor="let val of debits">
       <div class="crd" *ngIf="val.active == 1">
-        <h1>{{ val.name }}</h1>
-        <span>Amount :</span>
-        <span>{{ val.amount }}</span>
-        <p>Description</p>
-        <p>{{ val.description }}</p>
-        <p>Transaction</p>
-        <div class="im">
-          <img src="{{ val.image }}" />
+        <div class="ins">
+          <h1>{{ val.name }}</h1>
+          <span>Amount :</span>
+          <span>{{ val.amount }}</span
+          ><br />
+          <span>Description :</span>
+          <span>{{ val.description }}</span
+          ><br />
+          <span>Date :</span>
+          <span>{{ val.date }}</span
+          ><br />
         </div>
-        <mat-icon class="mi" (click)="getOpenForm(val.id)">
-          border_color</mat-icon
-        >
-        <div class="fm" *ngIf="openForm && formId == val.id">
-          <mat-icon class="rtnicn" (click)="getCloseForm()">
-            navigation</mat-icon
+        <div class="ins2">
+          <p class="ts">Transaction</p>
+          <mat-icon class="mi" (click)="getOpenForm(val.id)">
+            border_color</mat-icon
           >
-          <p>Add Amount</p>
-          <form [formGroup]="debitAmountFormGroup">
-            <input formControlName="amount" /><br />
-            <input type="date" formControlName="date" /> <br />
-          </form>
-
-          <button
-            style="position: relative; top: 5px; z-index: 500"
-            (click)="addDebitAmount(val.id)"
-          >
-            Add+
-          </button>
+          <div class="fm" *ngIf="openForm && formId == val.id">
+            <mat-icon class="rtnicn" (click)="getCloseForm()">
+              navigation</mat-icon
+            >
+            <p>Add Amount</p>
+            <form [formGroup]="debitAmountFormGroup">
+              <input formControlName="amount" /><br />
+              <input type="date" formControlName="date" /> <br />
+            </form>
+            <button
+              style="position: relative; top: 5px; z-index: 500"
+              (click)="addDebitAmount(val.id)"
+            >
+              Add+
+            </button>
+          </div>
+          <table>
+            <tr>
+              <th>SN</th>
+              <th>Amount</th>
+              <th>Date</th>
+            </tr>
+            <tr *ngFor="let val of val.amountData; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ val.amount }}</td>
+              <td>{{ val.date | date : "dd-MM-yyyy" }}</td>
+            </tr>
+            <tr>
+              <td>Total</td>
+              <td>{{ val.total }}</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Exist</td>
+              <td>{{ val.exist }}</td>
+              <td></td>
+            </tr>
+          </table>
+          <button (click)="updateDebit(val.id)">Close</button>
+          <button (click)="deleteItem(val.id)">delete</button>
+          <button (click)="getOpenMainForm(val.id, 'edit')">Edition</button>
         </div>
-        <table>
-          <tr>
-            <th>SN</th>
-            <th>Amount</th>
-            <th>Date</th>
-          </tr>
-          <tr *ngFor="let val of val.amountData; let i = index">
-            <td>{{ i + 1 }}</td>
-            <td>{{ val.amount }}</td>
-            <td>{{ val.date | date : "dd-MM-yyyy" }}</td>
-          </tr>
-          <tr>
-            <td>Total</td>
-            <td>{{ val.total }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Exist</td>
-            <td>{{ val.exist }}</td>
-            <td></td>
-          </tr>
-        </table>
-        <button (click)="updateDebit(val.id)">Close</button>
       </div>
     </div>
     <div class="amt">
@@ -96,38 +103,45 @@
   <div class="da" *ngIf="open">
     <div *ngFor="let val of debits; let i = index">
       <div class="crd2" *ngIf="val.active == 0">
-        <h1>{{ val.name }}</h1>
-        <span>Amount :</span>
-        <span>{{ val.amount }}</span>
-        <p>Description</p>
-        <p>{{ val.description }}</p>
-        <p>Transaction</p>
-        <div class="im">
-          <img src="{{ val.image }}" />
+        <div class="ins">
+          <h1>{{ val.name }}</h1>
+          <span>Amount :</span>
+          <span>{{ val.amount }}</span
+          ><br />
+          <span>Description :</span>
+          <span>{{ val.description }}</span
+          ><br />
+          <span>Date :</span>
+          <span>{{ val.date }}</span
+          ><br />
         </div>
-        <table>
-          <tr>
-            <th>SN</th>
-            <th>Amount</th>
-            <th>Date</th>
-          </tr>
-          <tr *ngFor="let v of val.amountData">
-            <td>{{ i + 1 }}</td>
-            <td>{{ v.amount }}</td>
-            <td>{{ v.date | date : "dd-MM-yyyy" }}</td>
-          </tr>
-          <tr>
-            <td>Total</td>
-            <td>{{ val.total }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Exist</td>
-            <td>{{ val.exist }}</td>
-            <td></td>
-          </tr>
-        </table>
-        <button (click)="active(val.id)">Active</button>
+        <div class="ins2">
+          <p>Transaction</p>
+
+          <table>
+            <tr>
+              <th>SN</th>
+              <th>Amount</th>
+              <th>Date</th>
+            </tr>
+            <tr *ngFor="let v of val.amountData">
+              <td>{{ i + 1 }}</td>
+              <td>{{ v.amount }}</td>
+              <td>{{ v.date | date : "dd-MM-yyyy" }}</td>
+            </tr>
+            <tr>
+              <td>Total</td>
+              <td>{{ val.total }}</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Exist</td>
+              <td>{{ val.exist }}</td>
+              <td></td>
+            </tr>
+          </table>
+          <button (click)="active(val.id)" class="acb">Active</button>
+        </div>
       </div>
     </div>
   </div>

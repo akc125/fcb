@@ -290,6 +290,8 @@ export class MonitorComponent {
   chartOption: any;
   chartOptions2: any;
   chartOption2: any;
+  chartOptions3: any;
+  chartOption3: any;
   getExpensePercentage() {
     for (let exp of this.finalExpenseJulay) {
       exp.y = (exp.expense * 100) / this.totalExpJulay;
@@ -357,6 +359,41 @@ export class MonitorComponent {
           indexLabel: '{name}: {y}',
           yValueFormatString: "#,###.##'%'",
           dataPoints: this.yearlyExpenseFinal,
+        },
+      ],
+    };
+    // Alltime
+    for (let exp of this.allTimeExpense) {
+      exp.y = (exp.expense * 100) / this.allTimeExpenseTotal;
+    }
+    this.chartOptions3 = {
+      animationEnabled: true,
+      data: [
+        {
+          type: 'pie',
+          startAngle: 45,
+          indexLabel: '{name}: {y}',
+          indexLabelPlacement: 'inside',
+          yValueFormatString: "#,###.##'%'",
+          dataPoints: this.allTimeExpense,
+        },
+      ],
+    };
+    this.chartOption3 = {
+      title: {
+        text: 'Total Impressions by Platforms',
+      },
+      animationEnabled: true,
+      axisY: {
+        includeZero: true,
+        suffix: '%',
+      },
+      data: [
+        {
+          type: 'bar',
+          indexLabel: '{name}: {y}',
+          yValueFormatString: "#,###.##'%'",
+          dataPoints: this.allTimeExpense,
         },
       ],
     };

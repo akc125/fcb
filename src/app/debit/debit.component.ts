@@ -14,9 +14,7 @@ export class DebitComponent {
     this.getDebitAmounts();
     this.combainData();
   }
-  constructor(
-    private categoriesServiceFire: CategoryFireService
-  ) {}
+  constructor(private categoriesServiceFire: CategoryFireService) {}
 
   userId = localStorage.getItem('userId');
   debitFormGroup = new FormGroup({
@@ -38,6 +36,12 @@ export class DebitComponent {
   }
   image: any;
   setimageURL: any;
+  defaultDate: any = this.formatDateToCustom(new Date());
+
+formatDateToCustom(date: Date): string {
+  const options = { day: '2-digit', month: 'short', year: 'numeric' } as const;
+  return new Intl.DateTimeFormat('en-GB', options).format(date); // Output: 04-Jan-2025
+}
   onSelect = (e: any) => {
     if (e.target.files[0]) {
       const file = e.target.files[0];
@@ -50,6 +54,11 @@ export class DebitComponent {
       reader.readAsDataURL(file);
     }
   };
+  deleteItem(id: any) {
+    this.categoriesServiceFire.deleteDebit(id).then((data) => {
+      this.getDebits();
+    });
+  }
   async addDebits() {
     try {
       const storage = getStorage();
@@ -61,9 +70,25 @@ export class DebitComponent {
 
       const newData = {
         ...this.debitFormGroup.value,
-        image: this.setimageURL,
+        // image: this.setimageURL,
       };
       this.categoriesServiceFire.addDebit(newData).then((data) => {
+        this.getCloseMainForm();
+        this.getDebits();
+      });
+    } catch (error) {
+      console.error('Error saving credit:', error);
+      alert('An error occurred while saving the credit. Please try again.');
+    }
+  }
+  async editDebits() {
+    try {
+      const newData = {
+        ...this.debitFormGroup.value,
+        id: this.docId,
+        // image: this.setimageURL,
+      };
+      this.categoriesServiceFire.editDebits(newData).then((data) => {
         this.getCloseMainForm();
         this.getDebits();
       });
@@ -135,6 +160,15 @@ export class DebitComponent {
     this.categoriesServiceFire.updateDebit(data).then((data) => {
       this.getDebits();
       this.combainData();
+      this.mode = '';
+      this.debitFormGroup.setValue({
+        name: '',
+        description: '',
+        date: new Date(),
+        amount: null,
+        userId: this.userId,
+        active: 1,
+      });
     });
   }
   active(id: any) {
@@ -164,8 +198,35 @@ export class DebitComponent {
     this.openForm = false;
   }
   openMainForm: any = false;
-  getOpenMainForm() {
+  mode: any = '';
+  docId: any;
+  getOpenMainForm(id: any, mode: string) {
     this.openMainForm = true;
+    this.mode = mode;
+    this.docId = id;
+
+    if (mode == 'edit') {
+      this.categoriesServiceFire.getSingleDebit(id).subscribe((data) => {
+        console.log('data', data);
+        this.debitFormGroup.setValue({
+          name: data.name,
+          description: data.description,
+          date: data.date,
+          amount: data.amount,
+          userId: this.userId,
+          active: 1,
+        });
+      });
+    } else {
+      this.debitFormGroup.setValue({
+        name: '',
+        description: '',
+        date: this.mydate,
+        amount: null,
+        userId: this.userId,
+        active: 1,
+      });
+    }
   }
   getCloseMainForm() {
     this.openMainForm = false;

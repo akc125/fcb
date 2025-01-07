@@ -1,7 +1,7 @@
 <section class="sec">
   <header class="hd">
     <h1 class="db">CREDIT</h1>
-    <button class="adb" (click)="openForm()">+Add</button>
+    <button class="adb" (click)="openForm(null, 'add')">+Add</button>
     <button class="adb3" (click)="openDeactiveFile()">Deactive</button>
   </header>
   <div class="dal" *ngIf="openRecord">
@@ -125,19 +125,30 @@
     </div>
   </div>
 
+  <!-- active -->
+
   <div class="fm" *ngIf="open">
     <div class="r">
       <button class="cls" (click)="closeForm()">close</button>
       <form [formGroup]="creditForm">
         <div class="imgc">
-          <img
+          <h1 *ngIf="mode == 'add'">Add Data</h1>
+          <h1 *ngIf="mode == 'edit'">Edit Data</h1>
+          <!-- <img
             *ngIf="setimageURL"
             class="im"
             [src]="setimageURL ? setimageURL : ''"
-          />
+          /> -->
         </div>
-        <input type="file" id="df" (change)="onSelect($event)" /><br />
-        <label>Name</label><input class="fmu" formControlName="name" /><br />
+        <!-- <input type="file" id="df" (change)="onSelect($event)" /><br /> -->
+        <label>Credit Account</label>
+        <select class="fmu" formControlName="creditAccount">
+          <option value="">Select an Account</option>
+          <!-- Default option -->
+          <option *ngFor="let account of creditAccounts" [value]="account.id">
+            {{ account.name }}
+          </option>
+        </select><br>
         <label>Amount</label><input class="fmu" formControlName="amount" />
       </form>
     </div>
@@ -152,129 +163,150 @@
     </form>
     <form [formGroup]="creditForm">
       <div class="r" style="padding-top: 200px">
-        <label>Contact</label
-        ><input class="fmu" formControlName="contact" /><br />
-        <label>Address</label
-        ><input class="fmu" formControlName="address" /><br />
-
-        <button id="apply" (click)="saveCredit()" (click)="closeForm()">
-          Apply
+        <button
+          id="apply"
+          *ngIf="mode == 'add'"
+          (click)="saveCredit()"
+          (click)="closeForm()"
+        >
+          apply
+        </button>
+        <button
+          id="apply"
+          *ngIf="mode == 'edit'"
+          (click)="updateCredit()"
+          (click)="closeForm()"
+        >
+          update
         </button>
       </div>
     </form>
   </div>
   <div class="in">
+    <div class="accnt">
+      <span>credit accounts</span>
+      <span>
+        <mat-icon class="ntic" (click)="openAccountForm()"
+          >queue</mat-icon
+        ></span
+      >
+      <div class="cfm1" *ngIf="openAccount">
+        <form [formGroup]="creditAccountForm">
+          <label>Name</label><input class="fmu" formControlName="name" /><br />
+          <label>Contact</label
+          ><input class="fmu" formControlName="contact" /><br />
+          <label>Address</label
+          ><input class="fmu" formControlName="address" /><br />
+          <button class="svb" (click)="saveCreditAccounts()">save</button>
+          <button class="svb" (click)="closeAccountForm()">close</button>
+        </form>
+      </div>
+      <div class="acnms" *ngFor="let val of creditAccounts">
+        <p>{{ val.name }}</p>
+        <p>{{ val.contact }}</p>
+        <p>{{ val.address }}</p>
+      </div>
+    </div>
     <div
       class="cn"
       *ngFor="let val of credits"
       [ngClass]="{ hdr: !val.active }"
     >
-      <div class="imgd">
-        <img *ngIf="val.imageUrl" class="im" src="{{ val.imageUrl }}" />
+      <div class="ins1">
+        <table>
+          <tr>
+            <td>Name :</td>
+            <td>{{ val.name }}</td>
+          </tr>
+          <tr>
+            <td>Amount :</td>
+            <td>₹{{ val.amount }}</td>
+          </tr>
+          <tr>
+            <td>Date :</td>
+            <td>{{ val.date | date : "dd-MM-yyyy" }}</td>
+          </tr>
+          <tr>
+            <td>Duration :</td>
+            <td>{{ val.duration }}</td>
+          </tr>
+          <tr>
+            <td>Status :</td>
+            <td class="st">
+              {{ val.status }}
+            </td>
+          </tr>
+          <tr>
+            <td>Contact :</td>
+            <td>{{ val.contact }}</td>
+          </tr>
+          <tr>
+            <td>Address :</td>
+            <td>{{ val.address }}</td>
+          </tr>
+        </table>
       </div>
-      <table>
-        <tr>
-          <td>Name :</td>
-          <td style="font-size: 28px">{{ val.name }}</td>
-        </tr>
-        <tr>
-          <td>Amount :</td>
-          <td>₹{{ val.amount }}</td>
-        </tr>
-        <tr>
-          <td>Date :</td>
-          <td>{{ val.date | date : "dd-MM-yyyy" }}</td>
-        </tr>
-        <tr>
-          <td>Duration :</td>
-          <td>{{ val.duration }}</td>
-        </tr>
-        <tr>
-          <td>Status :</td>
-          <td class="st">
-            {{ val.status }}
-          </td>
-        </tr>
-        <tr>
-          <td>Contact :</td>
-          <td>{{ val.contact }}</td>
-        </tr>
-        <tr>
-          <td>Address :</td>
-          <td>{{ val.address }}</td>
-        </tr>
-      </table>
-      <p style="color: brown; font-size: 18px; margin: 10px; margin-left: -1px">
-        Transactions
-      </p>
-      <mat-icon class="ic" (click)="openTransactionForm(val.id)"
-        >create</mat-icon
-      >
-      <div class="tns" *ngIf="transactionPopup && formId == val.id">
-        <h1>Add Transaction</h1>
-        <mat-icon class="icn" (click)="closeTransactionForm()"
-          >remove_red_eye</mat-icon
+      <div class="ins2">
+        <p
+          style="
+            color: rgb(0, 0, 0);
+            font-size: 16px;
+            margin: 1px;
+            margin-left: -1px;
+          "
         >
-        <form [formGroup]="trnsactionForm">
-          <label>Returned Amount</label><input formControlName="amount" /><br />
-          <label>Date</label
-          ><input type="date" formControlName="date" value="" /><br />
-          <button
-            (click)="addTransaction(val.id)"
-            (click)="closeTransactionForm()"
+          Transactions
+        </p>
+        <mat-icon
+          class="ic"
+          style="font-size: 11px"
+          (click)="openTransactionForm(val.id)"
+          >create</mat-icon
+        >
+        <div class="tns" *ngIf="transactionPopup && formId == val.id">
+          <h1>Add Transaction</h1>
+          <mat-icon class="icn" (click)="closeTransactionForm()"
+            >remove_red_eye</mat-icon
           >
-            Add
-          </button>
-        </form>
+          <form [formGroup]="trnsactionForm">
+            <label>Returned Amount</label
+            ><input formControlName="amount" /><br />
+            <label>Date</label
+            ><input type="date" formControlName="date" value="" /><br />
+            <button
+              (click)="addTransaction(val.id)"
+              (click)="closeTransactionForm()"
+            >
+              Add
+            </button>
+          </form>
+        </div>
+        <table class="trtb">
+          <tr>
+            <th>SI</th>
+            <th>Returned Amount</th>
+            <th>Date</th>
+          </tr>
+          <tr *ngFor="let v of val.transaction">
+            <td>{{ v.index + 1 }}</td>
+            <td>₹{{ v.amount }}</td>
+            <td>{{ v.date | date : "dd-MM-yyyy" }}</td>
+          </tr>
+          <tr>
+            <td>Total</td>
+            <td>₹{{ val.total }}</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Existing</td>
+            <td style="color: rgb(187, 12, 82)">₹{{ val.existing }}</td>
+            <td></td>
+          </tr>
+        </table>
+        <button class="da" (click)="deActiveFile(val.id)">Deactive</button>
+        <button class="da" (click)="deleteCredit(val.id)">Delete</button>
+        <button class="da" (click)="openForm(val.id, 'edit')">Edit</button>
       </div>
-      <table class="trtb">
-        <tr>
-          <th>SI</th>
-          <th>Returned Amount</th>
-          <th>Date</th>
-        </tr>
-        <tr *ngFor="let v of val.transaction">
-          <td>{{ v.index + 1 }}</td>
-          <td>₹{{ v.amount }}</td>
-          <td>{{ v.day | date : "dd-MM-yyyy" }}</td>
-        </tr>
-        <tr>
-          <td>Total</td>
-          <td>₹{{ val.total }}</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Existing</td>
-          <td>₹{{ val.existing }}</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Current Income</td>
-          <td>₹{{ val.currentIncome }}</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Income + Credit</td>
-          <td>{{ val.income }}</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Expense</td>
-          <td>₹{{ val.expense }}</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Current Balance</td>
-          <td>₹{{ val.crrentBalance }}</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Balance with credit</td>
-          <td>₹{{ val.balance }}</td>
-          <td></td>
-        </tr>
-      </table>
-      <button class="da" (click)="deActiveFile(val.id)">Deactive</button>
     </div>
   </div>
   <footer class="ft">

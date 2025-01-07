@@ -37,6 +37,20 @@ export class CategoryFireService {
         )
       );
   }
+
+  getSingleCredit(id: string) {
+    return this.firestore
+      .collection('credits')
+      .doc(id)
+      .snapshotChanges()
+      .pipe(
+        map((snapshot) => {
+          const data = snapshot.payload.data() as any;
+          const id = snapshot.payload.id;
+          return { id, ...data };
+        })
+      );
+  }
   getDebit() {
     return this.firestore
       .collection('debits')
@@ -51,6 +65,34 @@ export class CategoryFireService {
         )
       );
   }
+  getCreditAccounts() {
+    return this.firestore
+      .collection('credit-accounts')
+      .snapshotChanges()
+      .pipe(
+        map((actions) =>
+          actions.map((a) => {
+            const data = a.payload.doc.data() as any;
+            const id = a.payload.doc.id;
+            return { id, ...data };
+          })
+        )
+      );
+  }
+  getSingleDebit(debitId: string) {
+    return this.firestore
+      .collection('debits')
+      .doc(debitId)
+      .snapshotChanges()
+      .pipe(
+        map((snapshot) => {
+          const data = snapshot.payload.data() as any;
+          const id = snapshot.payload.id;
+          return { id, ...data };
+        })
+      );
+  }
+
   getTransactions() {
     return this.firestore
       .collection('transactions')
@@ -231,12 +273,38 @@ export class CategoryFireService {
       .collection('credits')
       .add({ ...data, userId: userId });
   }
+  addCreditAccounts(data: any) {
+    const userId = localStorage.getItem('userId');
+    return this.firestore
+      .collection('credit-accounts')
+      .add({ ...data, userId: userId });
+  }
+  editCredits(data: any) {
+    const userId = localStorage.getItem('userId');
+    return this.firestore
+      .collection('credits')
+      .doc(data.id)
+      .update({ ...data, userId: userId });
+  }
   addCommission(data: any) {
     return this.firestore.collection('commision').add(data);
   }
   addDebit(data: any) {
     const userId = localStorage.getItem('userId');
     return this.firestore.collection('debits').add({ ...data, userId: userId });
+  }
+  editDebits(data: any) {
+    const userId = localStorage.getItem('userId');
+    return this.firestore
+      .collection('debits')
+      .doc(data.id)
+      .update({ ...data, userId: userId });
+  }
+  deleteDebit(id: any) {
+    return this.firestore.collection('debits').doc(id).delete();
+  }
+  deleteCredit(id: any) {
+    return this.firestore.collection('credits').doc(id).delete();
   }
   addDebitAmount(data: any) {
     const userId = localStorage.getItem('userId');
@@ -257,7 +325,7 @@ export class CategoryFireService {
   updateCommission(data: any) {
     return this.firestore.collection('commision').doc(data.id).update(data);
   }
-  
+
   updateNotificationCategory(data: any) {
     console.log('updationdata', data);
     return this.firestore
@@ -285,7 +353,7 @@ export class CategoryFireService {
     const userId = localStorage.getItem('userId');
     return this.firestore.collection('expense').add({
       name: data.name,
-      description:data.description,
+      description: data.description,
       expense: data.expense,
       catId: data.catId,
       day: data.date,
@@ -296,7 +364,7 @@ export class CategoryFireService {
   deleteExpense(expenseId: string) {
     return this.firestore.collection('expense').doc(expenseId).delete();
   }
-  
+
   addIncomes(data: any) {
     const id = localStorage.getItem('userId');
     return this.firestore.collection('incomes').add({

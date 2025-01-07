@@ -3,7 +3,7 @@
 
   background-color: rgb(255, 255, 255);
 }
-.dactsl{
+.dactsl {
   position: absolute;
   left: 900px;
   top: 50px;
@@ -36,13 +36,12 @@
   background-color: rgb(212, 208, 208);
   padding-left: 90px;
 }
-.cls{
-
-font-size: 8px;
-position: absolute;
-left: 90%;
-background-color: rgb(71, 19, 50);
-color: white;
+.cls {
+  font-size: 8px;
+  position: absolute;
+  left: 90%;
+  background-color: rgb(71, 19, 50);
+  color: white;
 }
 #apply {
   width: 250px;
@@ -53,17 +52,17 @@ color: white;
   color: white;
   margin-left: -2px;
 }
-.adb2{
+.adb2 {
   width: 100px;
   height: 20px;
   position: absolute;
   left: 80%;
 }
-.dal{
+.dal {
   width: 100vw;
   height: fit-content;
   position: relative;
-  top:-150px ;
+  top: -150px;
   display: flex;
   flex-wrap: wrap;
   z-index: 100000000;
@@ -72,9 +71,9 @@ color: white;
 }
 .adb {
   position: relative;
-  left: 12%;
-  width: 150px;
-  height: 40px;
+  left: 47.5%;
+  width: 100px;
+  height: 20px;
   top: 20px;
   background-color: rgb(165, 42, 112);
   color: aliceblue;
@@ -84,9 +83,9 @@ color: white;
 }
 .adb3 {
   position: relative;
-  left: 9%;
-  width: 150px;
-  height: 40px;
+  left: 22%;
+  width: 100px;
+  height: 20px;
   top: 20px;
   background-color: rgb(165, 42, 112);
   color: aliceblue;
@@ -95,9 +94,10 @@ color: white;
   box-shadow: 2px 2px 5px black;
 }
 .db {
-  font-size: 70px;
-  margin-left: 30px;
+  font-size: 20px;
+  margin-left: 250px;
   color: rgb(86, 10, 10);
+  margin-top: 20px;
 }
 .in {
   width: 100%;
@@ -107,19 +107,62 @@ color: white;
   flex-wrap: wrap;
   background-color: rgb(255, 255, 255);
 }
-.cn {
-  width: 45%;
-  height: fit-content;
-  min-height: 400px;
+.accnt {
+  width: 200px;
+  min-height: 100px;
+  max-height: fit-content;
+  position: absolute;
+  left: 66rem;
+  text-align: center;
+  color: black;
+  border: 1px solid black;
+}
+.cfm1 {
+  width: 198px;
+  min-height: 100px;
+  max-height: fit-content;
   background-color: rgb(255, 255, 255);
-  margin: 30px;
-  padding-top: 20px;
-  padding-left: 80px;
-  padding-bottom: 40px;
+  position: absolute;
+  text-align: center;
+  color: black;
+  box-shadow: 2px 2px 5px black;
+}
+.svb {
+  width: 60px;
+  height: 20px;
+  background-color: rgb(85, 89, 90);
+  border: none;
+  color: white;
+  margin: 2px;
+}
+.acnms {
+  width: 198px;
+  height: fit-content;
+  margin-bottom: 5px;
+  font-size: 13px;
+  padding: 2px;
+
+}
+.ntic {
+  font-size: 15px;
+  margin-left: 12px;
+  position: relative;
+  top: 12px;
+  color: rgb(35, 35, 39);
+}
+.cn {
+  width: 800px;
+  height: fit-content;
+  min-height: 200px;
+  background-color: rgb(255, 255, 255);
+  margin-bottom: 10px;
+  padding-top: 2px;
+  padding-left: 8px;
+  padding-bottom: 4px;
   word-break: break-all;
   padding-right: 50px;
-  border: 12px solid rgb(103, 103, 113);
-  box-shadow: 2px 2px 5px black;
+  border: 1px solid rgb(103, 103, 113);
+  display: flex;
 }
 .cn2 {
   width: 95%;
@@ -161,14 +204,25 @@ color: white;
 .hdr {
   display: none;
 }
+.ins1 {
+  width: 300px;
+  height: 200px;
+  font-size: 13px;
+  padding: 5px;
+  margin: 10px;
+}
+.ins2 {
+  width: 350px;
+  min-height: 200px;
+  max-height: fit-content;
+  font-size: 13px;
+}
 .imgc {
   width: 170px;
   height: 170px;
-  background-color: rgb(255, 255, 255);
   position: relative;
   left: 20px;
   margin-bottom: 20px;
-  border: 5px solid rgb(23, 3, 3);
   margin-top: 20px;
   border-radius: 10px;
 }
@@ -193,16 +247,16 @@ label {
   box-shadow: 2px 2px 5px black;
 }
 .da {
-  width: 160px;
-  height: 30px;
+  width: 60px;
+  height: 20px;
   position: relative;
-  top: 17px;
-  left: 130px;
+  top: 1px;
+  left: 200px;
   border: none;
-  background-color: rgb(0, 0, 0);
-  box-shadow: 2px 2px 5px rgb(88, 86, 86);
+  background-color: rgb(186, 185, 185);
   border-radius: 5px;
   color: white;
+  margin: 3px;
 }
 .da:active {
   background-color: rgb(255, 255, 255);
@@ -221,66 +275,68 @@ table td {
   width: 100px;
   height: fit-content;
   color: black;
-  height: 30px;
-  text-align: left;
-  text-align: left;
-  font-size: 16px;
+  height: 20px;
+  text-align: center;
+  text-align: center;
+  font-size: 13px;
 }
 table td:nth-child(2) {
   width: 350px;
   height: fit-content;
   color: black;
-  text-align: left;
-  padding: 5px;
-  font-size: 18px;
+  text-align: center;
+  font-size: 15px;
 }
 .cn2 table td {
   width: 100px;
   height: fit-content;
   color: rgb(255, 255, 255);
   height: 30px;
-  text-align: left;
-  text-align: left;
+  text-align: center;
+  text-align: center;
   font-size: 16px;
 }
 .cn2 table td:nth-child(2) {
-  width: 350px;
+  width: 30px;
   height: fit-content;
   color: rgb(255, 255, 255);
-  text-align: left;
+  text-align: center;
   padding: 5px;
   font-size: 18px;
 }
 .trtb td:nth-child(2) {
-  width: 100px;
+  width: 50px;
+}
+.trtb {
+  margin-top: -20px;
+  width: 400px;
+  text-align: center;
 }
 .trtb th {
   color: black;
-  width: 400px;
+  width: 100px;
   text-align: left;
   background-color: rgb(150, 148, 176);
-  padding: 10px;
   height: 30px;
   text-align: center;
 }
 .trtb td {
   /* background-color: rgb(199, 204, 204); */
-  padding: 10px;
+
   height: 30px;
   text-align: center;
 }
 .trtb tr:nth-child(odd) {
-  background-color: rgb(211, 211, 207);
+  background-color: rgb(255, 255, 255);
 }
 .trtb tr:nth-child(even) {
-  background-color: rgb(182, 182, 182);
+  background-color: rgb(245, 244, 244);
 }
-.icn{
+.icn {
   position: absolute;
   left: 370px;
   top: 8px;
   font-size: 16px;
- 
 }
 .tns {
   width: 420px;
@@ -289,7 +345,7 @@ table td:nth-child(2) {
   position: absolute;
   text-align: center;
   padding: 10px;
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   color: black;
   box-shadow: 2px 2px 15px rgb(184, 179, 179);
 }
@@ -319,7 +375,7 @@ table td:nth-child(2) {
   color: black;
   position: relative;
   left: 300px;
-  top: -30px;
+  top: -10px;
 }
 .im {
   width: 100%;
@@ -354,7 +410,7 @@ table td:nth-child(2) {
   justify-content: space-between;
   overflow: scroll;
 }
-.lst ::-webkit-scrollbar{
+.lst ::-webkit-scrollbar {
   display: none;
 }
 .lst2 {
@@ -403,7 +459,7 @@ table td:nth-child(2) {
   background-color: rgb(19, 19, 18);
 }
 .ib tr:nth-child(even) {
-  background-color: rgb(15, 1, 1)
+  background-color: rgb(15, 1, 1);
 }
 .ib th {
   color: rgb(255, 255, 255);

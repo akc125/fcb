@@ -32,21 +32,56 @@ export class CreaditComponent {
   ngOnInit(): void {
     this.getCredit();
     this.getTransaction();
+    this.getCreditAccounts();
   }
   constructor(private categoriesServiceFire: CategoryFireService) {}
   creditForm = new FormGroup({
-    name: new FormControl(),
     amount: new FormControl(),
     date: new FormControl(),
     duration: new FormControl(),
-    address: new FormControl(),
     status: new FormControl(),
+    creditAccount: new FormControl(),
+  });
+  creditAccountForm = new FormGroup({
+    name: new FormControl(),
+    address: new FormControl(),
     contact: new FormControl(),
   });
   file: any; // Initialize the 'file' variable as a string or null.
   sendFile: any;
   image: any;
   setimageURL: any;
+  openAccount: boolean = false;
+  openAccountForm() {
+    this.openAccount = true;
+  }
+  closeAccountForm() {
+    this.openAccount = false;
+  }
+  creditAccounts: any = [];
+  getCreditAccounts() {
+    const id = localStorage.getItem('userId');
+    this.categoriesServiceFire.getCreditAccounts().subscribe((data) => {
+      this.creditAccounts = data.filter((f: any) => f.userId == id);
+    });
+  }
+  deleteCredit(id: any) {
+    const isConfirmed = window.confirm(
+      'Are you sure you want to delete this credit?'
+    );
+    if (isConfirmed) {
+      this.categoriesServiceFire
+        .deleteCredit(id)
+        .then(() => {
+          this.getCredit();
+          alert('Credit deleted successfully.');
+        })
+        .catch((error) => {
+          console.error('Error deleting credit:', error);
+        });
+    }
+  }
+
   onSelect = (e: any) => {
     if (e.target.files[0]) {
       const file = e.target.files[0];
@@ -59,29 +94,100 @@ export class CreaditComponent {
       reader.readAsDataURL(file);
     }
   };
-
+  docId: any;
+  mode: any;
   open: any;
-  openForm() {
+  openForm(id: any, mode: string) {
     this.open = true;
+    this.docId = id;
+    console.log('mode123', mode);
+    this.mode = mode;
+    if (mode == 'edit') {
+      this.categoriesServiceFire.getSingleCredit(id).subscribe((data) => {
+        console.log('edit234');
+        const { name, amount, date, duration, address, status, contact } = data;
+        this.creditForm.setValue({
+          amount,
+          date,
+          duration,
+          status,
+          creditAccount:null
+        });
+      });
+    } else {
+      console.log('else345');
+      this.creditForm.setValue({
+        amount: '',
+        date: '',
+        duration: '',
+        status: '',
+        creditAccount:null
+      });
+    }
   }
+
   closeForm() {
     this.open = false;
   }
   async saveCredit() {
     const storage = getStorage();
-
     try {
-      if (this.image) {
-        const imageRef = ref(storage, `images/${this.image.name}`);
-        const snapshot = await uploadBytes(imageRef, this.image);
-        this.setimageURL = await getDownloadURL(snapshot.ref);
-      }
+      // if (this.image) {
+      //   const imageRef = ref(storage, `images/${this.image.name}`);
+      //   const snapshot = await uploadBytes(imageRef, this.image);
+      //   this.setimageURL = await getDownloadURL(snapshot.ref);
+      // }
       const newData = {
         ...this.creditForm.value,
-        imageUrl: this.setimageURL,
+        // imageUrl: this.setimageURL,
         active: true,
       };
+      console.log('checkmon',newData)
       await this.categoriesServiceFire.addCredits(newData);
+      this.getCredit();
+    } catch (error) {
+      console.error('Error saving credit:', error);
+      alert('An error occurred while saving the credit. Please try again.');
+    }
+  }
+  async saveCreditAccounts() {
+    try {
+      const newData = {
+        ...this.creditAccountForm.value,
+        active: true,
+      };
+      await this.categoriesServiceFire.addCreditAccounts(newData);
+      this.getCreditAccounts();
+      this.closeAccountForm();
+    } catch (error) {
+      console.error('Error saving credit:', error);
+      alert('An error occurred while saving the credit. Please try again.');
+    }
+  }
+  async updateCredit() {
+    const storage = getStorage();
+
+    try {
+      // if (this.image) {
+      //   const imageRef = ref(storage, `images/${this.image.name}`);
+      //   const snapshot = await uploadBytes(imageRef, this.image);
+      //   this.setimageURL = await getDownloadURL(snapshot.ref);
+      // }
+      const newData = {
+        ...this.creditForm.value,
+        // imageUrl: this.setimageURL,
+        active: true,
+        id: this.docId,
+      };
+      await this.categoriesServiceFire.editCredits(newData);
+      this.creditForm.setValue({
+        amount: '',
+        date: '',
+        duration: '',
+        status: '',
+        creditAccount:null
+      });
+      this.mode = '';
       this.getCredit();
     } catch (error) {
       console.error('Error saving credit:', error);
@@ -153,7 +259,6 @@ export class CreaditComponent {
     this.expense = expense;
     this.categoriesServiceFire.getTransactions().subscribe((data: any) => {
       this.tansactions = data.filter((f: any) => f.userId == id);
-
       for (let val of this.credits) {
         const transactions = this.tansactions.filter(
           (f: any) => f.creditId == val.id
@@ -206,7 +311,7 @@ export class CreaditComponent {
       this.incomeWithCredit = parseFloat(this.currentIncome) + Number(sum);
       this.balance = this.incomeWithCredit - this.expense;
     });
-    console.log('trans',this.credits2)
+    console.log('trans', this.credits2);
   }
 
   hide: boolean = false;

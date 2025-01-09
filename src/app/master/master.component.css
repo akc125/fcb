@@ -153,6 +153,24 @@ table, th,td{
     top: -50px;
     background-color: white;
 }
+.al4{
+    position: relative;
+    width: 200px;
+    height: 40px;
+    text-align: center;
+    left: 0px;
+    top: -50px;
+    background-color: rgb(255, 255, 255);
+}
+.al5{
+    position: relative;
+    width: 200px;
+    height: 40px;
+    text-align: center;
+    left: 100px;
+    top: -60px;
+    border-left: 1px solid red;
+}
 .ntw{
     position: relative;
     font-size: 15px;

@@ -4,16 +4,6 @@ import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { CategoryFireService } from 'src/services/category-fire.service';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
-import {
-  collection,
-  getFirestore,
-  getDocs,
-  addDoc,
-  deleteDoc,
-  doc,
-  updateDoc,
-  getDoc,
-} from 'firebase/firestore';
 interface CreditFormData {
   name: string;
   amount: number;
@@ -30,8 +20,6 @@ interface CreditFormData {
 })
 export class CreaditComponent {
   ngOnInit(): void {
-    this.getCredit();
-    this.getTransaction();
     this.getCreditAccounts();
   }
   constructor(private categoriesServiceFire: CategoryFireService) {}
@@ -59,26 +47,94 @@ export class CreaditComponent {
     this.openAccount = false;
   }
   creditAccounts: any = [];
+  creditAccountsActive: any = [];
+  creditAccountsDeActive: any = [];
   getCreditAccounts() {
     const id = localStorage.getItem('userId');
     this.categoriesServiceFire.getCreditAccounts().subscribe((data) => {
       this.creditAccounts = data.filter((f: any) => f.userId == id);
+      this.creditAccountsActive = data.filter((f: any) => f.active == true);
+      this.creditAccountsDeActive = data.filter((f: any) => f.active == false);
+      this.getCredit();
+      console.log('acccc', this.creditAccountsDeActive);
     });
   }
-  deleteCredit(id: any) {
+  deleteCreditAccounts(id: any) {
     const isConfirmed = window.confirm(
       'Are you sure you want to delete this credit?'
     );
     if (isConfirmed) {
-      this.categoriesServiceFire
-        .deleteCredit(id)
-        .then(() => {
-          this.getCredit();
-          alert('Credit deleted successfully.');
-        })
-        .catch((error) => {
-          console.error('Error deleting credit:', error);
-        });
+      const filterdCreditsForAccount = this.credits.filter(
+        (f: any) => f.creditAccount == id
+      );
+      let filterdTransactionsForCredits: any = [];
+      for (let val of filterdCreditsForAccount) {
+        for (let vl of this.tansactions) {
+          if (val.id == vl.creditId) {
+            const exist = filterdTransactionsForCredits.find(
+              (f: any) => f.id == vl.id
+            );
+            if (!exist) {
+              filterdTransactionsForCredits.push(vl);
+              this.categoriesServiceFire
+                .deleteTransaction(vl.id)
+                .then((data) => {
+                  this.categoriesServiceFire
+                    .deleteCredit(val.id)
+                    .then((data) => {
+                      this.getCreditAccounts();
+                      this.categoriesServiceFire
+                        .deleteCreditAccount(id)
+                        .then((data) => {
+                          // alert(`deleted account with id${id}`);
+                          this.getCreditAccounts();
+                        });
+                    });
+                });
+            }
+          }
+        }
+      }
+    }
+  }
+
+  deleteCredit(id: any) {
+    let doc = this.tansactions.find((f: any) => f.creditId == id);
+    console.log('idthis', doc, id, this.tansactions);
+    const isConfirmed = window.confirm(
+      'Are you sure you want to delete this credit?'
+    );
+    if (isConfirmed) {
+      if (doc) {
+        this.categoriesServiceFire
+          .deleteTransaction(doc.id)
+          .then(() => {
+            alert('deleted transaction');
+            this.getCreditAccounts();
+            this.categoriesServiceFire
+              .deleteCredit(id)
+              .then(() => {
+                this.getCreditAccounts();
+                alert('deleted credit');
+              })
+              .catch((error) => {
+                console.error('Error deleting credit:', error);
+              });
+          })
+          .catch((error) => {
+            console.error('Error deleting credit:', error);
+          });
+      } else {
+        this.categoriesServiceFire
+          .deleteCredit(id)
+          .then(() => {
+            this.getCreditAccounts();
+            alert('deleted credit without transaction');
+          })
+          .catch((error) => {
+            console.error('Error deleting credit:', error);
+          });
+      }
     }
   }
 
@@ -97,31 +153,31 @@ export class CreaditComponent {
   docId: any;
   mode: any;
   open: any;
-  openForm(id: any, mode: string) {
+  accountId: any;
+  openForm(id: any, mode: string, accountId: any) {
     this.open = true;
     this.docId = id;
-    console.log('mode123', mode);
+    this.accountId = accountId;
+    console.log('mode123', accountId);
     this.mode = mode;
     if (mode == 'edit') {
       this.categoriesServiceFire.getSingleCredit(id).subscribe((data) => {
-        console.log('edit234');
-        const { name, amount, date, duration, address, status, contact } = data;
+        const { amount, date, duration, status, id } = data;
         this.creditForm.setValue({
           amount,
           date,
           duration,
           status,
-          creditAccount:null
+          creditAccount: accountId,
         });
       });
     } else {
-      console.log('else345');
       this.creditForm.setValue({
         amount: '',
         date: '',
         duration: '',
         status: '',
-        creditAccount:null
+        creditAccount: null,
       });
     }
   }
@@ -142,9 +198,8 @@ export class CreaditComponent {
         // imageUrl: this.setimageURL,
         active: true,
       };
-      console.log('checkmon',newData)
       await this.categoriesServiceFire.addCredits(newData);
-      this.getCredit();
+      this.getCreditAccounts();
     } catch (error) {
       console.error('Error saving credit:', error);
       alert('An error occurred while saving the credit. Please try again.');
@@ -164,6 +219,21 @@ export class CreaditComponent {
       alert('An error occurred while saving the credit. Please try again.');
     }
   }
+
+  updateCreditAccounts(id: any, val: boolean) {
+    try {
+      const newData = {
+        id: id,
+        active: val,
+      };
+      this.categoriesServiceFire.editCreditsAccount(newData).then((data) => {
+        this.getCreditAccounts();
+      });
+    } catch (error) {
+      console.error('Error saving credit:', error);
+      alert('An error occurred while saving the credit. Please try again.');
+    }
+  }
   async updateCredit() {
     const storage = getStorage();
 
@@ -176,19 +246,21 @@ export class CreaditComponent {
       const newData = {
         ...this.creditForm.value,
         // imageUrl: this.setimageURL,
+        creditAccount: this.accountId,
         active: true,
         id: this.docId,
       };
+      console.log('newDataaaa', newData);
       await this.categoriesServiceFire.editCredits(newData);
       this.creditForm.setValue({
         amount: '',
         date: '',
         duration: '',
         status: '',
-        creditAccount:null
+        creditAccount: null,
       });
       this.mode = '';
-      this.getCredit();
+      this.getCreditAccounts();
     } catch (error) {
       console.error('Error saving credit:', error);
       alert('An error occurred while saving the credit. Please try again.');
@@ -230,9 +302,7 @@ export class CreaditComponent {
   });
   addTransaction(creditId: any) {
     const data = { ...this.trnsactionForm.value, creditId: creditId };
-    this.categoriesServiceFire.addTransaction(data).then((data: any) => {
-      this.getTransaction();
-    });
+    this.categoriesServiceFire.addTransaction(data).then((data: any) => {});
   }
   tansactions: any = [];
   transactionPopup = false;
@@ -312,6 +382,66 @@ export class CreaditComponent {
       this.balance = this.incomeWithCredit - this.expense;
     });
     console.log('trans', this.credits2);
+    this.compainCreditTransactionWithAccounts();
+  }
+  active = true;
+  allDataBothActiveDeactive: boolean = false;
+  changeAllDataBothActiveDeactivePass() {
+    this.allDataBothActiveDeactive = true;
+    this.getCreditAccounts();
+  }
+  changeAllDataBothActiveDeactive() {
+    this.allDataBothActiveDeactive = false;
+    this.getCreditAccounts();
+  }
+  compainCreditTransactionWithAccounts() {
+    for (let val of this.creditAccounts) {
+      val.credits = val.credits || [];
+      val.total = 0;
+      for (let v of this.credits) {
+        if (!this.allDataBothActiveDeactive) {
+          if (val.id === v.creditAccount && v.active == this.active) {
+            const exist = val.credits.find((f: any) => f.id == v.id);
+            if (!exist) {
+              val.credits.push(v);
+              val.total += Number(v.amount);
+            }
+          }
+        } else {
+          if (val.id === v.creditAccount) {
+            const exist = val.credits.find((f: any) => f.id == v.id);
+            if (!exist) {
+              val.credits.push(v);
+              val.total += Number(v.amount);
+            }
+          }
+        }
+      }
+    }
+    setTimeout(() => {
+      this.calculateTotals();
+    }, 2000);
+  }
+  changeActive() {
+    this.active = false;
+    this.getCreditAccounts();
+    this.allDataBothActiveDeactive = false;
+  }
+  changeActivePass() {
+    this.active = true;
+    this.getCreditAccounts();
+    this.allDataBothActiveDeactive = false;
+  }
+  calculateTotals() {
+    let exst = 0;
+    for (let val of this.creditAccountsActive) {
+      for (let v of val.credits) {
+        console.log('accountsAfter23000ppppppp', v.existing);
+        exst += Number(v.existing);
+        val.exist = exst;
+      }
+    }
+    console.log('accountsAfter2300000000', this.creditAccountsActive);
   }
 
   hide: boolean = false;
@@ -319,16 +449,14 @@ export class CreaditComponent {
     this.hide = false;
     const data = { id: id, hide: this.hide };
     this.categoriesServiceFire.hideFile(data).then((data: any) => {
-      this.getCredit();
-      this.getTransaction();
+      this.getCreditAccounts();
     });
   }
   activeFile(id: any) {
     this.hide = true;
     const data = { id: id, hide: this.hide };
     this.categoriesServiceFire.hideFile(data).then((data: any) => {
-      this.getCredit();
-      this.getTransaction();
+      this.getCreditAccounts();
     });
   }
   openRecord: any = false;

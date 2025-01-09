@@ -38,10 +38,14 @@ export class DebitComponent {
   setimageURL: any;
   defaultDate: any = this.formatDateToCustom(new Date());
 
-formatDateToCustom(date: Date): string {
-  const options = { day: '2-digit', month: 'short', year: 'numeric' } as const;
-  return new Intl.DateTimeFormat('en-GB', options).format(date); // Output: 04-Jan-2025
-}
+  formatDateToCustom(date: Date): string {
+    const options = {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    } as const;
+    return new Intl.DateTimeFormat('en-GB', options).format(date); // Output: 04-Jan-2025
+  }
   onSelect = (e: any) => {
     if (e.target.files[0]) {
       const file = e.target.files[0];
@@ -55,9 +59,20 @@ formatDateToCustom(date: Date): string {
     }
   };
   deleteItem(id: any) {
-    this.categoriesServiceFire.deleteDebit(id).then((data) => {
-      this.getDebits();
-    });
+    const confirm = window.confirm('are you sure you want delete?');
+    if (confirm) {
+      for (let val of this.debitAmounts) {
+        if (val.cardId == id) {
+          this.categoriesServiceFire.deleteDebitAmount(val.id).then((data) => {
+            alert('deleted transaction');
+            this.categoriesServiceFire.deleteDebit(id).then((data) => {
+              alert('deleted account');
+              this.getDebits();
+            });
+          });
+        }
+      }
+    }
   }
   async addDebits() {
     try {

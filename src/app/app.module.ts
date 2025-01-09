@@ -44,6 +44,7 @@ import { BudgetComponent } from './budget/budget.component';
 import { HistoryComponent } from './history/history.component';
 import { MasterComponent } from './master/master.component';
 import { CalendarComponent } from './calendar/calendar.component';
+import { IncomeComponent } from './income/income.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -74,6 +75,7 @@ import { CalendarComponent } from './calendar/calendar.component';
     HistoryComponent,
     MasterComponent,
     CalendarComponent,
+    IncomeComponent,
   ],
   imports: [
     BrowserModule,

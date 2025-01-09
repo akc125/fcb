@@ -1,0 +1,50 @@
+<section class="sec">
+  <div class="d1">
+    <h1 class="inm">INCOME</h1>
+    <form [formGroup]="incomeFormGroup">
+      <input
+        class="incomeInput1"
+        type="number"
+        required
+        formControlName="amount"
+        placeholder="Income"
+      />
+      <input
+        class="incomeInput2"
+        type="date"
+        required
+        formControlName="date"
+        [(ngModel)]="defaultDate"
+      />
+    </form>
+    <button class="inButton" (click)="addIncome()">Add</button>
+    <main class="incomeDetails">
+      <table>
+        <tr>
+          <th style="width: 70px">No</th>
+
+          <th style="width: 100px">Date</th>
+          <th>Amount</th>
+          <th style="width: 50px"></th>
+        </tr>
+        <tr *ngFor="let inc of incomes; let i = index">
+          <td>{{ i + 1 }}</td>
+
+          <td>{{ inc.day | date : "dd/ MM/ yyyy" }}</td>
+          <td>{{ inc.amount }}</td>
+          <td>
+            <mat-icon style="font-size: 14px" (click)="deleteIncome(inc.id)"
+              >delete_forever</mat-icon
+            >
+          </td>
+        </tr>
+        <tr style="background-color: rgb(240, 239, 239); height: 15px">
+          <td></td>
+          <td>Total</td>
+          <td>{{ incomTotal }}</td>
+          <td></td>
+        </tr>
+      </table>
+    </main>
+  </div>
+</section>

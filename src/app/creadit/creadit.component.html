@@ -1,53 +1,34 @@
 <section class="sec">
   <header class="hd">
     <h1 class="db">CREDIT</h1>
-    <button class="adb" (click)="openForm(null, 'add')">+Add</button>
     <button class="adb3" (click)="openDeactiveFile()">Deactive</button>
+    <button class="adb" (click)="openForm(null, 'add', null)">+Add</button>
   </header>
   <div class="dal" *ngIf="openRecord">
-    <button class="adb2" (click)="closeDeactiveFile()">close</button>
-    <h1 style="font-size: 50px; position: relative; top: 10px; left: 150px">
-      DEACTIVATED CREDITS
-    </h1>
+    <div class="a2d">
+      <button class="adb2" (click)="closeDeactiveFile()">close</button>
+      <h1
+        class="adb23"
+        style="
+          font-size: 20px;
+          position: relative;
+          margin-bottom: 50px;
+          top: 10px;
+          left: 150px;
+        "
+      >
+        DEACTIVATED CREDITS
+      </h1>
+    </div>
     <span class="dactsl">Total: ₹{{ toatalCreditReturned }}</span>
-    <div
-      class="cn2"
-      style="color: white"
-      *ngFor="let val of credits"
-      [ngClass]="{ hdr: val.active }"
-    >
-      <div>
-        <div class="imgd2">
-          <img *ngIf="val.imageUrl" class="im" src="{{ val.imageUrl }}" />
-        </div>
-        <table style="width: 400px">
+    <div class="cn" *ngFor="let val of creditAccountsDeActive">
+      <div class="ins0" style="font-size: 10px; font-weight: 600">
+        <table>
           <tr>
             <td>Name :</td>
-            <td style="font-size: 28px">{{ val.name }}</td>
+            <td>{{ val.name }}</td>
           </tr>
-          <tr>
-            <td>Amount :</td>
-            <td>₹{{ val.amount }}</td>
-          </tr>
-          <tr>
-            <td>Date :</td>
-            <td>{{ val.date | date : "dd/MM/yyyy" }}</td>
-          </tr>
-          <tr>
-            <td>Duration :</td>
-            <td>{{ val.duration }}</td>
-          </tr>
-          <tr>
-            <td>Status :</td>
-            <td *ngIf="val.existing! >= 1" class="st">
-              {{ val.status }}
-            </td>
-            <td *ngIf="val.existing <= 0" class="st">
-              The Amount has paid<br />
-              on
-              {{ val.finishedDate.day | date : "dd-MM-yyyy" }}
-            </td>
-          </tr>
+
           <tr>
             <td>Contact :</td>
             <td>{{ val.contact }}</td>
@@ -57,70 +38,136 @@
             <td>{{ val.address }}</td>
           </tr>
         </table>
+        <div class="bns1">
+          <span
+            style="color: black; margin-right: 5px"
+            (click)="changeActive()"
+            (click)="deleteCreditAccounts(val.id)"
+            >Delete</span
+          >
+          <span
+            style="color: black; margin-right: 35px"
+            (click)="changeActive()"
+            (click)="updateCreditAccounts(val.id, true)"
+            >ActivateAccount</span
+          >
+        </div>
       </div>
-      <div>
-        <p
-          style="color: brown; font-size: 18px; margin: 10px; margin-left: -1px"
-        >
-          Transactions
-        </p>
-        <table class="ib" style="width: 650px">
-          <tr>
-            <th>SI</th>
-            <th>Returned Amount</th>
-            <th>Date</th>
-          </tr>
-          <tr *ngFor="let v of val.transaction">
-            <td>{{ v.index + 1 }}</td>
-            <td>₹{{ v.amount }}</td>
-            <td>{{ v.date | date : "dd-MM-yyyy" }}</td>
-          </tr>
-          <tr>
-            <td>Total</td>
-            <td>₹{{ val.total }}</td>
-            <td></td>
-          </tr>
-          <tr *ngIf="val.existing < 0">
-            <td>Over paid amount</td>
-            <td>₹{{ val.overPaid }}</td>
-          </tr>
-          <tr *ngIf="val.existing >= 0">
-            <td>Existing</td>
-            <td>₹{{ val.existing }}</td>
-          </tr>
-          <tr>
-            <td>Current Income</td>
-            <td>₹{{ val.currentIncome }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Income + Credit</td>
-            <td>₹{{ val.income }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Expense</td>
-            <td>₹{{ val.expense }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Current Balance</td>
-            <td>₹{{ val.crrentBalance }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Balance with credit</td>
-            <td>₹{{ val.balance }}</td>
-            <td></td>
-          </tr>
-        </table>
-        <button
-          class="da"
-          style="background-color: rgb(9, 121, 76)"
-          (click)="activeFile(val.id)"
-        >
-          Active
-        </button>
+      <div class="ins12" *ngFor="let v of val.credits">
+        <div class="ins1">
+          <table>
+            <tr>
+              <td>Amount :</td>
+              <td style="color: rgb(121, 11, 71)">₹{{ v.amount }}</td>
+            </tr>
+            <tr>
+              <td>Date :</td>
+              <td>{{ v.date | date : "dd-MM-yyyy" }}</td>
+            </tr>
+            <tr>
+              <td>Duration :</td>
+              <td>{{ v.duration }}</td>
+            </tr>
+            <tr>
+              <td>Status :</td>
+              <td class="st">
+                {{ v.status }}
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="ins2">
+          <span
+            style="color: black; margin-right: 35px; margin-left: 95px"
+            (click)="changeAllDataBothActiveDeactivePass()"
+            >All</span
+          >
+          <span
+            style="color: black; margin-right: 35px"
+            (click)="changeActivePass()"
+            >Acive</span
+          >
+          <span
+            style="color: black; margin-right: 35px"
+            (click)="changeActive()"
+            >Deactive</span
+          >
+          <p
+            style="
+              color: rgb(0, 0, 0);
+              font-size: 16px;
+              margin: 1px;
+              margin-left: -1px;
+            "
+          >
+            Transactions
+          </p>
+          <mat-icon
+            class="ic"
+            style="font-size: 11px"
+            (click)="openTransactionForm(v.id)"
+            >create</mat-icon
+          >
+          <div class="tns" *ngIf="transactionPopup && formId == v.id">
+            <h1>Add Transaction</h1>
+            <mat-icon class="icn" (click)="closeTransactionForm()"
+              >remove_red_eye</mat-icon
+            >
+            <form [formGroup]="trnsactionForm">
+              <label>Returned Amount</label
+              ><input formControlName="amount" /><br />
+              <label>Date</label
+              ><input type="date" formControlName="date" value="" /><br />
+              <button
+                (click)="addTransaction(v.id)"
+                (click)="closeTransactionForm()"
+              >
+                Add
+              </button>
+            </form>
+          </div>
+          <table class="trtb">
+            <tr>
+              <th>SI</th>
+              <th>Returned Amount</th>
+              <th>Date</th>
+            </tr>
+            <tr *ngFor="let p of v.transaction">
+              <td>{{ p.index + 1 }}</td>
+              <td>₹{{ p.amount }}</td>
+              <td>{{ p.date | date : "dd-MM-yyyy" }}</td>
+            </tr>
+            <tr>
+              <td>Total</td>
+              <td>₹{{ v.total }}</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Existing</td>
+              <td style="color: rgb(187, 12, 82)">₹{{ v.existing }}</td>
+              <td></td>
+            </tr>
+          </table>
+          <button class="da" *ngIf="v.active" (click)="deActiveFile(v.id)">
+            Deactive
+          </button>
+          <button class="da" *ngIf="!v.active" (click)="activeFile(v.id)">
+            Activate
+          </button>
+          <button class="da" (click)="deleteCredit(v.id)">Delete</button>
+          <button class="da" (click)="openForm(v.id, 'edit', val.id)">
+            Edit
+          </button>
+        </div>
+      </div>
+      <div
+        style="color: black; width: 200px; font-size: 13px"
+        *ngIf="val.credits.length > 1"
+      >
+        <label>Total</label>
+        <p>{{ val.total }}</p>
+        <label>Existing</label>
+        <p>{{ val.totalExist }}</p>
       </div>
     </div>
   </div>
@@ -147,8 +194,8 @@
           <!-- Default option -->
           <option *ngFor="let account of creditAccounts" [value]="account.id">
             {{ account.name }}
-          </option>
-        </select><br>
+          </option></select
+        ><br />
         <label>Amount</label><input class="fmu" formControlName="amount" />
       </form>
     </div>
@@ -184,7 +231,7 @@
   </div>
   <div class="in">
     <div class="accnt">
-      <span>credit accounts</span>
+      <span>Add credit accounts</span>
       <span>
         <mat-icon class="ntic" (click)="openAccountForm()"
           >queue</mat-icon
@@ -201,41 +248,24 @@
           <button class="svb" (click)="closeAccountForm()">close</button>
         </form>
       </div>
-      <div class="acnms" *ngFor="let val of creditAccounts">
+      <!-- <div class="acnms" *ngFor="let val of creditAccountsActive">
         <p>{{ val.name }}</p>
         <p>{{ val.contact }}</p>
         <p>{{ val.address }}</p>
-      </div>
+      </div> -->
     </div>
     <div
       class="cn"
-      *ngFor="let val of credits"
+      *ngFor="let val of creditAccountsActive"
       [ngClass]="{ hdr: !val.active }"
     >
-      <div class="ins1">
+      <div class="ins0" style="font-size: 10px; font-weight: 600">
         <table>
           <tr>
             <td>Name :</td>
             <td>{{ val.name }}</td>
           </tr>
-          <tr>
-            <td>Amount :</td>
-            <td>₹{{ val.amount }}</td>
-          </tr>
-          <tr>
-            <td>Date :</td>
-            <td>{{ val.date | date : "dd-MM-yyyy" }}</td>
-          </tr>
-          <tr>
-            <td>Duration :</td>
-            <td>{{ val.duration }}</td>
-          </tr>
-          <tr>
-            <td>Status :</td>
-            <td class="st">
-              {{ val.status }}
-            </td>
-          </tr>
+
           <tr>
             <td>Contact :</td>
             <td>{{ val.contact }}</td>
@@ -245,85 +275,156 @@
             <td>{{ val.address }}</td>
           </tr>
         </table>
-      </div>
-      <div class="ins2">
-        <p
-          style="
-            color: rgb(0, 0, 0);
-            font-size: 16px;
-            margin: 1px;
-            margin-left: -1px;
-          "
-        >
-          Transactions
-        </p>
-        <mat-icon
-          class="ic"
-          style="font-size: 11px"
-          (click)="openTransactionForm(val.id)"
-          >create</mat-icon
-        >
-        <div class="tns" *ngIf="transactionPopup && formId == val.id">
-          <h1>Add Transaction</h1>
-          <mat-icon class="icn" (click)="closeTransactionForm()"
-            >remove_red_eye</mat-icon
+        <div class="bns1">
+          <span
+            style="color: black; margin-right: 5px"
+            (click)="changeActive()"
+            (click)="deleteCreditAccounts(val.id)"
+            >Delete</span
           >
-          <form [formGroup]="trnsactionForm">
-            <label>Returned Amount</label
-            ><input formControlName="amount" /><br />
-            <label>Date</label
-            ><input type="date" formControlName="date" value="" /><br />
-            <button
-              (click)="addTransaction(val.id)"
-              (click)="closeTransactionForm()"
-            >
-              Add
-            </button>
-          </form>
+          <span
+            style="color: black; margin-right: 35px"
+            (click)="changeActive()"
+            (click)="updateCreditAccounts(val.id, false)"
+            >DeactivateAccount</span
+          >
         </div>
-        <table class="trtb">
-          <tr>
-            <th>SI</th>
-            <th>Returned Amount</th>
-            <th>Date</th>
-          </tr>
-          <tr *ngFor="let v of val.transaction">
-            <td>{{ v.index + 1 }}</td>
-            <td>₹{{ v.amount }}</td>
-            <td>{{ v.date | date : "dd-MM-yyyy" }}</td>
-          </tr>
-          <tr>
-            <td>Total</td>
-            <td>₹{{ val.total }}</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Existing</td>
-            <td style="color: rgb(187, 12, 82)">₹{{ val.existing }}</td>
-            <td></td>
-          </tr>
-        </table>
-        <button class="da" (click)="deActiveFile(val.id)">Deactive</button>
-        <button class="da" (click)="deleteCredit(val.id)">Delete</button>
-        <button class="da" (click)="openForm(val.id, 'edit')">Edit</button>
+      </div>
+      <div class="ins12" *ngFor="let v of val.credits">
+        <div class="ins1">
+          <table>
+            <tr>
+              <td>Amount :</td>
+              <td style="color: rgb(121, 11, 71)">₹{{ v.amount }}</td>
+            </tr>
+            <tr>
+              <td>Date :</td>
+              <td>{{ v.date | date : "dd-MM-yyyy" }}</td>
+            </tr>
+            <tr>
+              <td>Duration :</td>
+              <td>{{ v.duration }}</td>
+            </tr>
+            <tr>
+              <td>Status :</td>
+              <td class="st">
+                {{ v.status }}
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="ins2">
+          <span
+            style="color: black; margin-right: 35px; margin-left: 95px"
+            (click)="changeAllDataBothActiveDeactivePass()"
+            >All</span
+          >
+          <span
+            style="color: black; margin-right: 35px"
+            (click)="changeActivePass()"
+            >Acive</span
+          >
+          <span
+            style="color: black; margin-right: 35px"
+            (click)="changeActive()"
+            >Deactive</span
+          >
+          <p
+            style="
+              color: rgb(0, 0, 0);
+              font-size: 16px;
+              margin: 1px;
+              margin-left: -1px;
+            "
+          >
+            Transactions
+          </p>
+          <mat-icon
+            class="ic"
+            style="font-size: 11px"
+            (click)="openTransactionForm(v.id)"
+            >create</mat-icon
+          >
+          <div class="tns" *ngIf="transactionPopup && formId == v.id">
+            <h1>Add Transaction</h1>
+            <mat-icon class="icn" (click)="closeTransactionForm()"
+              >remove_red_eye</mat-icon
+            >
+            <form [formGroup]="trnsactionForm">
+              <label>Returned Amount</label
+              ><input formControlName="amount" /><br />
+              <label>Date</label
+              ><input type="date" formControlName="date" value="" /><br />
+              <button
+                (click)="addTransaction(v.id)"
+                (click)="closeTransactionForm()"
+              >
+                Add
+              </button>
+            </form>
+          </div>
+          <table class="trtb">
+            <tr>
+              <th>SI</th>
+              <th>Returned Amount</th>
+              <th>Date</th>
+            </tr>
+            <tr *ngFor="let p of v.transaction">
+              <td>{{ p.index + 1 }}</td>
+              <td>₹{{ p.amount }}</td>
+              <td>{{ p.date | date : "dd-MM-yyyy" }}</td>
+            </tr>
+            <tr>
+              <td>Total</td>
+              <td>₹{{ v.total }}</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Existing</td>
+              <td style="color: rgb(187, 12, 82)">₹{{ v.existing }}</td>
+              <td></td>
+            </tr>
+          </table>
+          <button class="da" *ngIf="v.active" (click)="deActiveFile(v.id)">
+            Deactive
+          </button>
+          <button class="da" *ngIf="!v.active" (click)="activeFile(v.id)">
+            Activate
+          </button>
+          <button class="da" (click)="deleteCredit(v.id)">Delete</button>
+          <button class="da" (click)="openForm(v.id, 'edit', val.id)">
+            Edit
+          </button>
+        </div>
+      </div>
+      <div
+        style="color: black; width: 200px; font-size: 13px"
+        *ngIf="val.credits.length > 1"
+      >
+        <label>Total</label>
+        <p>{{ val.total }}</p>
+        <label>Existing</label>
+        <p>{{ val.exist }}</p>
       </div>
     </div>
   </div>
+  <!-- footer -->
+
   <footer class="ft">
     <div class="hdc">
-      <h1>TOTAL {{ personsTogiveMony }} PERSONS TO GIVE MONY</h1>
+      <h1>TOTAL {{ creditAccountsActive.length }} PERSONS TO GIVE MONY</h1>
     </div>
     <div class="bn">
       <div class="lst">
         <div>
           <div
             class="clnt"
-            *ngFor="let val of credits"
+            *ngFor="let val of creditAccountsActive"
             [ngStyle]="{ display: val.active == false ? 'none' : 'flex' }"
           >
             <img alt="image" src="{{ val.imageUrl }}" />
             <p>{{ val.name }}</p>
-            <p>{{ val.existing }}</p>
+            <p>{{ val.totalExist }}</p>
           </div>
         </div>
         <div>

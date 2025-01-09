@@ -24,6 +24,7 @@ import { BudgetComponent } from './budget/budget.component';
 import { HistoryComponent } from './history/history.component';
 import { MasterComponent } from './master/master.component';
 import { CalendarComponent } from './calendar/calendar.component';
+import { IncomeComponent } from './income/income.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [authGuard] },
@@ -47,6 +48,11 @@ const routes: Routes = [
   {
     path: 'calendar',
     component: CalendarComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'income',
+    component: IncomeComponent,
     canActivate: [authGuard],
   },
   {

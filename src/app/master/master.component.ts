@@ -193,10 +193,11 @@ export class MasterComponent {
     this.expenseTotel = 0; // Reset the total
     this.categoriesServiesFire.getExpensList().subscribe((data) => {
       this.expenses = data;
-      this.expenseTotel = this.expenses.reduce((total: any, exp: any) => {
-        const validExpense = exp.expense || 0;
-        return total + validExpense;
-      }, 0)+4879;
+      this.expenseTotel =
+        this.expenses.reduce((total: any, exp: any) => {
+          const validExpense = exp.expense || 0;
+          return total + validExpense;
+        }, 0) + 4879;
       this.compainExpAdIncom();
       console.log('Total Expense for All Items:', this.expenseTotel);
     });
@@ -300,5 +301,9 @@ export class MasterComponent {
       Number(this.MainTotalDebitCredit) -
       this.expenseTotel
     );
+  }
+  get OnHand(): number {
+    let ans = Number(this.incomTotal) - Number(this.expenseTotel);
+    return ans + 27817;
   }
 }

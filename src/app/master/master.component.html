@@ -1,6 +1,6 @@
 <section class="ms">
   <div class="ms1">
-    <h1 style="margin: 5px;">Historic Finance Overview</h1>
+    <h1 style="margin: 5px">Historic Finance Overview</h1>
     <table>
       <thead>
         <tr>
@@ -15,48 +15,53 @@
           <td [style.fontWeight]="row.isYear ? '600' : 'normal'">
             {{ row.isYear ? row.year : row.month }}
           </td>
-          <td *ngIf="!row.isYear">{{ row.expense || '' }}</td>
-          <td *ngIf="!row.isYear">{{ row.income || '' }}</td>
-          <td *ngIf="!row.isYear">{{ row.balance || '' }}</td>
+          <td *ngIf="!row.isYear">{{ row.expense || "" }}</td>
+          <td *ngIf="!row.isYear">{{ row.income || "" }}</td>
+          <td *ngIf="!row.isYear">{{ row.balance || "" }}</td>
         </tr>
       </tbody>
-    </table>    
+    </table>
   </div>
   <div class="ms2">
     <h1 class="ntw">Net Worth Monitor</h1>
     <div class="ins1">
       <p class="p1">Income</p>
-      <p class="p2">{{incomTotal}}</p>
+      <p class="p2">{{ incomTotal }}</p>
       <p class="p3">Asset</p>
-      <p class="p4">{{assets}}</p>
+      <p class="p4">{{ assets }}</p>
     </div>
     <div class="ins2">
       <p class="p1">Credit</p>
-      <p class="p2">{{totalExsisting}}</p>
+      <p class="p2">{{ totalExsisting }}</p>
       <p class="p3">Debit</p>
-      <p class="p4">{{totalAmount}}</p>
+      <p class="p4">{{ totalAmount }}</p>
     </div>
     <div class="ins3">
       <div class="al1">
         <p>Total</p>
-        <p>{{MainTotal}}</p>
+        <p>{{ MainTotal }}</p>
       </div>
     </div>
     <div class="ins4">
       <div class="al2">
         <p>Total</p>
-        <p>{{MainTotalDebitCredit}}</p>
+        <p>{{ MainTotalDebitCredit }}</p>
       </div>
     </div>
     <div class="ins5"></div>
     <div class="ins6">
       <div class="ins7">
         <p class="as1">Expense</p>
-        <p class="as2">{{expenseTotel}}</p>
+        <p class="as2">{{ expenseTotel }}</p>
       </div>
       <div class="al3">
         <p>Balance</p>
-        <p>{{MainBalance}}</p>
+        <p>{{ MainBalance }}</p>
+      </div>
+      <div class="al5"></div>
+      <div class="al4">
+        <p>One Hand</p>
+        <p>{{ OnHand }}</p>
       </div>
     </div>
   </div>

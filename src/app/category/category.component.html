@@ -24,42 +24,4 @@
       </div>
     </div>
   </div>
-  <section class="incomeSection">
-    <img
-      class="losang"
-      src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YnVzaW5lc3MlMjBiYWNrZ3JvdW5kfGVufDB8fDB8fHww&w=1000&q=80"
-    />
-    <h1 class="incomeText">Add Income</h1>
-    <form [formGroup]="incomeFormGroup">
-      <input
-        class="incomeInput1"
-        type="number"
-        required
-        formControlName="amount"
-        placeholder="Income"
-      />
-      <input
-        class="incomeInput2"
-        type="date"
-        required
-        formControlName="date"
-        [(ngModel)]="defaultDate"
-      />
-    </form>
-    <button class="inButton" (click)="addIncome()">Add</button>
-  </section>
-  <main class="incomeDetails">
-    <table>
-      <tr>
-        <th>No</th>
-        <th>Amount</th>
-        <th>Date</th>
-      </tr>
-      <tr *ngFor="let inc of incomes; let i = index">
-        <td>{{ i + 1 }}</td>
-        <td>{{ inc.amount }}</td>
-        <td>{{ inc.day | date : "dd/ MM/ yyyy" }}</td>
-      </tr>
-    </table>
-  </main>
 </div>

@@ -1,0 +1,55 @@
+.sec {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(255, 255, 255);
+  color: black;
+  padding-left: 240px;
+  padding-top: 50px;
+}
+.d1 {
+  min-height: 400px;
+  width: 800px;
+  max-height: fit-content;
+  text-align: center;
+  border: 1px solid rgb(215, 212, 212);
+  padding-top: 10px;
+  background-color: rgb(255, 255, 255);
+  padding-bottom: 20px;
+}
+.d1 input {
+  width: 120px;
+  height: 20px;
+  margin: 5px;
+}
+.d1 button {
+  width: 60px;
+  height: 20px;
+  border: none;
+  background-color: rgb(184, 182, 182);
+  position: relative;
+  left: 165px;
+  top: -25px;
+}
+.inm{
+    font-size: 17px;
+    color: rgb(101, 18, 83);
+    position: relative;
+    left: -200px;
+    top: 25px;
+}
+.d1 table {
+  margin-left: 150px;
+  width: 500px;
+  font-size: 13px;
+  /* border-collapse: collapse; */
+  background-color: rgb(245, 251, 253);
+
+}
+.d1 table th {
+  background-color: rgb(199, 194, 194);
+  height: 20px;
+}
+.d1 table tr td{
+border-bottom: 1px solid rgb(168, 164, 164);
+height: 30px;
+}

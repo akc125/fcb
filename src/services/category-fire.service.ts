@@ -79,6 +79,9 @@ export class CategoryFireService {
         )
       );
   }
+  deleteCreditAccount(id: any) {
+    return this.firestore.collection('credit-accounts').doc(id).delete();
+  }
   getSingleDebit(debitId: string) {
     return this.firestore
       .collection('debits')
@@ -107,6 +110,10 @@ export class CategoryFireService {
         )
       );
   }
+  deleteTransaction(id: any) {
+    return this.firestore.collection('transactions').doc(id).delete();
+  }
+
   getNotificationCategory() {
     return this.firestore
       .collection('notification-categories')
@@ -279,6 +286,13 @@ export class CategoryFireService {
       .collection('credit-accounts')
       .add({ ...data, userId: userId });
   }
+  editCreditsAccount(data: any) {
+    const userId = localStorage.getItem('userId');
+    return this.firestore
+      .collection('credit-accounts')
+      .doc(data.id)
+      .update({ ...data, userId: userId });
+  }
   editCredits(data: any) {
     const userId = localStorage.getItem('userId');
     return this.firestore
@@ -302,6 +316,9 @@ export class CategoryFireService {
   }
   deleteDebit(id: any) {
     return this.firestore.collection('debits').doc(id).delete();
+  }
+  deleteDebitAmount(id: any) {
+    return this.firestore.collection('debit-transaction').doc(id).delete();
   }
   deleteCredit(id: any) {
     return this.firestore.collection('credits').doc(id).delete();
@@ -390,6 +407,20 @@ export class CategoryFireService {
   }
 
   getIncomes() {
-    return this.firestore.collection('incomes').valueChanges();
+    return this.firestore
+      .collection('incomes')
+      .snapshotChanges()
+      .pipe(
+        map((actions) =>
+          actions.map((a) => {
+            const data = a.payload.doc.data() as any;
+            const id = a.payload.doc.id;
+            return { id, ...data };
+          })
+        )
+      );
+  }
+  deleteIncomes(id: any) {
+    return this.firestore.collection('incomes').doc(id).delete();
   }
 }

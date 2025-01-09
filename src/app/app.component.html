@@ -59,6 +59,13 @@
           >
             Master
           </span>
+          <span
+            [ngClass]="selcetion === 'income' ? 'mn' : 'mn22'"
+            routerLink="income"
+            (click)="select('master')"
+          >
+            Income
+          </span>
         </div>
       </div>
 

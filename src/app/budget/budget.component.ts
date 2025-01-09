@@ -37,7 +37,7 @@ export class BudgetComponent {
     this.getTotalPers();
     setTimeout(() => {
       this.renderChart();
-    }, 2000);
+    }, 3000);
     this.currentMonthFl = new Date().getMonth();
     this.currentYear = new Date().getFullYear();
   }

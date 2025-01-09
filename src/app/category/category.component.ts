@@ -19,11 +19,8 @@ export class CategoryComponent {
   ngOnInit(): void {
     this.getCategory();
     const currentDate = new Date();
-    this.defaultDate = currentDate.toISOString().substring(0, 10);
-    this.getIncomes();
-  }
+    this.defaultDate = currentDate.toISOString().substring(0, 10);  }
   constructor(
-    private categoriesServies: CategoriesService,
     private categoriesServiesFire: CategoryFireService,
     private router: Router
   ) {}
@@ -58,13 +55,7 @@ export class CategoryComponent {
   onSelected(id: any) {
     this.router.navigate([`categories/${id}`]);
   }
-  addIncome() {
-    const formData = this.incomeFormGroup.value;
-    this.categoriesServiesFire.addIncomes(formData).then((data) => {
-      this.incomeFormGroup.setValue({ amount: '', date: this.defaultDate });
-      this.getIncomes();
-    });
-  }
+ 
   getRandomColor(): string {
     const letters = '0123456789ABCDEF';
     let color = '#';
@@ -73,14 +64,5 @@ export class CategoryComponent {
       color += letters.charAt(randomIndex);
     }
     return color;
-  }
-  incomes: any = ([] = []);
-  getIncomes() {
-    const id = localStorage.getItem('userId');
-    this.categoriesServiesFire.getIncomes().subscribe((data: any) => {
-      this.incomes = data.filter((f: any) => {
-        return f.userId == id;
-      });
-    });
   }
 }

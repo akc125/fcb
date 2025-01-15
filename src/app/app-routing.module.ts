@@ -25,6 +25,7 @@ import { HistoryComponent } from './history/history.component';
 import { MasterComponent } from './master/master.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { IncomeComponent } from './income/income.component';
+import { ComprehensiveFinanceHubComponent } from './comprehensive-finance-hub/comprehensive-finance-hub.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [authGuard] },
@@ -53,6 +54,11 @@ const routes: Routes = [
   {
     path: 'income',
     component: IncomeComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'hub',
+    component: ComprehensiveFinanceHubComponent,
     canActivate: [authGuard],
   },
   {

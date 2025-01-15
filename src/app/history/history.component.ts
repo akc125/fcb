@@ -23,10 +23,20 @@ export class HistoryComponent {
     this.defaultDate = currentDate.toISOString().substring(0, 10);
     this.getIncomes();
     this.defualtMonth = currentDate.toISOString().substring(5, 7);
+    this.defualtYear = currentDate.toISOString().substring(0, 4);
+    this.defualtMonthName = new Date(
+      0,
+      Number(this.defualtMonth) - 1
+    ).toLocaleString('default', {
+      month: 'long',
+    });
     this.getExpenses();
     setTimeout(() => {
       this.compainCatWithExpense();
     }, 1000);
+    this.search.valueChanges.subscribe(() => {
+      this.getCategory();
+    });
   }
   constructor(
     private categoriesServiesFire: CategoryFireService,
@@ -35,8 +45,11 @@ export class HistoryComponent {
   data: any = {};
   defaultDate: any;
   defualtMonth: any;
+  defualtYear: any;
   categories: any = [];
   all: any = false;
+  current: any = false;
+  search: any = new FormControl();
   expenseFormGroup = new FormGroup({
     expense: new FormControl(),
     name: new FormControl(),
@@ -45,22 +58,32 @@ export class HistoryComponent {
     catId: new FormControl(),
     times: new FormControl(new Date()),
   });
+
   catId: any;
   addCatId(id: any) {
     this.catId = id;
   }
+  clear() {
+    console.log('search', this.search);
+    this.search.setValue(null);
+  }
   swithToAll() {
     this.expenseTotel = 0;
     this.all = true;
+    this.current = false;
     this.getExpenses();
     this.defualtMonthName = '';
+    this.defualtYear = '';
   }
   switchToCurrent() {
+    this.current = true;
     this.expenseTotel = 0;
     this.all = false;
     const currentDate = new Date();
     let defualtMonth = currentDate.toISOString().substring(5, 7);
+    let defualtYear = currentDate.toISOString().substring(0, 4);
     this.defualtMonth = defualtMonth;
+    this.defualtYear = defualtYear;
     let monthName = new Date(0, Number(defualtMonth) - 1).toLocaleString(
       'default',
       {
@@ -72,29 +95,30 @@ export class HistoryComponent {
   }
   defualtMonthName: any;
   changeMonthToPreve(): void {
-    this.expenseTotel = 0;
-    this.all = false;
-    const dfltm = Number(this.defualtMonth) - 1;
-    const prevMonth = dfltm > 0 ? dfltm : 12;
-    const prevMonthFormatted = prevMonth.toString().padStart(2, '0');
-    // Get month name
-    const monthName = new Date(0, prevMonth - 1).toLocaleString('default', {
-      month: 'long',
-    });
+    if (this.current) {
+      this.expenseTotel = 0;
+      this.all = false;
+      const dfltm = Number(this.defualtMonth) - 1;
+      const prevMonth = dfltm > 0 ? dfltm : 12;
+      const prevMonthFormatted = prevMonth.toString().padStart(2, '0');
+      const monthName = new Date(0, prevMonth - 1).toLocaleString('default', {
+        month: 'long',
+      });
+      this.defualtMonth = prevMonthFormatted;
+      if (this.defualtMonth == '12') {
+        this.defualtYear = this.defualtYear - 1;
+      }
 
-    // Set variables
-    this.defualtMonth = prevMonthFormatted;
-    this.defualtMonthName = monthName;
+      this.defualtMonthName = monthName;
 
-    this.getExpenses();
+      this.getExpenses();
+    } else {
+      this.switchToCurrent();
+    }
   }
-
   addData() {
-    const formData = {
-      ...this.expenseFormGroup.value,
-      catId: this.catId,
-    };
-    this.categoriesServiesFire.addExpense(formData).then((data: any) => {
+    let fmData = { ...this.expenseFormGroup.value, catId: this.catId };
+    this.categoriesServiesFire.addExpense(fmData).then((data) => {
       this.getExpenses();
       this.getCategory();
       this.expenseFormGroup.setValue({
@@ -147,7 +171,13 @@ export class HistoryComponent {
     const id = localStorage.getItem('userId');
     this.categoriesServiesFire.getCategories().subscribe((data: any) => {
       this.categories = data.filter((f: any) => f.userId === id);
-      console.log('data234', this.categories);
+      if (this.search.value) {
+        let ans = this.search.value.toLowerCase();
+        this.categories = this.categories.filter((f: any) =>
+          f.name.toLowerCase().includes(ans)
+        );
+      }
+
       this.sortCategory();
       this.compainCatWithExpense();
     });
@@ -198,14 +228,20 @@ export class HistoryComponent {
       if (this.all) {
         this.expenses = data;
       } else {
+        console.log('currentDate', this.defualtYear, this.defualtMonth);
         this.expenses = data.filter(
           (f: any) =>
-            f.userId == id && f.day.substring(5, 7) === this.defualtMonth
+            f.userId == id &&
+            f.day.substring(5, 7) === this.defualtMonth &&
+            f.day.substring(0, 4) === this.defualtYear.toString()
         );
       }
+      let ans = 0;
       for (const exp of this.expenses) {
-        this.expenseTotel += exp.expense;
+        ans += exp.expense||0;
       }
+      this.expenseTotel = ans;
+      console.log('expes', this.expenses);
       this.compainCatWithExpense();
     });
   }

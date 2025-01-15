@@ -45,6 +45,7 @@ import { HistoryComponent } from './history/history.component';
 import { MasterComponent } from './master/master.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { IncomeComponent } from './income/income.component';
+import { ComprehensiveFinanceHubComponent } from './comprehensive-finance-hub/comprehensive-finance-hub.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -76,6 +77,7 @@ import { IncomeComponent } from './income/income.component';
     MasterComponent,
     CalendarComponent,
     IncomeComponent,
+    ComprehensiveFinanceHubComponent,
   ],
   imports: [
     BrowserModule,

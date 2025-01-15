@@ -60,18 +60,17 @@ footer {
 }
 .insite {
   position: relative;
-  top: -100px;
+  top: -540px;
   width: 700px;
-  font-size: 25px;
+  font-size: 13px;
   animation-name: move;
   animation-duration: 10s;
   position: relative;
   animation: move 40s ease-out infinite;
-  box-shadow: 5px 5px 15px rgb(0, 0, 0);
 }
 @keyframes move {
   0% {
-    left: -660px;
+    left: -60px;
   }
   100% {
     left: 1280px;

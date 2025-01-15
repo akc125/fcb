@@ -13,9 +13,10 @@ export class DebitComponent {
     this.getDebits();
     this.getDebitAmounts();
     this.combainData();
+    const currentDate = new Date();
+    this.defaultDate = currentDate.toISOString().substring(0, 10);
   }
   constructor(private categoriesServiceFire: CategoryFireService) {}
-
   userId = localStorage.getItem('userId');
   debitFormGroup = new FormGroup({
     name: new FormControl(),
@@ -60,17 +61,33 @@ export class DebitComponent {
   };
   deleteItem(id: any) {
     const confirm = window.confirm('are you sure you want delete?');
+    let amountData: any = ([] = []);
+    this.debits.map((p: any) => {
+      if (p.id == id && p.amountData.length) {
+        return amountData.push(p.amountData);
+      }
+    });
+    console.log('debits', amountData.length);
     if (confirm) {
-      for (let val of this.debitAmounts) {
-        if (val.cardId == id) {
-          this.categoriesServiceFire.deleteDebitAmount(val.id).then((data) => {
-            alert('deleted transaction');
-            this.categoriesServiceFire.deleteDebit(id).then((data) => {
-              alert('deleted account');
-              this.getDebits();
-            });
-          });
+      if (amountData.length) {
+        for (let val of this.debitAmounts) {
+          if (val.cardId == id) {
+            this.categoriesServiceFire
+              .deleteDebitAmount(val.id)
+              .then((data) => {
+                console.log('deleted transaction');
+                this.categoriesServiceFire.deleteDebit(id).then((data) => {
+                  console.log('deleted account');
+                  this.getDebits();
+                });
+              });
+          }
         }
+      } else {
+        this.categoriesServiceFire.deleteDebit(id).then((data) => {
+          console.log('deleted account without transaction');
+          this.getDebits();
+        });
       }
     }
   }

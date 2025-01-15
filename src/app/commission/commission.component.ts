@@ -12,7 +12,10 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 export class CommissionComponent {
   ngOnInit(): void {
     this.getCommission();
+    const currentDate = new Date();
+    this.defaultDate = currentDate.toISOString().substring(0, 10);
   }
+  defaultDate:any
   constructor(
     private categoriesServiceFire: CategoryFireService,
     private router: Router

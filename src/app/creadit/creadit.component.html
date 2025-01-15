@@ -22,6 +22,15 @@
     </div>
     <span class="dactsl">Total: ₹{{ toatalCreditReturned }}</span>
     <div class="cn" *ngFor="let val of creditAccountsDeActive">
+      <div class="btnsdvvv2">
+        <span
+          style="color: black"
+          (click)="changeAllDataBothActiveDeactivePass()"
+          >All</span
+        >
+        <span style="color: black" (click)="changeActivePass()">Acive</span>
+        <span style="color: black" (click)="changeActive()">Deactive</span>
+      </div>
       <div class="ins0" style="font-size: 10px; font-weight: 600">
         <table>
           <tr>
@@ -41,13 +50,11 @@
         <div class="bns1">
           <span
             style="color: black; margin-right: 5px"
-            (click)="changeActive()"
             (click)="deleteCreditAccounts(val.id)"
             >Delete</span
           >
           <span
             style="color: black; margin-right: 35px"
-            (click)="changeActive()"
             (click)="updateCreditAccounts(val.id, true)"
             >ActivateAccount</span
           >
@@ -77,21 +84,6 @@
           </table>
         </div>
         <div class="ins2">
-          <span
-            style="color: black; margin-right: 35px; margin-left: 95px"
-            (click)="changeAllDataBothActiveDeactivePass()"
-            >All</span
-          >
-          <span
-            style="color: black; margin-right: 35px"
-            (click)="changeActivePass()"
-            >Acive</span
-          >
-          <span
-            style="color: black; margin-right: 35px"
-            (click)="changeActive()"
-            >Deactive</span
-          >
           <p
             style="
               color: rgb(0, 0, 0);
@@ -117,7 +109,7 @@
               <label>Returned Amount</label
               ><input formControlName="amount" /><br />
               <label>Date</label
-              ><input type="date" formControlName="date" value="" /><br />
+              ><input type="date" [(ngModel)]="defaultDate" formControlName="date" value="" /><br />
               <button
                 (click)="addTransaction(v.id)"
                 (click)="closeTransactionForm()"
@@ -166,8 +158,10 @@
       >
         <label>Total</label>
         <p>{{ val.total }}</p>
+        <label>Returned</label>
+        <p>{{ val.return }}</p>
         <label>Existing</label>
-        <p>{{ val.totalExist }}</p>
+        <p>{{ val.exist }}</p>
       </div>
     </div>
   </div>
@@ -202,7 +196,7 @@
     <form [formGroup]="creditForm">
       <div class="r" style="padding-top: 200px">
         <label>Date</label
-        ><input type="date" class="fmu" formControlName="date" /><br />
+        ><input type="date" class="fmu" formControlName="date" [(ngModel)]="defaultDate" /><br />
         <label>Duration</label
         ><input class="fmu" formControlName="duration" /><br />
         <label>Status</label><input class="fmu" formControlName="status" />
@@ -259,6 +253,15 @@
       *ngFor="let val of creditAccountsActive"
       [ngClass]="{ hdr: !val.active }"
     >
+      <div class="btnsdvvv">
+        <span
+          style="color: black"
+          (click)="changeAllDataBothActiveDeactivePass()"
+          >All</span
+        >
+        <span style="color: black" (click)="changeActivePass()">Acive</span>
+        <span style="color: black" (click)="changeActive()">Deactive</span>
+      </div>
       <div class="ins0" style="font-size: 10px; font-weight: 600">
         <table>
           <tr>
@@ -278,13 +281,11 @@
         <div class="bns1">
           <span
             style="color: black; margin-right: 5px"
-            (click)="changeActive()"
             (click)="deleteCreditAccounts(val.id)"
             >Delete</span
           >
           <span
             style="color: black; margin-right: 35px"
-            (click)="changeActive()"
             (click)="updateCreditAccounts(val.id, false)"
             >DeactivateAccount</span
           >
@@ -307,28 +308,13 @@
             </tr>
             <tr>
               <td>Status :</td>
-              <td class="st">
+              <td class="st" style="padding: 25px; font-size: 13px">
                 {{ v.status }}
               </td>
             </tr>
           </table>
         </div>
         <div class="ins2">
-          <span
-            style="color: black; margin-right: 35px; margin-left: 95px"
-            (click)="changeAllDataBothActiveDeactivePass()"
-            >All</span
-          >
-          <span
-            style="color: black; margin-right: 35px"
-            (click)="changeActivePass()"
-            >Acive</span
-          >
-          <span
-            style="color: black; margin-right: 35px"
-            (click)="changeActive()"
-            >Deactive</span
-          >
           <p
             style="
               color: rgb(0, 0, 0);
@@ -354,7 +340,7 @@
               <label>Returned Amount</label
               ><input formControlName="amount" /><br />
               <label>Date</label
-              ><input type="date" formControlName="date" value="" /><br />
+              ><input type="date" [(ngModel)]="defaultDate" formControlName="date" /><br />
               <button
                 (click)="addTransaction(v.id)"
                 (click)="closeTransactionForm()"
@@ -399,10 +385,12 @@
       </div>
       <div
         style="color: black; width: 200px; font-size: 13px"
-        *ngIf="val.credits.length > 1"
+        *ngIf="val?.credits?.length > 1"
       >
         <label>Total</label>
         <p>{{ val.total }}</p>
+        <label>Returned</label>
+        <p>{{ val.return }}</p>
         <label>Existing</label>
         <p>{{ val.exist }}</p>
       </div>
@@ -424,7 +412,7 @@
           >
             <img alt="image" src="{{ val.imageUrl }}" />
             <p>{{ val.name }}</p>
-            <p>{{ val.totalExist }}</p>
+            <p>{{ val.exist }}</p>
           </div>
         </div>
         <div>

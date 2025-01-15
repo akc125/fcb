@@ -19,7 +19,7 @@
     </form>
     <button class="inButton" (click)="addIncome()">Add</button>
     <main class="incomeDetails">
-      <table>
+      <table class="m1">
         <tr>
           <th style="width: 70px">No</th>
 
@@ -44,6 +44,34 @@
           <td>{{ incomTotal }}</td>
           <td></td>
         </tr>
+      </table>
+      <table class="m2">
+        <tbody>
+          <tr *ngFor="let group of groupedData">
+            <td style="width: 100px">{{ group.year }}</td>
+            <!-- Display year only once -->
+            <ng-container *ngFor="let month of group.months; let i = index">
+              <!-- Each month gets its own row -->
+              <tr>
+                <td style="width: 200px">{{ month.month }}</td>
+                <!-- Display month -->
+                <td>
+                  <ul>
+                    <li
+                      *ngFor="let income of month.incomes"
+                      style="margin-bottom: 5px;width: 200px;"
+                    >
+                      {{ income }}
+                    </li>
+                  </ul>
+                </td>
+                <td *ngIf="month.total !== undefined" style="color: brown">
+                  {{ month.total }}
+                </td>
+              </tr>
+            </ng-container>
+          </tr>
+        </tbody>
       </table>
     </main>
   </div>

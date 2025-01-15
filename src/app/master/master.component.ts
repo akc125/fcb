@@ -197,9 +197,8 @@ export class MasterComponent {
         this.expenses.reduce((total: any, exp: any) => {
           const validExpense = exp.expense || 0;
           return total + validExpense;
-        }, 0) + 4879;
+        }, 0) +10053;
       this.compainExpAdIncom();
-      console.log('Total Expense for All Items:', this.expenseTotel);
     });
   }
   compainExpAdIncom() {
@@ -218,20 +217,18 @@ export class MasterComponent {
     // let v=new Date(dv)
     // // const prevMonth = v > 0 ? dfltm : 12;
     // const MonthFormatted = v.getMonth().toString().padStart(2, '0');
-    console.log('expppp', this.expenses);
-    console.log('inccccc', this.incomes);
+   
     this.incomeExpGrouping();
   }
   finalTableData: any = [];
 
   incomeExpGrouping() {
-    // Group by year and month
     const groupedData: any = {};
 
     this.incomes.forEach((income: any) => {
       const date = new Date(income.day);
       const year = date.getFullYear();
-      const month = date.getMonth(); // Get the month as a number (0 for Jan, 11 for Dec)
+      const month = date.getMonth(); 
 
       if (!groupedData[year]) groupedData[year] = {};
 
@@ -280,8 +277,7 @@ export class MasterComponent {
         });
       });
     }
-
-    console.log('Final Table Data:', this.finalTableData);
+    console.log('final',this.finalTableData)
   }
 
   get MainTotal(): number {

@@ -7,7 +7,8 @@
     <h3>Budget Items Movements</h3>
     <span class="prv" (click)="changeMonthToPreve()">previous</span>
     <span class="current" (click)="switchToCurrent()">current</span>
-    <span class="month">{{ defualtMonthName }}</span>
+    <span class="month" style="margin-right: 10px">{{ defualtYear }}</span>
+    <span class="month2">{{ defualtMonthName }}</span>
     <div style="width: 80%; margin: auto">
       <canvas id="barChart"></canvas>
     </div>
@@ -23,6 +24,12 @@
   <div class="d2">
     <div class="hd">
       <h1 class="bdgthdng">Budget {{ currentMonth }} {{ currentYear }}</h1>
+      <p class="e1">Day</p>
+      <p class="e2">{{ percentageOfTheDay }}%</p>
+      <p class="e3">Exp%</p>
+      <p class="e4">{{ ExpOfTheDay }}</p>
+      <p class="e5">Exp: {{ this.totalExpenseByExpenseAll }}</p>
+      <p class="e6">Bl: {{ ExpOfTheDay - totalExpenseByExpenseAll }}</p>
       <button class="adbtn" (click)="openForm()">Add new</button>
       <button class="adbtnPrnt" (click)="generatePDF()">Print</button>
     </div>
@@ -31,6 +38,43 @@
         [options]="chartOptions"
         [styles]="{ width: '100%', height: '200px' }"
       ></canvasjs-chart>
+      <div class="bldv">
+        <div class="s1">
+          <p>to : {{ (25 * totalBudget) / 100 }}</p>
+          <p>used : {{ this.firstPartTotal }}</p>
+          <p>
+            bal :
+            {{ (25 * totalBudget) / 100 - firstPartTotal }}
+          </p>
+          <p class="hil">25%</p>
+        </div>
+        <div class="s1" *ngIf="currentDay > 7">
+          <p>to : {{ (50 * totalBudget) / 100 }}</p>
+          <p>used : {{ this.secondPartTotal }}</p>
+          <p>
+            bal : 
+            {{ (50 * totalBudget) / 100 - secondPartTotal }}
+          </p>
+          <p class="hil">50%</p>
+        </div>
+        <div class="s1" *ngIf="currentDay > 15">
+          <p>to : {{ (75 * totalBudget) / 100 }}</p>
+          <p>used : {{ this.thirdPartTotal }}</p>
+          <p>
+            bal :
+            {{ (75 * totalBudget) / 100 - thirdPartTotal }}
+          </p>
+          <p class="hil">75%</p>
+        </div>
+        <div class="s1" *ngIf="currentDay > 23">
+          <p>to : {{ (100 * totalBudget) / 100 }}</p>
+          <p>used : {{ this.totalExpenseByExpenseAll }}</p>
+          <p>
+            bal : {{ (100 * totalBudget) / 100 - totalExpenseByExpenseAll }}
+          </p>
+          <p class="hil">100%</p>
+        </div>
+      </div>
     </div>
     <div class="bar">
       <canvasjs-chart
@@ -48,6 +92,13 @@
       <input formControlName="name" /><br />
       <label style="margin-right: 16px">Amount</label>
       <input type="number" formControlName="amount" /><br />
+      <label style="margin-right: 16px">Date</label>
+      <input
+        type="date"
+        [(ngModel)]="defaultDate"
+        style="position: relative; left: 20px; width: 170px"
+        formControlName="date"
+      /><br />
       <label>Categories</label>
       <div class="ctgrs">
         <div *ngFor="let val of categories">

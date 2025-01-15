@@ -54,7 +54,7 @@
             <p>Add Amount</p>
             <form [formGroup]="debitAmountFormGroup">
               <input formControlName="amount" /><br />
-              <input type="date" formControlName="date" /> <br />
+              <input type="date"   [(ngModel)]="defaultDate" formControlName="date" /> <br />
             </form>
             <button
               style="position: relative; top: 5px; z-index: 500"

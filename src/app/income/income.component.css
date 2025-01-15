@@ -1,20 +1,31 @@
 .sec {
   width: 100vw;
   height: 100vh;
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(241, 246, 248);
   color: black;
-  padding-left: 240px;
-  padding-top: 50px;
+  padding-left: 150px;
+  padding-top: 0px;
 }
+
 .d1 {
   min-height: 400px;
-  width: 800px;
+  width: 990px;
   max-height: fit-content;
   text-align: center;
   border: 1px solid rgb(215, 212, 212);
-  padding-top: 10px;
-  background-color: rgb(255, 255, 255);
+  padding-top: 0px;
+  background-color: rgb(232, 232, 232);
   padding-bottom: 20px;
+  position: relative;
+}
+.m1 {
+  position: relative;
+  left: 340px;
+}
+.m2 {
+  position: absolute;
+  left: -150px;
+  top: 70px;
 }
 .d1 input {
   width: 120px;
@@ -30,26 +41,114 @@
   left: 165px;
   top: -25px;
 }
-.inm{
-    font-size: 17px;
-    color: rgb(101, 18, 83);
-    position: relative;
-    left: -200px;
-    top: 25px;
+.inm {
+  font-size: 17px;
+  color: rgb(101, 18, 83);
+  position: relative;
+  left: 160px;
+  top: 25px;
+  width: 50px;
 }
+
+.x1 {
+  font-size: 15px;
+  font-weight: 600;
+  color: rgb(77, 20, 52);
+  margin-right: 10px;
+  position: relative;
+  left: -180px;
+  background-color: red;
+  padding-bottom: 70px;
+}
+.x2 {
+  font-size: 14px;
+  margin-right: 50px;
+  position: relative;
+  top: -18px;
+  /* left: -50px; */
+}
+.x3 {
+  font-size: 12px;
+  position: relative;
+  left: -310px;
+  top: -14px;
+  text-align: right;
+  list-style: none;
+  position: relative;
+  top: -30px;
+}
+
 .d1 table {
   margin-left: 150px;
   width: 500px;
   font-size: 13px;
   /* border-collapse: collapse; */
   background-color: rgb(245, 251, 253);
-
 }
 .d1 table th {
   background-color: rgb(199, 194, 194);
   height: 20px;
 }
-.d1 table tr td{
-border-bottom: 1px solid rgb(168, 164, 164);
-height: 30px;
+.d1 table tr td {
+  border-bottom: 1px solid rgb(164, 168, 168);
+  height: 30px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #d6ddde;
+}
+
+th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+td {
+  background-color: #fafafa;
+}
+
+td ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+td ul li {
+  margin-bottom: 5px;
+}
+
+td:nth-child(1) {
+  font-weight: bold;
+  background-color: #f7feff;
+}
+
+td:nth-child(3),
+td:nth-child(4) {
+  color: #333;
+}
+
+td:nth-child(4) {
+  color: brown;
+}
+
+tr:hover {
+  background-color: #f0f0f0;
+}
+
+table th,
+table td {
+  text-align: center;
+}
+
+table td[rowspan] {
+  vertical-align: middle;
 }

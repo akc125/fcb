@@ -5,7 +5,7 @@
       <input placeholder="Name" formControlName="name" /><br />
       <input placeholder="Description" formControlName="description" /><br />
       <input type="file" (change)="onSelect($event)" /><br />
-      <input placeholder="Date" formControlName="day" type="date" /><br />
+      <input placeholder="Date"   [(ngModel)]="defaultDate" formControlName="day" type="date" /><br />
       <input placeholder="Amount" formControlName="amount" /><br />
       <input placeholder="Guarantee" formControlName="guarantee" /><br />
       <button class="adb">Add+</button>>

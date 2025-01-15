@@ -1,0 +1,47 @@
+<div class="sec">
+  <main class="yrSec">
+    <div class="vDiv vDiv1" #invoice>
+      <p class="mn">ALL TIME</p>
+      <p class="rp">FCB REPORT</p>
+    </div>
+    <div class="vDiv vDiv2">
+      <table class="mntbl">
+        <tr>
+          <th>SI</th>
+          <th>Category</th>
+          <th>Expense</th>
+          <th>Income</th>
+          <th>Balance</th>
+        </tr>
+        <tr *ngFor="let fn of allTimeExpense; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ fn.name }}</td>
+          <td>{{ fn.expense }}</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td style="font-weight: 800" colspan="2">Totel</td>
+          <td style="font-weight: 800">₹{{ allTimeExpenseTotal }}</td>
+          <td style="font-weight: 800">₹{{ allTimeIncome }}</td>
+          <td style="font-weight: 800">₹{{ allTimeExpenseBalance }}</td>
+        </tr>
+      </table>
+    </div>
+    <div class="vDiv vDiv3">
+      <p class="dg">Director General Fcb</p>
+      <div>
+        <canvasjs-chart
+          [options]="chartOption3"
+          [styles]="{ width: '70%', height: '550px' }"
+        ></canvasjs-chart>
+      </div>
+      <div class="pe2">
+        <canvasjs-chart
+          [options]="chartOptions3"
+          [styles]="{ width: '100%', height: '550px' }"
+        ></canvasjs-chart>
+      </div>
+    </div>
+  </main>
+</div>

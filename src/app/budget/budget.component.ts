@@ -33,14 +33,20 @@ export class BudgetComponent {
   ngOnInit(): void {
     this.getCategory();
     this.getBudget();
-    this.getExpenses();
     this.getTotalPers();
-    setTimeout(() => {
-      this.renderChart();
-    }, 3000);
-    this.currentMonthFl = new Date().getMonth();
-    this.currentYear = new Date().getFullYear();
+    const currentDate = new Date();
+    this.defaultDate = currentDate.toISOString().substring(0, 10);
+    this.defualtMonth = currentDate.toISOString().substring(5, 7);
+    this.defualtYear = currentDate.toISOString().substring(0, 4);
+    this.defualtMonthName = new Date().toLocaleString('default', {
+      month: 'long',
+    });
   }
+  defaultDate: any;
+  defualtMonth: any;
+  percentageOfTheDay: any;
+  ExpOfTheDay: any;
+  defualtYear: any;
   categories: any = [];
   budgets: any = [];
   categoriesSelected: any = [];
@@ -53,11 +59,27 @@ export class BudgetComponent {
   ) {}
   currentDate = new Date();
   currentMonth = this.currentDate.toLocaleString('default', { month: 'long' });
-  currentYear = this.currentDate.getFullYear(); // e
+  currentYear: any = this.currentDate.getFullYear(); // e
   budgetFormGroup = new FormGroup({
     name: new FormControl(),
     amount: new FormControl(),
+    // date: new FormControl(),
   });
+  currentDay: any;
+  getPercentageOfCurrentDayInMonth(): number {
+    const now = new Date();
+    const currentDay = now.getDate();
+    this.currentDay = currentDay;
+    const totalDays = new Date(
+      now.getFullYear(),
+      now.getMonth() + 1,
+      0
+    ).getDate();
+    const percentage = Math.floor((currentDay / totalDays) * 100);
+    this.ExpOfTheDay = Math.floor((this.totalBudget * percentage) / 100);
+    this.percentageOfTheDay = parseFloat(percentage.toFixed(2));
+    return parseFloat(percentage.toFixed(2)); // Rounded to 2 decimal places
+  }
   public generatePDF(): void {
     html2canvas(this.invoiceElement.nativeElement, { scale: 1.5 }).then(
       (canvas) => {
@@ -79,25 +101,33 @@ export class BudgetComponent {
     );
   }
   defualtMonthName: any;
+  expense: any = []; // Assuming budgets is an array
+  currentMonthFl: any;
   changeMonthToPreve(): void {
-    const dfltm = Number(this.currentMonthFl) - 1;
+    const dfltm = Number(this.defualtMonth) - 1;
     const prevMonth = dfltm > 0 ? dfltm : 12;
-    const monthName = new Date(0, this.currentMonthFl - 1).toLocaleString(
-      'default',
-      {
-        month: 'long',
-      }
-    );
-    this.currentMonthFl = prevMonth;
+    const prevMonthFormatted = prevMonth.toString().padStart(2, '0');
+    const monthName = new Date(0, prevMonth - 1).toLocaleString('default', {
+      month: 'long',
+    });
+    this.defualtMonth = prevMonthFormatted;
+    if (this.defualtMonth == '12') {
+      this.defualtYear = this.defualtYear - 1;
+    }
+
     this.defualtMonthName = monthName;
-    this.currentYear = 2024;
     this.getExpenses();
   }
   switchToCurrent() {
-    this.currentMonthFl = new Date().getMonth();
-    this.getExpenses();
-    this.currentYear = new Date().getFullYear();
+    const currentDate = new Date();
+    this.defaultDate = currentDate.toISOString().substring(0, 10);
+    this.defualtMonth = currentDate.toISOString().substring(5, 7);
+    this.defualtYear = currentDate.toISOString().substring(0, 4);
     this.defualtMonthName = '';
+    this.defualtMonthName = new Date().toLocaleString('default', {
+      month: 'long',
+    });
+    this.getExpenses();
   }
   getBudget() {
     const id = localStorage.getItem('userId');
@@ -106,6 +136,7 @@ export class BudgetComponent {
       this.createNewBudgetArray();
       this.getBudgetPers();
       this.addSelectedCategoriesFromBudgetArray();
+      this.getExpenses();
     });
   }
   categoriesIdFromBudgetData: any = [];
@@ -128,6 +159,7 @@ export class BudgetComponent {
     setTimeout(() => {
       this.getBudgetPers();
     }, 1000);
+    this.getPercentageOfCurrentDayInMonth();
   }
 
   getCategory() {
@@ -248,37 +280,60 @@ export class BudgetComponent {
       }
     }
   }
-  expense: any = []; // Assuming budgets is an array
-  currentMonthFl: any;
 
   getExpenses() {
-    console.log('currentMonthFl', this.currentMonthFl);
     const id = localStorage.getItem('userId');
     this.categoriesServiceFire.getExpensList().subscribe((data) => {
       this.expense = JSON.parse(JSON.stringify(data)).filter((f: any) => {
-        const expenseDate = new Date(f.day);
-        console.log(
-          'expenseDate',
-          expenseDate.getMonth(),
-          this.currentMonthFl,
-          expenseDate.getFullYear()
-        );
         return (
           f.userId === id &&
-          expenseDate.getMonth() === this.currentMonthFl &&
-          expenseDate.getFullYear() === this.currentYear
+          f.day.substring(5, 7) === this.defualtMonth &&
+          f.day.substring(0, 4) === this.defualtYear.toString()
         );
       });
       this.calculateExpense();
       this.calculateExpenseForBudget();
     });
   }
+  firstPartTotal: any;
+  secondPartTotal: any;
+  thirdPartTotal: any;
+
   calculateExpense() {
-    var total = 0;
+    var totalA = 0;
     for (let val of this.expense) {
+      totalA += Number(val.expense);
+    }
+    this.totalExpenseByExpenseAll = totalA;
+    // const currentDay = now.getDate();
+    let firstPart = this.expense.filter((f: any) => {
+      return new Date(f.day).getDate() < 8;
+    });
+    let secondPart = this.expense.filter((f: any) => {
+      return new Date(f.day).getDate() < 16;
+    });
+    let thirdPart = this.expense.filter((f: any) => {
+      return new Date(f.day).getDate() < 24;
+    });
+
+    var total = 0;
+    for (let val of firstPart) {
       total += Number(val.expense);
     }
-    this.totalExpenseByExpenseAll = total;
+    this.firstPartTotal = total;
+
+    var total2 = 0;
+    for (let val of secondPart) {
+      total2 += Number(val.expense);
+    }
+    this.secondPartTotal = total2;
+
+    var total3 = 0;
+    for (let val of thirdPart) {
+      total3 += Number(val.expense);
+    }
+    this.thirdPartTotal = total3;
+    console.log('firstPart', firstPart, this.expense);
   }
   calculateExpenseForBudget() {
     this.budgets = this.budgets.map((val: any) => {
@@ -301,7 +356,6 @@ export class BudgetComponent {
       total += Number(val.expense);
     }
     this.totalExpenseByCategories = total;
-    console.log('calculateExpense', total, this.budgets);
     this.getTotalPers();
   }
 
@@ -319,7 +373,7 @@ export class BudgetComponent {
         {
           type: 'doughnut',
           indexLabel: '{name}: {y}',
-          innerRadius: '90%',
+          innerRadius: '70%',
           yValueFormatString: "#,##0.00'%'",
           dataPoints: dynamicDataPoints,
         },
@@ -373,7 +427,6 @@ export class BudgetComponent {
     const labels = this.budgets.map((item: any) => item.name);
     const budgets = this.budgets.map((item: any) => item.amount);
     const expenses = this.budgets.map((item: any) => item.expense);
-
     if (this.chart) {
       this.chart.destroy();
     }

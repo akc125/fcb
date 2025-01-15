@@ -46,6 +46,13 @@
             Monitor
           </span>
           <span
+            [ngClass]="selcetion === 'hub' ? 'mn' : 'mn22'"
+            routerLink="hub"
+            (click)="select('monitor')"
+          >
+          Finance Hub 
+          </span>
+          <span
             [ngClass]="selcetion === 'budget' ? 'mn' : 'mn22'"
             routerLink="budget"
             (click)="select('budget')"

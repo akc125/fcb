@@ -1,11 +1,11 @@
-import { CategoriesService } from "src/services/categories.service";
-import { Router } from "@angular/router";
-import { Component, Renderer2, ElementRef, ViewChild } from "@angular/core";
+import { CategoriesService } from 'src/services/categories.service';
+import { Router } from '@angular/router';
+import { Component, Renderer2, ElementRef, ViewChild } from '@angular/core';
 
 @Component({
-  selector: "app-root",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.css"],
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
   ngOnInit(): void {
@@ -13,7 +13,7 @@ export class AppComponent {
     this.getExpenses();
     this.getUsers();
     if (this.toggleButton && this.menu) {
-      this.renderer.listen("window", "click", (e: Event) => {
+      this.renderer.listen('window', 'click', (e: Event) => {
         if (
           e.target !== this.toggleButton.nativeElement &&
           e.target !== this.menu.nativeElement
@@ -29,9 +29,9 @@ export class AppComponent {
   //   this.getUsers();
   //   console.log("setint");
   // }, 1000);
-  @ViewChild("toggleButton") toggleButton!: ElementRef;
-  @ViewChild("menu") menu!: ElementRef;
-  selcetion: string = "";
+  @ViewChild('toggleButton') toggleButton!: ElementRef;
+  @ViewChild('menu') menu!: ElementRef;
+  selcetion: string = '';
   dropdownOpen: boolean = false;
   constructor(
     private router: Router,
@@ -59,8 +59,15 @@ export class AppComponent {
   }
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
+    this.autoClose()
   }
-
+  autoClose() {
+    if (this.dropdownOpen) {
+      setTimeout(() => {
+        this.dropdownOpen = false;
+      }, 5000);
+    }
+  }
   // Handle selection
   selects(value: string) {
     this.selcetion = value;
@@ -70,15 +77,15 @@ export class AppComponent {
   times: any = [];
   lastUpdatedTime: any;
   getTimes() {
-    const id = localStorage.getItem("userId");
+    const id = localStorage.getItem('userId');
     this.categoriesService.getTimes().subscribe((data: any) => {
       this.times = data.filter((f: any) => f.userId == id);
       this.lastUpdatedTime = this.times[this.times.length - 1];
-      console.log("times", this.lastUpdatedTime);
+      console.log('times', this.lastUpdatedTime);
     });
   }
   getExpenses() {
-    const id = localStorage.getItem("userId");
+    const id = localStorage.getItem('userId');
 
     this.categoriesService.getExpensList().subscribe((data) => {
       try {
@@ -95,7 +102,7 @@ export class AppComponent {
         for (let val of this.expense) {
           const exist = this.lastExpenses.find((f: any) => f.id == val.id);
           if (exist) {
-            val.position = "new";
+            val.position = 'new';
           }
         }
         this.expense = this.expense
@@ -104,29 +111,29 @@ export class AppComponent {
           )
           .reverse();
       } catch (error) {
-        console.error("Error processing data:", error);
+        console.error('Error processing data:', error);
       }
     });
   }
 
   currentDate = new Date();
   date = this.currentDate.toISOString().substring(8, 10);
-  month = this.currentDate.toLocaleString("en-US", { month: "long" });
-  title = "fcb-project";
+  month = this.currentDate.toLocaleString('en-US', { month: 'long' });
+  title = 'fcb-project';
   profileOpen: any = false;
   logout() {
-    localStorage.removeItem("token");
-    this.router.navigate(["login"]);
-    localStorage.removeItem("userId");
+    localStorage.removeItem('token');
+    this.router.navigate(['login']);
+    localStorage.removeItem('userId');
     this.profileOpen = false;
   }
   users: any = [];
   getUsers() {
-    const userId = localStorage.getItem("userId");
+    const userId = localStorage.getItem('userId');
     this.categoriesService.getUsers().subscribe((data: any) => {
       this.users = data.filter((f: any) => f.id == userId);
     });
-    console.log("usersssss", this.users);
+    console.log('usersssss', this.users);
   }
 
   openProfile() {
@@ -140,23 +147,23 @@ export class AppComponent {
   onselect(event: any) {
     this.file = event.target.files[0];
   }
-  userId = localStorage.getItem("userId");
+  userId = localStorage.getItem('userId');
   upload() {
     const formData = new FormData();
-    formData.append("myFile", this.file);
+    formData.append('myFile', this.file);
     if (this.userId !== null) {
-      formData.append("id", this.userId);
+      formData.append('id', this.userId);
       this.categoriesService.editUploadedFile(formData).subscribe(
         (res) => {
-          console.log("response", res);
+          console.log('response', res);
           this.getUsers();
         },
         (err) => {
-          console.log("error", err);
+          console.log('error', err);
         }
       );
     } else {
-      console.log("User ID is null");
+      console.log('User ID is null');
     }
   }
 

@@ -1,7 +1,8 @@
 <section class="historySection">
   <h1 id="cthd">categories</h1>
   <div class="a1">
-    <div class="b1"></div>
+    <input class="b1" [formControl]="search" />
+    <mat-icon class="fnr" (click)="clear()">touch_app</mat-icon>
     <div class="b2">
       <label class="l1">All</label>
       <mat-icon (click)="swithToAll()"> sentiment_satisfied_alt</mat-icon>
@@ -11,8 +12,9 @@
       <mat-icon (click)="changeMonthToPreve()">
         sentiment_satisfied_alt</mat-icon
       >
-      <p class="mnth">{{ defualtMonthName }}</p>
-      <p class="mnth">{{ expenseTotel }}</p>
+      <p *ngIf="!this.all" class="mnth12">{{ defualtYear }}</p>
+      <p *ngIf="!this.all" class="mnth1">{{ defualtMonthName }}</p>
+      <p [ngClass]="!this.all ? 'mnth' : 'alld'">₹ {{ expenseTotel }}.00</p>
     </div>
   </div>
   <div class="ins">
@@ -41,10 +43,42 @@
       </div>
       <table class="tb">
         <thead>
-          <th>no</th>
-          <th>date</th>
-          <th>expense</th>
-          <th>Description</th>
+          <th
+            style="
+              border-top: 1px solid black;
+              background-color: rgb(105, 104, 104);
+              color: white;
+            "
+          >
+            no
+          </th>
+          <th
+            style="
+              border-top: 1px solid black;
+              background-color: rgb(105, 104, 104);
+              color: white;
+            "
+          >
+            date
+          </th>
+          <th
+            style="
+              border-top: 1px solid black;
+              background-color: rgb(105, 104, 104);
+              color: white;
+            "
+          >
+            expense
+          </th>
+          <th
+            style="
+              border-top: 1px solid black;
+              background-color: rgb(105, 104, 104);
+              color: white;
+            "
+          >
+            Description
+          </th>
         </thead>
         <tbody>
           <tr *ngFor="let v of val.expense" (click)="deleteExpense(v.id)">
@@ -55,9 +89,9 @@
             <td>{{ v.description }}</td>
           </tr>
           <tr>
-            <td>total</td>
-            <td></td>
-            <td style="text-align: center; color: red">
+            <td style="border-bottom: none">total</td>
+            <td style="border-bottom: none"></td>
+            <td style="text-align: center; color: red; border-bottom: none">
               {{ val.total }}
             </td>
           </tr>

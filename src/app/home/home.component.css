@@ -4,7 +4,24 @@
   background-color: rgb(255, 255, 255);
   overflow: hidden;
 }
-
+.expense-table {
+  position: absolute;
+  top: 100px;
+  color: black;
+  z-index: 100;
+  font-size: 10px;
+  background-color: white;
+  left: 40px;
+  width: 180px;
+  height: 480px;
+  overflow: scroll;
+}
+.expense-table::-webkit-scrollbar{
+  display: none;
+}
+.expense-table td{
+  width: 50px;
+}
 .nyImage {
   position: relative;
   top: 10px;
@@ -125,12 +142,12 @@ footer {
   border: 15px solid white;
   animation: expand 1.5s;
 }
-.hr{
+.hr {
   color: black;
   font-size: 22px;
   margin-bottom: 5px;
 }
-.ig{
+.ig {
   width: 900px;
   height: 100px;
   display: flex;
@@ -139,7 +156,7 @@ footer {
   margin-bottom: 8px;
   color: black;
 }
-.scv{
+.scv {
   width: 250px;
   height: 100px;
   background-color: rgb(187, 187, 200);
@@ -284,7 +301,7 @@ footer {
   left: 90px;
   color: rgb(255, 255, 255);
 }
-.rctgl{
+.rctgl {
   padding-top: 10px;
   width: 250px;
   height: 50px;
@@ -299,7 +316,7 @@ footer {
   height: 30px;
   background-color: red;
   border-radius: 5px;
-  box-shadow: 8px 8px  8px black inset;
+  box-shadow: 8px 8px 8px black inset;
 }
 .rct11 {
   width: 30px;
@@ -307,17 +324,15 @@ footer {
   background-color: rgb(47, 1, 1);
   position: relative;
   border-radius: 5px;
-  box-shadow: 8px 8px  8px black inset;
+  box-shadow: 8px 8px 8px black inset;
   animation: expand1 1s 1s infinite;
   transition: 19s;
 }
-@keyframes  expand1 {
+@keyframes expand1 {
   0% {
- 
     background-color: rgb(255, 255, 255);
   }
   50% {
-  
     background-color: rgb(123, 18, 60);
   }
 }
@@ -327,7 +342,7 @@ footer {
   height: 30px;
   background-color: rgb(255, 119, 0);
   border-radius: 5px;
-  box-shadow: 8px 8px  8px black inset;
+  box-shadow: 8px 8px 8px black inset;
 }
 .rct22 {
   width: 30px;
@@ -335,18 +350,16 @@ footer {
   background-color: rgb(255, 119, 0);
   position: relative;
   border-radius: 5px;
-  box-shadow: 8px 8px  8px black inset;
-  box-shadow: 8px 8px  8px black inset;
+  box-shadow: 8px 8px 8px black inset;
+  box-shadow: 8px 8px 8px black inset;
   animation: expand2 1s 1s infinite;
   transition: 19s;
 }
 @keyframes expand2 {
   0% {
- 
     background-color: rgb(255, 255, 255);
   }
   50% {
-  
     background-color: rgb(255, 98, 0);
   }
 }
@@ -355,7 +368,7 @@ footer {
   height: 30px;
   background-color: rgb(10, 86, 19);
   border-radius: 5px;
-  box-shadow: 8px 8px  8px black inset;
+  box-shadow: 8px 8px 8px black inset;
 }
 .rct33 {
   width: 30px;
@@ -363,18 +376,16 @@ footer {
   background-color: rgb(10, 86, 19);
   position: relative;
   border-radius: 5px;
-  box-shadow: 8px 8px  8px black inset;
-  box-shadow: 8px 8px  8px black inset;
+  box-shadow: 8px 8px 8px black inset;
+  box-shadow: 8px 8px 8px black inset;
   animation: expand3 1s 1s infinite;
   transition: 19s;
 }
 @keyframes expand3 {
   0% {
- 
     background-color: rgb(255, 255, 255);
   }
   50% {
-  
     background-color: rgb(50, 144, 10);
   }
 }
@@ -386,7 +397,7 @@ footer {
   padding-top: 8px;
   font-size: 13px;
   border-radius: 5px;
-  box-shadow: 8px 8px  8px black inset;
+  box-shadow: 8px 8px 8px black inset;
 }
 .rct44 {
   width: 23px;
@@ -399,6 +410,5 @@ footer {
   position: relative;
   top: 4px;
   border-radius: 5px;
-  box-shadow: 8px 8px  8px black inset;
+  box-shadow: 8px 8px 8px black inset;
 }
-

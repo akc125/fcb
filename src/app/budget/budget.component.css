@@ -33,6 +33,7 @@ section {
   left: 30px;
   font-size: 12px;
   top: -25px;
+  margin-right: 5px;
 }
 .e4{
   position: relative;
@@ -50,7 +51,7 @@ section {
 }
 .e6{
   position: relative;
-  left: 170px;
+  left: 180px;
   font-size: 12px;
   top: -67px;
 
@@ -264,6 +265,12 @@ canvas {
 .hil{
   position: relative;
   left: 80px;
+  top: -25px;
+  font-size: 15px;
+}
+.hil2{
+  position: relative;
+  left: 65px;
   top: -25px;
   font-size: 15px;
 }

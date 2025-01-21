@@ -8,19 +8,25 @@
   display: flex;
 }
 table {
-width: 360px;
-text-align: left;
+  width: 360px;
+  text-align: left;
 }
-table, th,td{
-    height: 18px;
+table,
+th,
+td {
+  height: 18px;
 }
 .ms1 {
   width: 30%;
   background-color: rgb(255, 255, 255);
-  height: 100vh;
+  height: 500px;
   padding: 20px;
   border-right: 1px solid rgb(227, 225, 225);
   color: rgb(25, 13, 84);
+  overflow: scroll;
+}
+.ms1::-webkit-scrollbar {
+  display: none;
 }
 .ms2 {
   width: 70%;
@@ -91,96 +97,109 @@ table, th,td{
   border-right: 1px solid rgb(255, 0, 0);
 }
 .ins7 {
-    width: 50px;
-    height: 100px;
-    position: relative;
-    left: 50px;
-    top: -100px;
-    border: white;
-    border-right: 1px solid rgb(255, 0, 0);
-  }
-.p1{
-    position: relative;
-    top: -40px;
-    left: -20px;
+  width: 50px;
+  height: 100px;
+  position: relative;
+  left: 50px;
+  top: -100px;
+  border: white;
+  border-right: 1px solid rgb(255, 0, 0);
 }
-.p2{
-    position: relative;
-    top: -40px;
-    left: -14px;
+.p1 {
+  position: relative;
+  top: -40px;
+  left: -20px;
 }
-.p3{
-    position: relative;
-    top: -75px;
-    font-weight: 600;
-    font-size: 17px;
-    left: 175px;
+.p2 {
+  position: relative;
+  top: -40px;
+  left: -14px;
 }
-.al1{
-    position: relative;
-    width: 200px;
-    height: 40px;
-    text-align: center;
-    left: -50px;
-    top: 20px;
-    background-color: white;
+.p3 {
+  position: relative;
+  top: -95px;
+  font-weight: 600;
+  font-size: 17px;
+  left: 175px;
 }
-.al2{
-    position: relative;
-    width: 200px;
-    height: 40px;
-    text-align: center;
-    left: -100px;
-    top: 20px;
-    background-color: white;
+.p33 {
+  position: relative;
+  top: -95px;
+  font-size: 9px;
+  left: 175px;
 }
-.as1{
-    position: relative;
-    top: -40px;
-    left: 25px;
+.al1 {
+  position: relative;
+  width: 200px;
+  height: 40px;
+  text-align: center;
+  left: -50px;
+  top: 20px;
+  background-color: white;
 }
-.as2{
-    position: relative;
-    top: -30px;
-    left: 35px;
+.al2 {
+  position: relative;
+  width: 200px;
+  height: 40px;
+  text-align: center;
+  left: -100px;
+  top: 20px;
+  background-color: white;
 }
-.al3{
-    position: relative;
-    width: 200px;
-    height: 40px;
-    text-align: center;
-    left: 0px;
-    top: -50px;
-    background-color: white;
+.as1 {
+  position: relative;
+  top: -40px;
+  left: 25px;
 }
-.al4{
-    position: relative;
-    width: 200px;
-    height: 40px;
-    text-align: center;
-    left: 0px;
-    top: -50px;
-    background-color: rgb(255, 255, 255);
+.as2 {
+  position: relative;
+  top: -30px;
+  left: 35px;
 }
-.al5{
-    position: relative;
-    width: 200px;
-    height: 40px;
-    text-align: center;
-    left: 100px;
-    top: -60px;
-    border-left: 1px solid red;
+.al3 {
+  position: relative;
+  width: 200px;
+  height: 40px;
+  text-align: center;
+  left: 0px;
+  top: -50px;
+  background-color: white;
 }
-.ntw{
-    position: relative;
-    font-size: 15px;
-    left: 200px;
-    top: 20px;
+.al4 {
+  position: relative;
+  width: 200px;
+  height: 40px;
+  text-align: center;
+  left: 0px;
+  top: -50px;
+  background-color: rgb(255, 255, 255);
 }
-.p4{
-    position: relative;
-    top: -70px;
-    font-weight: 200;
-    font-size: 14px;
-    left: 175px;
+.al5 {
+  position: relative;
+  width: 200px;
+  height: 40px;
+  text-align: center;
+  left: 100px;
+  top: -60px;
+  border-left: 1px solid red;
+}
+.ntw {
+  position: relative;
+  font-size: 15px;
+  left: 200px;
+  top: 20px;
+}
+.p4 {
+  position: relative;
+  top: -94px;
+  font-weight: 200;
+  font-size: 14px;
+  left: 175px;
+}
+.p43 {
+  position: relative;
+  top: -94px;
+  font-weight: 200;
+  font-size: 12px;
+  left: 185px;
 }

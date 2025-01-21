@@ -130,7 +130,6 @@ export class HomeComponent {
         Number(f.day.substring(5, 7)) == Number(this.defaultDate) &&
         f.day.substring(0, 4) == this.year
     );
-
     for (const exp of this.thisMonthExpense) {
       const existing = this.finalExpense.find((f: any) => f.name === exp.name);
       if (existing) {
@@ -198,8 +197,32 @@ export class HomeComponent {
       this.newTrckedArray
     );
     this.runChart()
+    this.groupExpensesByDate()
   }
+  groupedExpenses: { date: string; items: { category: string; expense: number }[]; total: number }[] = [];
+  groupExpensesByDate() {
+    const expenseMap: { [key: string]: { items: { category: string; expense: number }[]; total: number } } = {};
 
+    // Group expenses by date
+    this.thisMonthExpense.forEach((item:any) => {
+      const category = this.categories.find((cat:any) => cat.id === item.catId)?.name || "Unknown";
+      if (!expenseMap[item.day]) {
+        expenseMap[item.day] = { items: [], total: 0 };
+      }
+      expenseMap[item.day].items.push({ category, expense: item.expense });
+      expenseMap[item.day].total += Number(item.expense);
+    });
+
+    // Convert grouped data into an array
+    this.groupedExpenses = Object.entries(expenseMap)
+      .map(([date, { items, total }]) => ({
+        date,
+        items,
+        total
+      }))
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+      console.log('strecter',this.groupedExpenses)
+  }
   tackExpenseTotel(data: any) {
     // console.log(data);
     // this.categoriesService.postForLineGraph(data).subscribe((data) => {
@@ -214,7 +237,7 @@ export class HomeComponent {
       this.income = data.filter((f: any) => f.userId == id);
       const incomCopy = [...this.income];
       this.thisMonthIncome = incomCopy.filter(
-        (f: any) => f.day.substring(5, 7) === this.defaultDate
+        (f: any) => f.day.substring(5, 7) === this.defaultDate&&f.day.substring(0, 4) ==this.year
       );
       for (const inc of this.thisMonthIncome) {
         this.incomeTotel += inc.amount;
@@ -302,7 +325,6 @@ export class HomeComponent {
         // ]
 
         dataPoints: this.thisMonthExpense.map((entry: any) => {
-          console.log('Original entry.day:', entry.day,entry.expense);
           const date = new Date(entry.day);  // Ensure `entry.day` is a Date object
           return {
             x: entry.day, // Valid Date object

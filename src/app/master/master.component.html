@@ -25,16 +25,18 @@
   <div class="ms2">
     <h1 class="ntw">Net Worth Monitor</h1>
     <div class="ins1">
-      <p class="p1">Income</p>
-      <p class="p2">{{ incomTotal }}</p>
-      <p class="p3">Asset</p>
-      <p class="p4">{{ assets }}</p>
+      <p class="p1" style="color: darkgreen">Income</p>
+      <p class="p2" style="color: darkgreen">{{ incomTotal }}</p>
+      <p class="p3" style="color: darkgreen">Asset</p>
+      <p class="p4" style="color: darkgreen">{{ assets }}</p>
     </div>
     <div class="ins2">
-      <p class="p1">Credit</p>
-      <p class="p2">{{ totalExsisting }}</p>
-      <p class="p3">Debit</p>
-      <p class="p4">{{ totalAmount }}</p>
+      <p class="p1" style="color: rgb(167, 25, 25)">Credit</p>
+      <p class="p2" style="color: rgb(167, 25, 25);">{{ totalExsisting }}</p>
+      <p class="p3" style="color: darkgreen">Debit</p>
+      <p class="p4" style="color: darkgreen">{{ totalAmount }}</p>
+      <p class="p33" style="color: rgb(167, 25, 25)">mony account</p>
+      <p class="p43" style="color: rgb(167, 25, 25);">{{ totalMonyAccount }}</p>
     </div>
     <div class="ins3">
       <div class="al1">
@@ -44,15 +46,15 @@
     </div>
     <div class="ins4">
       <div class="al2">
-        <p>Total</p>
-        <p>{{ MainTotalDebitCredit }}</p>
+        <p>Totalsss</p>
+        <p>{{ MainTotalDebitCredit - totalMonyAccount - totalExsisting }}</p>
       </div>
     </div>
     <div class="ins5"></div>
     <div class="ins6">
       <div class="ins7">
-        <p class="as1">Expense</p>
-        <p class="as2">{{ expenseTotel }}</p>
+        <p class="as1" style="color: rgb(167, 25, 25)">Expense</p>
+        <p class="as2" style="color: rgb(167, 25, 25)">{{ expenseTotel }}</p>
       </div>
       <div class="al3">
         <p>Balance</p>

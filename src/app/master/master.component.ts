@@ -53,17 +53,14 @@ export class MasterComponent {
   }
   totalCards: any;
   totalAmount: any;
+  totalMonyAccount: any;
   combainData() {
     const id = localStorage.getItem('userId');
-
     let total = 0;
-
+    let total2 = 0;
     for (let val of this.debits) {
-      if (val.active == 1) {
-        total += Number(val.amount);
-        this.totalAmount = total;
-      }
-
+ 
+      val.paid = false;
       val.amountData = this.debitAmounts.filter((f: any) => {
         return f.userId == id && f.cardId == val.id;
       });
@@ -71,16 +68,30 @@ export class MasterComponent {
       for (let v of val.amountData) {
         sum += Number(v.amount);
         val.total = sum;
-        val.exist = Number(val.amount) - Number(val.total);
-        if (val.total == 0) {
-          val.exist = val.amount;
-        }
+        val.paid = true;
       }
+      if (val.paid) {
+        val.exist = Number(val.amount) - Number(val.total);
+      } else {
+        val.exist = Number(val.amount);
+      }
+      setTimeout(() => {
+        if (val.active == 1 && val.moneyAccount == true) {
+          total += Number(val.exist) || 0;
+          this.totalAmount = total;
+        }
+
+        if (val.active == 1 && val.moneyAccount == false) {
+          console.log('cardssssssssssssssssssssssssssssssssssss', val.id,this.debits);
+          total2 += Number(val.exist) || 0;
+          this.totalMonyAccount = total2;
+        }
+      }, 1000);
     }
     const cards = this.debits.filter((f: any) => f.active == 1);
     this.totalCards = cards.length;
-    console.log('cardssss', cards);
   }
+
   getCredit() {
     const id = localStorage.getItem('userId');
     this.categoriesServiesFire.getCredits().subscribe((data: any) => {
@@ -90,7 +101,6 @@ export class MasterComponent {
       this.credits2 = data.filter(
         (f: any) => f.active == true && f.userId == id
       );
-      console.log('credits', this.credits2);
       this.credits3 = data.filter(
         (f: any) => f.active !== true && f.userId == id
       );
@@ -167,7 +177,6 @@ export class MasterComponent {
       // this.incomeWithCredit = parseFloat(this.currentIncome) + Number(sum);
       // this.balance = this.incomeWithCredit - this.expense;
     });
-    console.log('trans', this.credits2);
   }
 
   getAsset() {
@@ -197,7 +206,7 @@ export class MasterComponent {
         this.expenses.reduce((total: any, exp: any) => {
           const validExpense = exp.expense || 0;
           return total + validExpense;
-        }, 0) +10053;
+        }, 0) + 39035;
       this.compainExpAdIncom();
     });
   }
@@ -217,7 +226,7 @@ export class MasterComponent {
     // let v=new Date(dv)
     // // const prevMonth = v > 0 ? dfltm : 12;
     // const MonthFormatted = v.getMonth().toString().padStart(2, '0');
-   
+
     this.incomeExpGrouping();
   }
   finalTableData: any = [];
@@ -228,7 +237,7 @@ export class MasterComponent {
     this.incomes.forEach((income: any) => {
       const date = new Date(income.day);
       const year = date.getFullYear();
-      const month = date.getMonth(); 
+      const month = date.getMonth();
 
       if (!groupedData[year]) groupedData[year] = {};
 
@@ -277,7 +286,6 @@ export class MasterComponent {
         });
       });
     }
-    console.log('final',this.finalTableData)
   }
 
   get MainTotal(): number {
@@ -285,21 +293,27 @@ export class MasterComponent {
   }
 
   get MainTotalDebitCredit(): number {
-    if (Number(this.totalExsisting) > Number(this.totalAmount)) {
-      return Number(this.totalExsisting) - Number(this.totalAmount);
-    } else {
-      return Number(this.totalAmount) - Number(this.totalExsisting);
-    }
+    return Number(this.totalAmount);
   }
   get MainBalance(): number {
-    return (
-      Number(this.MainTotal) -
-      Number(this.MainTotalDebitCredit) -
-      this.expenseTotel
-    );
+    console.log('log1MainTotalDebitCredit', this.MainTotalDebitCredit);
+    console.log('log2expenseTotel', this.expenseTotel);
+    console.log('log3ToTALaSSET', this.MainTotal);
+    console.log('log3totalAmount', this.totalAmount);
+    console.log('log3totalMonyAccount', this.totalMonyAccount);
+    console.log('log3ToTAExsisting', this.totalExsisting);
+    let worth = Number(this.MainTotal) + Number(this.MainTotalDebitCredit);
+    let val = +Number(this.expenseTotel) + Number(this.totalExsisting);
+    let ans = Number(worth) - Number(val);
+    let answer = ans - Number(this.totalMonyAccount);
+    return answer;
   }
   get OnHand(): number {
-    let ans = Number(this.incomTotal) - Number(this.expenseTotel);
-    return ans + 27817;
+    let worth = Number(this.MainTotal) + Number(this.MainTotalDebitCredit);
+    let val = +Number(this.expenseTotel) + Number(this.totalExsisting);
+    let ans = Number(worth) - Number(val);
+    let answer = ans - Number(this.totalMonyAccount);
+
+    return answer - 260192;
   }
 }

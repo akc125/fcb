@@ -12,9 +12,17 @@
       <label>Name :</label>
       <input placeholder="Name" formControlName="name" /><br />
       <label>Amount :</label
-      ><input placeholder="Amount" formControlName="amount" /><br />
+      ><input
+        type="number"
+        placeholder="Amount"
+        formControlName="amount"
+      /><br />
       <label>Description :</label
       ><input placeholder="Description" formControlName="description" /><br />
+      <label class="u1">
+        <input class="u2" type="checkbox" formControlName="moneyAccount" />
+        Money Account?
+      </label>
       <label>Date :</label
       ><input
         placeholder="Date"
@@ -54,7 +62,12 @@
             <p>Add Amount</p>
             <form [formGroup]="debitAmountFormGroup">
               <input formControlName="amount" /><br />
-              <input type="date"   [(ngModel)]="defaultDate" formControlName="date" /> <br />
+              <input
+                type="date"
+                [(ngModel)]="defaultDate"
+                formControlName="date"
+              />
+              <br />
             </form>
             <button
               style="position: relative; top: 5px; z-index: 500"
@@ -81,7 +94,8 @@
             </tr>
             <tr>
               <td>Exist</td>
-              <td>{{ val.exist }}</td>
+              <td *ngIf="val.total > 0">{{ val.amount - val.total }}</td>
+              <td *ngIf="val.total == 0">{{ val.amount }}</td>
               <td></td>
             </tr>
           </table>

@@ -109,7 +109,12 @@
               <label>Returned Amount</label
               ><input formControlName="amount" /><br />
               <label>Date</label
-              ><input type="date" [(ngModel)]="defaultDate" formControlName="date" value="" /><br />
+              ><input
+                type="date"
+                [(ngModel)]="defaultDate"
+                formControlName="date"
+                value=""
+              /><br />
               <button
                 (click)="addTransaction(v.id)"
                 (click)="closeTransactionForm()"
@@ -196,7 +201,12 @@
     <form [formGroup]="creditForm">
       <div class="r" style="padding-top: 200px">
         <label>Date</label
-        ><input type="date" class="fmu" formControlName="date" [(ngModel)]="defaultDate" /><br />
+        ><input
+          type="date"
+          class="fmu"
+          formControlName="date"
+          [(ngModel)]="defaultDate"
+        /><br />
         <label>Duration</label
         ><input class="fmu" formControlName="duration" /><br />
         <label>Status</label><input class="fmu" formControlName="status" />
@@ -225,6 +235,22 @@
   </div>
   <div class="in">
     <div class="accnt">
+      <div class="lscrdts">
+        <table>
+          <tbody>
+            <tr *ngFor="let val of creditAccountsActive let i=index">
+              <td>{{i+1}}</td>
+              <td>{{ val.name }}</td>
+              <td>{{ val.exist }}</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>Total</td>
+              <td style="color: rgb(200, 14, 14);">{{totalExsisting}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <span>Add credit accounts</span>
       <span>
         <mat-icon class="ntic" (click)="openAccountForm()"
@@ -340,7 +366,11 @@
               <label>Returned Amount</label
               ><input formControlName="amount" /><br />
               <label>Date</label
-              ><input type="date" [(ngModel)]="defaultDate" formControlName="date" /><br />
+              ><input
+                type="date"
+                [(ngModel)]="defaultDate"
+                formControlName="date"
+              /><br />
               <button
                 (click)="addTransaction(v.id)"
                 (click)="closeTransactionForm()"

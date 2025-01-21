@@ -465,6 +465,7 @@ table td:nth-child(2) {
   height: 400px;
   display: flex;
 }
+
 .lst {
   width: 70%;
   height: 110%;
@@ -538,4 +539,20 @@ table td:nth-child(2) {
   padding: 10px;
   height: 30px;
   text-align: center;
+}
+.lscrdts{
+  width: 200px;
+  min-height: 500px;
+  max-height: fit-content;
+  background-color: rgb(255, 255, 255);
+  position: absolute;
+  left: -834px;
+  border: 1px solid black;
+  padding: 5px;
+  top: 65px;
+}
+.lscrdts table td{
+  width: 200px;
+  font-size: 12px;
+  font-weight: 700;
 }

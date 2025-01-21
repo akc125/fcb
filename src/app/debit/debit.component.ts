@@ -23,6 +23,7 @@ export class DebitComponent {
     description: new FormControl(),
     date: new FormControl(),
     amount: new FormControl(),
+    moneyAccount: new FormControl(true),
     userId: new FormControl(this.userId),
     active: new FormControl(1),
   });
@@ -197,6 +198,7 @@ export class DebitComponent {
         name: '',
         description: '',
         date: new Date(),
+        moneyAccount: true,
         amount: null,
         userId: this.userId,
         active: 1,
@@ -236,14 +238,15 @@ export class DebitComponent {
     this.openMainForm = true;
     this.mode = mode;
     this.docId = id;
-
     if (mode == 'edit') {
+      console.log('modeeeee', this.mode);
       this.categoriesServiceFire.getSingleDebit(id).subscribe((data) => {
         console.log('data', data);
         this.debitFormGroup.setValue({
           name: data.name,
           description: data.description,
           date: data.date,
+          moneyAccount: data.moneyAccount,
           amount: data.amount,
           userId: this.userId,
           active: 1,
@@ -255,6 +258,7 @@ export class DebitComponent {
         description: '',
         date: this.mydate,
         amount: null,
+        moneyAccount: true,
         userId: this.userId,
         active: 1,
       });

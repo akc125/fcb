@@ -2,6 +2,15 @@
   width: 100vw;
   height: 700px;
 }
+.u1{
+  position: absolute;
+  left: 500px;
+}
+.u2{
+  position: absolute;
+  left: 10px;
+  top: -10px;
+}
 .hd {
   width: 100vw;
   height: 70px;

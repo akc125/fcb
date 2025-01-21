@@ -26,7 +26,7 @@
       <h1 class="bdgthdng">Budget {{ currentMonth }} {{ currentYear }}</h1>
       <p class="e1">Day</p>
       <p class="e2">{{ percentageOfTheDay }}%</p>
-      <p class="e3">Exp%</p>
+      <p class="e3">Exp-expect</p>
       <p class="e4">{{ ExpOfTheDay }}</p>
       <p class="e5">Exp: {{ this.totalExpenseByExpenseAll }}</p>
       <p class="e6">Bl: {{ ExpOfTheDay - totalExpenseByExpenseAll }}</p>
@@ -48,16 +48,16 @@
           </p>
           <p class="hil">25%</p>
         </div>
-        <div class="s1" *ngIf="currentDay > 7">
+        <div class="s1" *ngIf="currentDay > 7 || this.prive">
           <p>to : {{ (50 * totalBudget) / 100 }}</p>
           <p>used : {{ this.secondPartTotal }}</p>
           <p>
-            bal : 
+            bal :
             {{ (50 * totalBudget) / 100 - secondPartTotal }}
           </p>
           <p class="hil">50%</p>
         </div>
-        <div class="s1" *ngIf="currentDay > 15">
+        <div class="s1" *ngIf="currentDay > 15 || this.prive">
           <p>to : {{ (75 * totalBudget) / 100 }}</p>
           <p>used : {{ this.thirdPartTotal }}</p>
           <p>
@@ -66,13 +66,13 @@
           </p>
           <p class="hil">75%</p>
         </div>
-        <div class="s1" *ngIf="currentDay > 23">
+        <div class="s1" *ngIf="currentDay > 23 || this.prive">
           <p>to : {{ (100 * totalBudget) / 100 }}</p>
           <p>used : {{ this.totalExpenseByExpenseAll }}</p>
           <p>
             bal : {{ (100 * totalBudget) / 100 - totalExpenseByExpenseAll }}
           </p>
-          <p class="hil">100%</p>
+          <p class="hil2">100%</p>
         </div>
       </div>
     </div>
@@ -95,7 +95,6 @@
       <label style="margin-right: 16px">Date</label>
       <input
         type="date"
-        [(ngModel)]="defaultDate"
         style="position: relative; left: 20px; width: 170px"
         formControlName="date"
       /><br />

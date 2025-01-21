@@ -1,4 +1,46 @@
 <div class="home">
+  <div class="expense-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Category</th>
+          <th>Expense</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let day of groupedExpenses">
+        <!-- <tr *ngFor="let day of groupedExpenses">
+          <td >{{ day.date }}</td>
+          <td *ngFor="let item of day.items">
+            {{ item.category }}
+          </td>
+          <td *ngFor="let item of day.items">
+            ₹{{ item.expense }}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align: right; font-weight: bold;">Total for {{ day.date }}:</td>
+          <td style="font-weight: bold;">₹{{ day.total }}</td>
+        </tr> -->
+        <tr>
+          <td>{{day.date}}</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr *ngFor="let item of day.items">
+          <td></td>
+          <td>  {{ item.category }}</td>
+          <td> ₹{{ item.expense }}</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>Total</td>
+          <td style="color: red;">{{ day.total}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
   <img
     class="nyImage"
     src="https://www.grayline.com/wp-content/uploads/2023/02/Brooklyn-Bridge-New-York-United-States.jpg"
@@ -23,14 +65,23 @@
       [ngClass]="allBalence > (25 * allIncomeTotel) /100  ? 'rct33' : 'rct3'"
     ></div>
   </div>
+  <!-- <h1>₹{{ expensTotel }}</h1>
+</div>
+<div class="income">
+  <h1>Income</h1>
+  <h1>₹{{ incomeTotel }}</h1>
+</div>
+<div class="Balence">
+  <h1>Balence</h1>
+  <h1>₹{{ balense }}</h1> -->
   <h1 class="report">Fcb Reports</h1>
   <div class="insite">
-    <span class="gtotal">Grand Total</span>
-    <span class="gtotalx">₹{{ allExpenseTotel }}</span>
-    <span class="gincome">Grand Income</span>
-    <span class="gincomeAmount">₹{{ allIncomeTotel }}</span>
-    <span class="gBalence">Grand Balence</span>
-    <span class="gBalenceAmount">₹{{ allBalence }}</span>
+    <span class="gtotal">Total</span>
+    <span class="gtotalx">₹{{ expensTotel }}</span>
+    <span class="gincome"> Income</span>
+    <span class="gincomeAmount">₹{{ incomeTotel }}</span>
+    <span class="gBalence"> Balence</span>
+    <span class="gBalenceAmount">₹{{ balense }}</span>
   </div>
   <div class="ig">
     <div class="scv" *ngFor="let value of lstThreeOfFiinalExpense">
@@ -138,7 +189,9 @@
         </div>
       </div>
     </div>
-    <div class="grid4"></div>
+    <div class="grid4">
+      
+    </div>
   </div>
   <footer>
     <div>

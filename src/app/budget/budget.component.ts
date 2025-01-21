@@ -63,7 +63,7 @@ export class BudgetComponent {
   budgetFormGroup = new FormGroup({
     name: new FormControl(),
     amount: new FormControl(),
-    // date: new FormControl(),
+    date: new FormControl(),
   });
   currentDay: any;
   getPercentageOfCurrentDayInMonth(): number {
@@ -76,9 +76,10 @@ export class BudgetComponent {
       0
     ).getDate();
     const percentage = Math.floor((currentDay / totalDays) * 100);
-    this.ExpOfTheDay = Math.floor((this.totalBudget * percentage) / 100);
-    this.percentageOfTheDay = parseFloat(percentage.toFixed(2));
-    return parseFloat(percentage.toFixed(2)); // Rounded to 2 decimal places
+    let prc = this.prive ? 100 : percentage;
+    this.ExpOfTheDay = Math.floor((this.totalBudget * prc) / 100);
+    this.percentageOfTheDay = parseFloat(prc.toFixed(2));
+    return parseFloat(prc.toFixed(2)); // Rounded to 2 decimal places
   }
   public generatePDF(): void {
     html2canvas(this.invoiceElement.nativeElement, { scale: 1.5 }).then(
@@ -103,7 +104,9 @@ export class BudgetComponent {
   defualtMonthName: any;
   expense: any = []; // Assuming budgets is an array
   currentMonthFl: any;
+  prive: any = false;
   changeMonthToPreve(): void {
+    this.prive = true;
     const dfltm = Number(this.defualtMonth) - 1;
     const prevMonth = dfltm > 0 ? dfltm : 12;
     const prevMonthFormatted = prevMonth.toString().padStart(2, '0');
@@ -117,8 +120,10 @@ export class BudgetComponent {
 
     this.defualtMonthName = monthName;
     this.getExpenses();
+    this.getBudget();
   }
   switchToCurrent() {
+    this.prive = false;
     const currentDate = new Date();
     this.defaultDate = currentDate.toISOString().substring(0, 10);
     this.defualtMonth = currentDate.toISOString().substring(5, 7);
@@ -128,17 +133,37 @@ export class BudgetComponent {
       month: 'long',
     });
     this.getExpenses();
+    this.getBudget();
   }
   getBudget() {
     const id = localStorage.getItem('userId');
     this.BudgetService.getBudgets().subscribe((data: any) => {
-      this.budgets = data.filter((f: any) => f.userId === id);
+      this.budgets = data.filter((f: any) => {
+        return (
+          f.userId === id &&
+          f.date.substring(5, 7) === this.defualtMonth &&
+          f.date.substring(0, 4) === this.defualtYear.toString()
+        );
+      });
+      const currentDate = new Date();
+      let defualtMonth = currentDate.toISOString().substring(5, 7);
+      let defualtYear = currentDate.toISOString().substring(0, 4);
+      if (this.budgets.length == 0) {
+        this.budgets = data.filter((f: any) => {
+          return (
+            f.userId === id &&
+            f.date.substring(5, 7) === defualtMonth &&
+            f.date.substring(0, 4) === defualtYear.toString()
+          );
+        });
+      }
       this.createNewBudgetArray();
       this.getBudgetPers();
       this.addSelectedCategoriesFromBudgetArray();
       this.getExpenses();
     });
   }
+
   categoriesIdFromBudgetData: any = [];
   addSelectedCategoriesFromBudgetArray() {
     for (let val of this.budgets) {
@@ -175,6 +200,7 @@ export class BudgetComponent {
         this.categoriesSelected.push(val);
       }
     }
+    this.categoriesSelectedIds = [];
     for (let val of this.categoriesSelected) {
       const exist = this.categoriesSelectedIds.includes(val.id);
       if (!exist) {
@@ -193,7 +219,7 @@ export class BudgetComponent {
     const ans = this.budgetFormGroup.value;
     const data = { ...ans, categories: this.categoriesSelectedIds };
     this.BudgetService.postBudget(data).then((data) => {
-      this.budgetFormGroup.setValue({ amount: '', name: '' });
+      this.budgetFormGroup.setValue({ amount: '', name: '', date: '' });
       this.categoriesSelected = [];
       this.getCategory();
       this.getExpenses();
@@ -201,6 +227,7 @@ export class BudgetComponent {
     });
   }
   removeSelectedCategory(id: any) {
+    this.categoriesSelectedIds = [];
     this.categoriesSelectedIds = this.categoriesSelectedIds.filter(
       (f: any) => f !== id
     );
@@ -213,6 +240,7 @@ export class BudgetComponent {
   }
 
   EditForm() {
+    this.categoriesSelectedIds = [];
     for (let val of this.categoriesSelected) {
       const exist = this.categoriesSelectedIds.includes(val.id);
       if (!exist) {
@@ -226,7 +254,7 @@ export class BudgetComponent {
       id: this.documentId,
     };
     this.BudgetService.EditBudget(data).then((data: any) => {
-      this.budgetFormGroup.setValue({ amount: '', name: '' });
+      this.budgetFormGroup.setValue({ amount: '', name: '', date: '' });
       this.categoriesSelected = [];
       this.getCategory();
       this.getExpenses();
@@ -236,27 +264,34 @@ export class BudgetComponent {
 
   documentId: any;
   deleteBudget() {
-    this.BudgetService.deleteBudget(this.documentId).then((data) => {
-      this.getBudget();
-      this.getExpenses();
-      this.categoriesIdFromBudgetData = [];
-      this.categoriesSelected = [];
-      this.budgetFormGroup.setValue({ amount: '', name: '' });
-      this.open = false;
-    });
+    let confirm = window.confirm('do you wnt to delete');
+    if (confirm) {
+      this.BudgetService.deleteBudget(this.documentId).then((data) => {
+        this.getBudget();
+        this.getExpenses();
+        this.categoriesIdFromBudgetData = [];
+        this.categoriesSelected = [];
+        this.budgetFormGroup.setValue({ amount: '', name: '', date: '' });
+        this.open = false;
+      });
+    }
   }
   open: any = false;
   openForm() {
     this.open = true;
     this.mode = 'ADD';
     this.addSelectedCategoriesFromBudgetArray();
-    this.budgetFormGroup.setValue({ amount: '', name: '' });
+    this.budgetFormGroup.setValue({
+      amount: '',
+      name: '',
+      date: this.defaultDate,
+    });
     this.categoriesSelected = [];
     this.categoriesSelectedIds = [];
   }
   closeForm() {
     this.open = false;
-    this.budgetFormGroup.setValue({ amount: '', name: '' });
+    // this.budgetFormGroup.setValue({ amount: '', name: '', date: '' });
     this.categoriesSelected = [];
     this.categoriesSelectedIds = [];
     this.getBudget();
@@ -269,9 +304,11 @@ export class BudgetComponent {
     this.documentId = value.id;
     this.open = true;
     this.mode = 'EDIT';
+    console.log('value', value);
     this.budgetFormGroup.setValue({
       name: value.name,
       amount: value.amount,
+      date: value.date,
     });
     for (let val of this.categories) {
       const exist = value.categories.includes(val.id);
@@ -333,7 +370,6 @@ export class BudgetComponent {
       total3 += Number(val.expense);
     }
     this.thirdPartTotal = total3;
-    console.log('firstPart', firstPart, this.expense);
   }
   calculateExpenseForBudget() {
     this.budgets = this.budgets.map((val: any) => {
@@ -477,7 +513,11 @@ export class BudgetComponent {
               display: true,
               text: `Categories Expense ${
                 this.totalExpenseByExpenseAll
-              } extra  ${this.totalExpenseByExpenseAll - this.totalBudget}`,
+              } remaining  ${
+                this.totalExpenseByExpenseAll > this.totalBudget
+                  ? this.totalExpenseByExpenseAll - this.totalBudget
+                  : this.totalBudget - this.totalExpenseByExpenseAll
+              }`,
             },
           },
           y: {

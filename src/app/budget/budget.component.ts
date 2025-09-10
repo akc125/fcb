@@ -555,9 +555,9 @@ export class BudgetComponent {
               text: `Categories Expense ${
                 this.totalExpenseByExpenseAll
               } remaining  ${
-                this.totalExpenseByExpenseAll > this.totalBudget
-                  ? this.totalExpenseByExpenseAll - this.totalBudget
-                  : this.totalBudget - this.totalExpenseByExpenseAll
+             
+                   this.totalBudget- this.totalExpenseByExpenseAll 
+            
               }`,
             },
           },

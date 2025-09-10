@@ -1,68 +1,30 @@
 <div class="home">
-  <div class="expense-table">
-    <table>
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Category</th>
-          <th>Expense</th>
-        </tr>
-      </thead>
-      <tbody *ngFor="let day of groupedExpenses">
-        <!-- <tr *ngFor="let day of groupedExpenses">
-          <td >{{ day.date }}</td>
-          <td *ngFor="let item of day.items">
-            {{ item.category }}
-          </td>
-          <td *ngFor="let item of day.items">
-            ₹{{ item.expense }}
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" style="text-align: right; font-weight: bold;">Total for {{ day.date }}:</td>
-          <td style="font-weight: bold;">₹{{ day.total }}</td>
-        </tr> -->
-        <tr>
-          <td>{{day.date}}</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr *ngFor="let item of day.items">
-          <td></td>
-          <td>  {{ item.category }}</td>
-          <td> ₹{{ item.expense }}</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>Total</td>
-          <td style="color: red;">{{ day.total}}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  
+  <app-bill></app-bill>
   <img
     class="nyImage"
     src="https://www.grayline.com/wp-content/uploads/2023/02/Brooklyn-Bridge-New-York-United-States.jpg"
   />
   <div class="rctgl">
-    <div *ngIf="allBalence < (10 * allIncomeTotel) / 100"
+    <div
+      *ngIf="balense < (10 * incomeTotel) / 100"
       class="rct1"
-      [ngClass]="allBalence < (10 * allIncomeTotel) / 100 ? 'rct11' : 'rct1'"
+      [ngClass]="balense < (10 * incomeTotel) / 100 ? 'rct11' : 'rct1'"
     ></div>
-    <div *ngIf="allBalence > (10 * allIncomeTotel) / 100 &&
-      allBalence < (25 * allIncomeTotel) / 100"
+    <div
+      *ngIf="
+        balense > (10 * incomeTotel) / 100 && balense < (25 * incomeTotel) / 100
+      "
       class="rct2"
       [ngClass]="
-        allBalence > (10 * allIncomeTotel) / 100 &&
-        allBalence < (25 * allIncomeTotel) / 100
+        balense > (10 * incomeTotel) / 100 && balense < (25 * incomeTotel) / 100
           ? 'rct22'
           : 'rct2'
       "
     ></div>
-    <div *ngIf="allBalence > (25 * allIncomeTotel) /100 "
+    <div
+      *ngIf="balense > (25 * incomeTotel) / 100"
       class="rct3"
-      [ngClass]="allBalence > (25 * allIncomeTotel) /100  ? 'rct33' : 'rct3'"
+      [ngClass]="balense > (25 * incomeTotel) / 100 ? 'rct33' : 'rct3'"
     ></div>
   </div>
   <!-- <h1>₹{{ expensTotel }}</h1>
@@ -74,14 +36,14 @@
 <div class="Balence">
   <h1>Balence</h1>
   <h1>₹{{ balense }}</h1> -->
-  <h1 class="report">Fcb Reports</h1>
+  <h1 class="report">Abduapp Reports</h1>
   <div class="insite">
     <span class="gtotal">Total</span>
     <span class="gtotalx">₹{{ expensTotel }}</span>
     <span class="gincome"> Income</span>
     <span class="gincomeAmount">₹{{ incomeTotel }}</span>
     <span class="gBalence"> Balence</span>
-    <span class="gBalenceAmount">₹{{ balense }}</span>
+    <span class="gBalenceAmount">₹{{ incomeTotel - expensTotel }}</span>
   </div>
   <div class="ig">
     <div class="scv" *ngFor="let value of lstThreeOfFiinalExpense">
@@ -93,7 +55,7 @@
   <div class="grid-container">
     <div class="grid1"></div>
     <div class="grid2">
-      <h1 style="font-size: 30px">FCB Controll</h1>
+      <h1 style="font-size: 30px">abduapp Controll</h1>
       <p
         class="qt"
         style="font-size: 25px; margin-top: 30px; margin-bottom: 30px"
@@ -184,18 +146,14 @@
           </div>
           <div class="Balence">
             <h1>Balence</h1>
-            <h1>₹{{ balense }}</h1>
+            <h1>₹{{ incomeTotel - expensTotel }}</h1>
           </div>
         </div>
       </div>
     </div>
-    <div class="grid4">
-      
-    </div>
+    <div class="grid4"></div>
   </div>
-  <footer>
-    <div>
-      <canvasjs-chart [options]="chartOptions" [styles]="{width: '100%', height:'360px'}"></canvasjs-chart>    
-    </div>
+  <footer class="ft">
+    <app-line-chart></app-line-chart>
   </footer>
 </div>

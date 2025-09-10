@@ -41,13 +41,13 @@ export class MasterComponent {
     this.categoriesServiesFire.getDebit().subscribe((data: any) => {
       this.debits = data.filter((f: any) => f.userId == id);
       this.combainData();
-      console.log('debits', this.debits);
     });
   }
   debitAmounts: any = ([] = []);
   getDebitAmounts() {
+    const id = localStorage.getItem('userId');
     this.categoriesServiesFire.getDebitAmount().subscribe((data: any) => {
-      this.debitAmounts = data;
+      this.debitAmounts = data.filter((f: any) => f.userId == id);
       this.combainData();
     });
   }
@@ -82,7 +82,6 @@ export class MasterComponent {
         }
 
         if (val.active == 1 && val.moneyAccount == false) {
-          console.log('cardssssssssssssssssssssssssssssssssssss', val.id,this.debits);
           total2 += Number(val.exist) || 0;
           this.totalMonyAccount = total2;
         }
@@ -199,14 +198,17 @@ export class MasterComponent {
   expenses: any = [];
   expenseTotel: number = 0;
   getExpenses() {
+    const id = localStorage.getItem('userId');
     this.expenseTotel = 0; // Reset the total
     this.categoriesServiesFire.getExpensList().subscribe((data) => {
-      this.expenses = data;
+      this.expenses = data.filter((f: any) => {
+        return f.userId == id;
+      });;
       this.expenseTotel =
         this.expenses.reduce((total: any, exp: any) => {
           const validExpense = exp.expense || 0;
           return total + validExpense;
-        }, 0) + 39035;
+        }, 0) + 39703;
       this.compainExpAdIncom();
     });
   }
@@ -233,7 +235,6 @@ export class MasterComponent {
 
   incomeExpGrouping() {
     const groupedData: any = {};
-
     this.incomes.forEach((income: any) => {
       const date = new Date(income.day);
       const year = date.getFullYear();
@@ -286,6 +287,7 @@ export class MasterComponent {
         });
       });
     }
+    this.finalTableData=this.finalTableData.reverse()
   }
 
   get MainTotal(): number {
@@ -296,12 +298,6 @@ export class MasterComponent {
     return Number(this.totalAmount);
   }
   get MainBalance(): number {
-    console.log('log1MainTotalDebitCredit', this.MainTotalDebitCredit);
-    console.log('log2expenseTotel', this.expenseTotel);
-    console.log('log3ToTALaSSET', this.MainTotal);
-    console.log('log3totalAmount', this.totalAmount);
-    console.log('log3totalMonyAccount', this.totalMonyAccount);
-    console.log('log3ToTAExsisting', this.totalExsisting);
     let worth = Number(this.MainTotal) + Number(this.MainTotalDebitCredit);
     let val = +Number(this.expenseTotel) + Number(this.totalExsisting);
     let ans = Number(worth) - Number(val);

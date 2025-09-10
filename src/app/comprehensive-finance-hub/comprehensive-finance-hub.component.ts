@@ -175,7 +175,7 @@ export class ComprehensiveFinanceHubComponent {
           generatedImageHeight
         );
         PDF.html(this.invoiceElement.nativeElement.innerHTML);
-        PDF.save(`FCB REPORT ${this.monthSelected} ${this.selection}`);
+        PDF.save(`ABDUAPP REPORT ${this.monthSelected} ${this.selection}`);
       }
     );
   }

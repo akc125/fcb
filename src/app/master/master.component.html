@@ -15,9 +15,9 @@
           <td [style.fontWeight]="row.isYear ? '600' : 'normal'">
             {{ row.isYear ? row.year : row.month }}
           </td>
-          <td *ngIf="!row.isYear">{{ row.expense || "" }}</td>
+          <td style="color: red;" *ngIf="!row.isYear">{{ row.expense || "" }}</td>
           <td *ngIf="!row.isYear">{{ row.income || "" }}</td>
-          <td *ngIf="!row.isYear">{{ row.balance || "" }}</td>
+          <td [ngStyle]="{color:row.balance<1?'red':'green'}" style="color: green;" *ngIf="!row.isYear">{{ row.balance || "" }}</td>
         </tr>
       </tbody>
     </table>

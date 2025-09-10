@@ -1,12 +1,12 @@
 <section class="sec">
   <header class="hd">
     <h1 class="db">CREDIT</h1>
-    <button class="adb3" (click)="openDeactiveFile()">Deactive</button>
+    <button class="adb3" (click)="openDeactiveFile()" (click)="changeActive()">Deactive</button>
     <button class="adb" (click)="openForm(null, 'add', null)">+Add</button>
   </header>
   <div class="dal" *ngIf="openRecord">
     <div class="a2d">
-      <button class="adb2" (click)="closeDeactiveFile()">close</button>
+      <button class="adb2" (click)="closeDeactiveFile()" (click)="changeActivePass()">close</button>
       <h1
         class="adb23"
         style="
@@ -17,7 +17,7 @@
           left: 150px;
         "
       >
-        DEACTIVATED CREDITS
+        DEACTIVATED CREDITS{{active}}
       </h1>
     </div>
     <span class="dactsl">Total: ₹{{ toatalCreditReturned }}</span>

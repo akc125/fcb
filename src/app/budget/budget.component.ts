@@ -41,6 +41,9 @@ export class BudgetComponent {
     this.defualtMonthName = new Date().toLocaleString('default', {
       month: 'long',
     });
+    setInterval(() => {
+      this.getPercentageOfCurrentDayInMonth();
+    }, 1000);
   }
   defaultDate: any;
   defualtMonth: any;
@@ -70,17 +73,34 @@ export class BudgetComponent {
     const now = new Date();
     const currentDay = now.getDate();
     this.currentDay = currentDay;
-    const totalDays = new Date(
+    const startOfMonth = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      1,
+      0,
+      0,
+      0
+    );
+    const endOfMonth = new Date(
       now.getFullYear(),
       now.getMonth() + 1,
-      0
-    ).getDate();
-    const percentage = Math.floor((currentDay / totalDays) * 100);
-    let prc = this.prive ? 100 : percentage;
-    this.ExpOfTheDay = Math.floor((this.totalBudget * prc) / 100);
+      0,
+      23,
+      59,
+      59
+    );
+
+    const secondsPassed = (now.getTime() - startOfMonth.getTime()) / 1000;
+    const totalSeconds = (endOfMonth.getTime() - startOfMonth.getTime()) / 1000;
+
+    const percentage = (secondsPassed / totalSeconds) * 100;
+
+    const prc = this.prive ? 100 : percentage;
+    this.ExpOfTheDay = parseFloat(((this.totalBudget * prc) / 100).toFixed(2));
     this.percentageOfTheDay = parseFloat(prc.toFixed(2));
-    return parseFloat(prc.toFixed(2)); // Rounded to 2 decimal places
+    return this.percentageOfTheDay;
   }
+
   public generatePDF(): void {
     html2canvas(this.invoiceElement.nativeElement, { scale: 1.5 }).then(
       (canvas) => {
@@ -239,7 +259,7 @@ export class BudgetComponent {
     );
   }
 
-  EditForm() {
+  EditForm(amt: any) {
     this.categoriesSelectedIds = [];
     for (let val of this.categoriesSelected) {
       const exist = this.categoriesSelectedIds.includes(val.id);
@@ -248,11 +268,19 @@ export class BudgetComponent {
       }
     }
     const ans = this.budgetFormGroup.value;
-    const data = {
+    const currentAmount = this.budgetFormGroup.get('amount')?.value;
+    const  balance  = amt - currentAmount;
+    const calc=balance+currentAmount
+    const final = {
       ...ans,
+      amount: currentAmount < amt ? calc : currentAmount,
+    };
+    const data = {
+      ...final,
       categories: this.categoriesSelectedIds,
       id: this.documentId,
     };
+    console.log('dataaaa',amt, data,this.documentId,amt,currentAmount,balance,calc);
     this.BudgetService.EditBudget(data).then((data: any) => {
       this.budgetFormGroup.setValue({ amount: '', name: '', date: '' });
       this.categoriesSelected = [];
@@ -304,7 +332,6 @@ export class BudgetComponent {
     this.documentId = value.id;
     this.open = true;
     this.mode = 'EDIT';
-    console.log('value', value);
     this.budgetFormGroup.setValue({
       name: value.name,
       amount: value.amount,
@@ -385,6 +412,7 @@ export class BudgetComponent {
     this.calculateExpenseFromBudget();
     this.getTotalPers();
     this.renderChart();
+    this.budgetMismatch();
   }
   calculateExpenseFromBudget() {
     var total = 0;
@@ -394,7 +422,7 @@ export class BudgetComponent {
     this.totalExpenseByCategories = total;
     this.getTotalPers();
   }
-
+  expperceBudget: any;
   chartOptions: any;
   getBudgetPers() {
     const dynamicDataPoints = this.budgets.map((item: any) => ({
@@ -425,6 +453,7 @@ export class BudgetComponent {
     const pers = Math.round(
       (this.totalExpenseByCategories * 100) / this.totalBudget
     );
+    this.expperceBudget = pers;
     const budg = 100 - pers;
     const colors = ['#3357FF', '#F1C40F'];
     const BudgetExpens = [
@@ -458,11 +487,23 @@ export class BudgetComponent {
     };
   }
   chart: any;
-
+  mismatches: any = [];
+  budgetMismatch() {
+    // for (let val of this.budgets) {
+    //   if (val.amount < val.expense) {
+    //     this.editMode(val);
+    //     setTimeout(() => {
+    //     this.EditForm(val.expense);
+    //     }, 5000);
+    //   }
+    // }
+    // console.log('mismates', this.mismatches, this.budgets);
+  }
   renderChart(): void {
     const labels = this.budgets.map((item: any) => item.name);
     const budgets = this.budgets.map((item: any) => item.amount);
     const expenses = this.budgets.map((item: any) => item.expense);
+    console.log('mismates', this.mismatches, this.budgets);
     if (this.chart) {
       this.chart.destroy();
     }
@@ -538,6 +579,66 @@ export class BudgetComponent {
       this.chart = new Chart(chartElement, config);
     } else {
       console.error('Canvas element with id "barChart" not found.');
+    }
+  }
+  getFormattedDateFromPercentage(percentage: number): string {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth(); // 0-indexed
+
+    const totalDays = new Date(year, month + 1, 0).getDate();
+    const day = Math.round((percentage / 100) * totalDays);
+
+    const targetDate = new Date(year, month, day);
+
+    const options: Intl.DateTimeFormatOptions = {
+      weekday: 'short', // e.g., Wed
+      month: 'long', // e.g., April
+      day: 'numeric', // e.g., 24
+      year: 'numeric', // e.g., 24
+    };
+
+    return targetDate.toLocaleDateString('en-US', options); // "Wed, April 24"
+  }
+  getDaysToReachPercentageDate(percentage: number): number {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth();
+
+    const totalDays = new Date(year, month + 1, 0).getDate();
+    const day = Math.round((percentage / 100) * totalDays);
+    const targetDate = new Date(year, month, day);
+
+    // Reset time to 00:00:00 for clean difference
+    const todayStart = new Date(year, month, today.getDate());
+    const diffInMs = targetDate.getTime() - todayStart.getTime();
+
+    const daysDiff = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+    return daysDiff;
+  }
+
+  getDateColor(percentage: number): string {
+    const days = this.getDaysToReachPercentageDate(percentage);
+
+    if (days >= 10) return 'red';
+    else if (days >= 5) return 'Purple';
+    else if (days >= 3) return 'orange'; // Yellowish
+    else if (days >= 1) return 'green';
+    else return 'gray'; // Maybe for today or past
+  }
+  getWarningText(percentage: number): string {
+    const days = this.getDaysToReachPercentageDate(percentage);
+
+    if (days >= 10) {
+      return 'High spending risk ahead. Please stop unnecessary expenses.';
+    } else if (days >= 5) {
+      return 'You’re approaching your limit. Limit your spending now.';
+    } else if (days >= 3) {
+      return 'Watch your spending. Keep it in check.';
+    } else if (days >= 1) {
+      return 'You’re doing good. Keep tracking your expenses.';
+    } else {
+      return 'Spending is beyond safe zone. Review your budget immediately.';
     }
   }
 }

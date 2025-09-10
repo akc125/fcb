@@ -14,7 +14,7 @@ export class MonitorComponent {
   defualtDate: any;
   currentYear: any = '2024';
   currentMonth: any;
-
+  monthId: any='04';
   ngOnInit(): void {
     this.setCurrentValues();
     const currentDate = new Date();
@@ -23,12 +23,15 @@ export class MonitorComponent {
     this.currentMonth = new Intl.DateTimeFormat('en-US', {
       month: 'long',
     }).format(currentDate);
+
     this.getCategories();
     this.getIncomes();
     this.passId();
     setTimeout(() => {
       this.getExpensePercentage();
     }, 2000);
+    const id = this.monthsList.find((f: any) => f.name === this.currentMonth);
+    this.monthId = id?.id.toString();
   }
   constructor(
     private categoriesService: CategoriesService,
@@ -81,7 +84,6 @@ export class MonitorComponent {
   ];
 
   monthSelected: any;
-  monthId: any = 1;
   sum: number = 0;
   calculateTotal() {
     var total = 0;
@@ -129,13 +131,12 @@ export class MonitorComponent {
   idOfMonth: any;
   setCurrentValues(): void {
     const currentDate = new Date();
-    this.selection = currentDate.getFullYear().toString(); // Get current year as a string
-    this.idOfMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Get current month and pad with leading zero if needed
+    this.selection = currentDate.getFullYear().toString();
+    this.idOfMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0');
   }
   passId() {
     this.selectedYear = this.selection ? this.selection : this.currentYear;
     this.idOfMonth = this.monthId;
-    console.log('property', this.finalExpenseJulay);
   }
   userId = localStorage.getItem('userId');
   categories: any = [];
@@ -415,7 +416,7 @@ export class MonitorComponent {
           generatedImageHeight
         );
         PDF.html(this.invoiceElement.nativeElement.innerHTML);
-        PDF.save(`FCB REPORT ${this.monthSelected} ${this.selection}`);
+        PDF.save(`ABDUAPP REPORT ${this.monthSelected} ${this.selection}`);
       }
     );
   }

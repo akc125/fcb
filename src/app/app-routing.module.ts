@@ -26,6 +26,7 @@ import { MasterComponent } from './master/master.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { IncomeComponent } from './income/income.component';
 import { ComprehensiveFinanceHubComponent } from './comprehensive-finance-hub/comprehensive-finance-hub.component';
+import { LineChartComponent } from './line-chart/line-chart.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [authGuard] },
@@ -59,6 +60,11 @@ const routes: Routes = [
   {
     path: 'hub',
     component: ComprehensiveFinanceHubComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'line',
+    component: LineChartComponent,
     canActivate: [authGuard],
   },
   {

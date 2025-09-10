@@ -4,24 +4,7 @@
   background-color: rgb(255, 255, 255);
   overflow: hidden;
 }
-.expense-table {
-  position: absolute;
-  top: 100px;
-  color: black;
-  z-index: 100;
-  font-size: 10px;
-  background-color: white;
-  left: 40px;
-  width: 180px;
-  height: 480px;
-  overflow: scroll;
-}
-.expense-table::-webkit-scrollbar{
-  display: none;
-}
-.expense-table td{
-  width: 50px;
-}
+
 .nyImage {
   position: relative;
   top: 10px;

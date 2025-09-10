@@ -17,34 +17,34 @@ section {
 }
 .e1{
   position: relative;
-  left: -90px;
+  left: -220px;
   font-size: 12px;
   top: 3px;
 }
 .e2{
   position: relative;
-  left: -40px;
+  left: -170px;
   font-size: 12px;
   top: -10px;
   color: green;
 }
 .e3{
   position: relative;
-  left: 30px;
+  left: -90px;
   font-size: 12px;
   top: -25px;
   margin-right: 5px;
 }
 .e4{
   position: relative;
-  left: 70px;
+  left: -40px;
   font-size: 12px;
   top: -38px;
 
 }
 .e5{
   position: relative;
-  left: 120px;
+  left: 60px;
   font-size: 12px;
   top: -53px;
 
@@ -267,6 +267,11 @@ canvas {
   left: 80px;
   top: -25px;
   font-size: 15px;
+}
+.lft{
+  position: absolute;
+  left: 85px;
+  top: 4px;
 }
 .hil2{
   position: relative;

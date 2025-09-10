@@ -29,7 +29,9 @@
       <p class="e3">Exp-expect</p>
       <p class="e4">{{ ExpOfTheDay }}</p>
       <p class="e5">Exp: {{ this.totalExpenseByExpenseAll }}</p>
-      <p class="e6">Bl: {{ ExpOfTheDay - totalExpenseByExpenseAll }}</p>
+      <p class="e6">
+        Bl: {{ ExpOfTheDay - totalExpenseByExpenseAll | number : "1.2-2" }}
+      </p>
       <button class="adbtn" (click)="openForm()">Add new</button>
       <button class="adbtnPrnt" (click)="generatePDF()">Print</button>
     </div>
@@ -41,6 +43,7 @@
       <div class="bldv">
         <div class="s1">
           <p>to : {{ (25 * totalBudget) / 100 }}</p>
+          <p class="lft">left : {{ 7 - currentDay }}</p>
           <p>used : {{ this.firstPartTotal }}</p>
           <p>
             bal :
@@ -50,6 +53,7 @@
         </div>
         <div class="s1" *ngIf="currentDay > 7 || this.prive">
           <p>to : {{ (50 * totalBudget) / 100 }}</p>
+          <p class="lft">left : {{ 15 - currentDay }}</p>
           <p>used : {{ this.secondPartTotal }}</p>
           <p>
             bal :
@@ -59,6 +63,7 @@
         </div>
         <div class="s1" *ngIf="currentDay > 15 || this.prive">
           <p>to : {{ (75 * totalBudget) / 100 }}</p>
+          <p class="lft">left : {{ 23 - currentDay }}</p>
           <p>used : {{ this.thirdPartTotal }}</p>
           <p>
             bal :
@@ -68,6 +73,7 @@
         </div>
         <div class="s1" *ngIf="currentDay > 23 || this.prive">
           <p>to : {{ (100 * totalBudget) / 100 }}</p>
+          <p class="lft">left : {{ 30 - currentDay }}</p>
           <p>used : {{ this.totalExpenseByExpenseAll }}</p>
           <p>
             bal : {{ (100 * totalBudget) / 100 - totalExpenseByExpenseAll }}
@@ -76,6 +82,28 @@
         </div>
       </div>
     </div>
+    <p
+    [ngStyle]="{
+      position: 'absolute',
+      top: '440px',
+      color: getDateColor(expperceBudget),
+      'z-index': 100,
+      'font-size': '13px',
+      'margin-left': '10px'
+    }"
+  >
+    {{ getDaysToReachPercentageDate(expperceBudget) }} days ahead —
+    {{ getFormattedDateFromPercentage(expperceBudget) }}
+  </p>
+  <p  [ngStyle]="{
+    position: 'absolute',
+    top: '440px',
+    left:'990px',
+    color: getDateColor(expperceBudget),
+    'z-index': 100,
+    'font-size': '13px',
+    'margin-left': '10px',
+  }">{{getWarningText(expperceBudget)}}</p>
     <div class="bar">
       <canvasjs-chart
         [options]="chartOptions2"
@@ -121,7 +149,7 @@
         </p>
       </div>
     </div>
-    <button (click)="mode == 'EDIT' ? EditForm() : saveForm()" class="svb">
+    <button (click)="mode == 'EDIT' ? EditForm(null) : saveForm()" class="svb">
       Save
     </button>
     <button (click)="closeForm()" class="cnb">Cancel</button>

@@ -46,6 +46,8 @@ import { MasterComponent } from './master/master.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { IncomeComponent } from './income/income.component';
 import { ComprehensiveFinanceHubComponent } from './comprehensive-finance-hub/comprehensive-finance-hub.component';
+import { LineChartComponent } from './line-chart/line-chart.component';
+import { BillComponent } from './bill/bill.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -78,11 +80,14 @@ import { ComprehensiveFinanceHubComponent } from './comprehensive-finance-hub/co
     CalendarComponent,
     IncomeComponent,
     ComprehensiveFinanceHubComponent,
+    LineChartComponent,
+    BillComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    NgChartsModule,
     HttpClientModule,
     ReactiveFormsModule,
     NgChartsModule,

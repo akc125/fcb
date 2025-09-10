@@ -24,7 +24,7 @@ export class CreaditComponent {
     this.defaultDate = currentDate.toISOString().substring(0, 10);
     this.getCreditAccounts();
   }
-  defaultDate:any;
+  defaultDate: any;
   constructor(private categoriesServiceFire: CategoryFireService) {}
   creditForm = new FormGroup({
     amount: new FormControl(),
@@ -43,7 +43,7 @@ export class CreaditComponent {
   image: any;
   setimageURL: any;
   openAccount: boolean = false;
-  defultDate:any='12-02-205'
+  defultDate: any = '12-02-205';
   openAccountForm() {
     this.openAccount = true;
   }
@@ -57,8 +57,12 @@ export class CreaditComponent {
     const id = localStorage.getItem('userId');
     this.categoriesServiceFire.getCreditAccounts().subscribe((data) => {
       this.creditAccounts = data.filter((f: any) => f.userId == id);
-      this.creditAccountsActive = data.filter((f: any) => f.active == true);
-      this.creditAccountsDeActive = data.filter((f: any) => f.active == false);
+      this.creditAccountsActive = data.filter(
+        (f: any) => f.active == true && f.userId == id
+      );
+      this.creditAccountsDeActive = data.filter(
+        (f: any) => f.active == false && f.userId == id
+      );
       this.getCredit();
     });
   }
@@ -213,6 +217,11 @@ export class CreaditComponent {
       };
       await this.categoriesServiceFire.addCredits(newData);
       this.getCreditAccounts();
+      this.updateCreditAccounts(
+        this.creditForm.get('creditAccount')?.value,
+        true
+      );
+      console.log('this.accountId', this.accountId);
     } catch (error) {
       console.error('Error saving credit:', error);
       alert('An error occurred while saving the credit. Please try again.');
@@ -481,5 +490,7 @@ export class CreaditComponent {
   }
   closeDeactiveFile() {
     this.openRecord = false;
+    this.active = true;
+    this.getCreditAccounts();
   }
 }

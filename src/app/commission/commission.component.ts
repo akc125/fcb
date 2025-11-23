@@ -15,7 +15,7 @@ export class CommissionComponent {
     const currentDate = new Date();
     this.defaultDate = currentDate.toISOString().substring(0, 10);
   }
-  defaultDate:any
+  defaultDate: any;
   constructor(
     private categoriesServiceFire: CategoryFireService,
     private router: Router
@@ -55,6 +55,27 @@ export class CommissionComponent {
       reader.readAsDataURL(file);
     }
   };
+  itemsOpen: boolean = false;
+  itemMove: boolean = false;
+  openItems() {
+    this.itemsOpen = true;
+    this.itemMove = true;
+  }
+  closeItems() {
+    this.itemMove = false;
+    setTimeout(() => {
+      this.itemsOpen = false;
+    }, 1000);
+  }
+  selectedItem: any = {};
+  onHover(id: any, i: number) {
+    let data = this.commission.find((f: any) => f.id == id);
+    let item = {
+      ...data,
+      index: i,
+    };
+    this.selectedItem = item;
+  }
   async addCommissions() {
     const storage = getStorage();
     try {
@@ -116,9 +137,7 @@ export class CommissionComponent {
           ],
         };
         this.chartOptions.push(chartOptions);
-        console.log('age', differenceInDays);
       }
-      console.log('data', this.commission);
     });
   }
   convertDaysToYearsMonthsDays(totalDays: number): {

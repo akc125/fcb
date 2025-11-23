@@ -1,15 +1,85 @@
 <section class="cnt">
+  <div
+    *ngIf="itemsOpen"
+    [ngClass]="itemMove ? 'items' : 'items2'"
+    (click)="closeItems()"
+  >
+    <div class="itemcontent">
+      <div
+        class="itemname"
+        *ngFor="let data of commission; let i = index"
+        (mouseenter)="onHover(data.id,i)"
+      >
+        <div class="item-name">
+          <p>{{ data.name }}</p>
+        </div>
+        <div class="item-pic">
+          <img class="smim" src="{{ data.imageUrl }}" />
+        </div>
+      </div>
+    </div>
+    <div class="itemdetail">
+      <div
+        (click)="goToDetails(selectedItem.id)"
+        [ngClass]="selectedItem.guarantee == 'null' ? 'as' : 'crd'"
+      >
+        <div [ngClass]="selectedItem.guarantee == 'null' ? 'd11' : 'd1'">
+          <img src="{{ selectedItem.imageUrl }}" />
+        </div>
+        <div [ngClass]="selectedItem.guarantee == 'null' ? 'd22' : 'd2'">
+          <h1>{{ selectedItem.name }}</h1>
+          <br />
+          <p>Rs.{{ selectedItem.amount }}</p>
+          <p *ngIf="selectedItem.age.months == 0 && selectedItem.age.days == 1">
+            Age: {{ selectedItem.age.days }} day
+          </p>
+          <p *ngIf="selectedItem.age.months == 0 && selectedItem.age.days > 1">
+            Age: {{ selectedItem.age.days }} days
+          </p>
+          <p *ngIf="selectedItem.age.years == 0 && selectedItem.age.months > 0">
+            Age: {{ selectedItem.age.months }} months
+            {{ selectedItem.age.days }} days
+          </p>
+          <p *ngIf="selectedItem.age.years > 0">
+            Age: {{ selectedItem.age.years }} years
+            {{ selectedItem.age.months }} months
+            {{ selectedItem.age.days }} days
+          </p>
+          <div
+            style="position: relative; left: 30px; top: -20px"
+            *ngIf="selectedItem.guarantee !== 'null'"
+          >
+            <canvasjs-chart
+              [options]="chartOptions[selectedItem.index]"
+              [styles]="{ width: '80%', height: '170px' }"
+            ></canvasjs-chart>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="fm" *ngIf="status">
     <p class="clsb" (click)="close()">Close</p>
     <form (submit)="addCommissions()" [formGroup]="commissionGroup">
       <input placeholder="Name" formControlName="name" /><br />
       <input placeholder="Description" formControlName="description" /><br />
       <input type="file" (change)="onSelect($event)" /><br />
-      <input placeholder="Date"   [(ngModel)]="defaultDate" formControlName="day" type="date" /><br />
+      <input
+        placeholder="Date"
+        [(ngModel)]="defaultDate"
+        formControlName="day"
+        type="date"
+      /><br />
       <input placeholder="Amount" formControlName="amount" /><br />
       <input placeholder="Guarantee" formControlName="guarantee" /><br />
       <button class="adb">Add+</button>>
     </form>
+  </div>
+  <div class="ctgr">
+    <p (click)="openItems()">Cap</p>
+    <p>Dress</p>
+    <p>Mobile</p>
+    <p>Accesseries</p>
   </div>
   <main class="lst1">
     <h1 class="hd">Your <span class="spn">Properties </span> Commission</h1>

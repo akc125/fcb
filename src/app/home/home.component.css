@@ -116,8 +116,8 @@ footer {
   background-color: rgb(160, 177, 176);
   top: 120px;
   justify-content: space-evenly;
-  font-size: 18px;
-  padding-top: 40px;
+  font-size: 15px;
+  padding-top: 20px;
   border-radius: 50%;
   top: -50px;
   box-shadow: 5px 5px 8px rgb(95, 89, 89);
@@ -252,7 +252,6 @@ footer {
   border: 10px solid rgb(255, 255, 255);
   border-radius: 15px 80px 15px;
   background-color: rgb(255, 255, 255);
-  font-size: 20px;
   text-align: center;
   color: white;
   box-shadow: 2px 2px 5px black;
